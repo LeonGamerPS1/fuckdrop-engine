@@ -1,2 +1,2 @@
 ## Credits
-- Psych Engine - Note Splashes
+- Psych Engine - Note Splashes 
