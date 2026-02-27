@@ -2,6 +2,5 @@
   "scale": 0.7,
   "antialiasing": true,
   "image": "NOTE_assets",
-  "splashImage": "noteSplashes",
-  "fallback": "default"
+  "splashImage": "noteSplashes"
 }
