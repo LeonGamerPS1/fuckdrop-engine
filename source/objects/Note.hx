@@ -43,7 +43,7 @@ class Note extends FunkinSprite
 		this.isEndNote = isEndNote;
 		this.isSustainNote = isSusNote;
 		rgbswap = getSwapShaderForLane(lane);
-		// shader = rgbswap.shader;
+		shader = rgbswap.shader;
 
 		reload(strumline != null ? strumline.skin : 'funkin');
 		if (!isSustainNote)
@@ -142,11 +142,10 @@ class Note extends FunkinSprite
 		return noteData?.l % 4 ?? 0;
 	}
 
+	public static var defaultLanes = [new RGBSwap(), new RGBSwap(), new RGBSwap(), new RGBSwap()];
 	public static function getSwapShaderForLane(lane:Int):RGBSwap
 	{
-		if (Note.noteShaders[lane] == null)
-			Note.noteShaders[lane] = new RGBSwap();
-		return Note.noteShaders[lane];
+		return defaultLanes[lane % defaultLanes.length].copy();
 	}
 
 	function set_hit(value:Bool):Bool

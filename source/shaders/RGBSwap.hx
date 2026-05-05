@@ -1,12 +1,20 @@
 package shaders;
 
-// made by inky03 https://github.com/inky03/FUNKINX3/blob/notepool/source/funkin/shaders/RGBSwap.hx
+// made by inky03 https://github.com/inky03/FUNKINX3/blob/notepool/source/funkin/shaders/RGBSwap.hx, edited by me
 class RGBSwap
 { // im coming
 	public var red(default, set):FlxColor;
 	public var blue(default, set):FlxColor;
 	public var green(default, set):FlxColor;
 	public var shader(default, null):RGBSwapShader = new RGBSwapShader();
+	public var enabled(default, set):Bool = true;
+
+	public function set_enabled(newE:Bool)
+	{
+		if (enabled != newE)
+			shader.enabled.value = [newE];
+		return enabled = newE;
+	}
 
 	public function copy(?targetShd:RGBSwap):RGBSwap
 	{
@@ -62,6 +70,7 @@ class RGBSwapShader extends flixel.system.FlxAssets.FlxShader
 		uniform vec3 red;
 		uniform vec3 green;
 		uniform vec3 blue;
+		uniform bool enabled;
 		
 		vec4 applyColorTransform(vec4 color) {
 		    if (color.a == 0.) {
@@ -97,7 +106,10 @@ class RGBSwapShader extends flixel.system.FlxAssets.FlxShader
 		#pragma header
 
 		void main() {
-			gl_FragColor = flixel_texture2DCustom(bitmap, openfl_TextureCoordv);
+			if(enabled)
+				gl_FragColor = flixel_texture2DCustom(bitmap, openfl_TextureCoordv);
+			else 
+				gl_FragColor = flixel_texture2D(bitmap, openfl_TextureCoordv);
 		}
 	')
 	public function new()

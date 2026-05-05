@@ -201,6 +201,7 @@ class Strumline extends FlxGroup
 	public function hitNote(note:Note)
 	{
 		var strum = strums.members[note.noteData.l % strums.length];
+		note.rgbswap.copy(strum.rgbswap);
 		strum.playAnim("confirm", true);
 		note.hit = true;
 		onHitNote.dispatch(note);

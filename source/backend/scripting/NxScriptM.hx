@@ -1,5 +1,6 @@
 package backend.scripting;
 
+import backend.graphics.FlxWindowUtil;
 import haxe.Constraints.Function;
 import nx.bridge.NxStd;
 import nx.script.Bytecode.Value;
@@ -25,7 +26,8 @@ class NxScriptM
 		setVariable('game', FlxG.state);
 		setVariable('FlxSprite', VNativeObject(FlxSprite), false);
 		setVariable('FunkinSprite', VNativeObject(FunkinSprite), false);
-		setVariable('FlxG', VNativeObject(FlxSprite), false);
+		setVariable('FlxG', VNativeObject(FlxG), false);
+		setVariable('FlxWindowUtil', VNativeObject(FlxWindowUtil), false);
 		setFunction('createShader',(n:String,?glVersion:Int)->{
 			return new RuntimeShader(n);
 		});

@@ -18,8 +18,10 @@ class Strum extends FlxAnimate
 	{
 		super();
 		this.dir = dir;
+			rgbswap = Note.getSwapShaderForLane(dir);
+		shader = rgbswap.shader;
 		reload(skin, k);
-		rgbswap = Note.getSwapShaderForLane(dir);
+	
 	}
 
 	public var lastSkin = "";
@@ -73,6 +75,7 @@ class Strum extends FlxAnimate
 		centerOffsets();
 		centerOrigin();
 		//shader = s == 'confirm' ? rgbswap.shader : null;
+		rgbswap.enabled = s != 'static';
 	}
 
 	public var staticshader:FlxShader;

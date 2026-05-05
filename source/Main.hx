@@ -120,7 +120,7 @@ class Main extends Sprite
 		CustomLogger.init();
 
 		super();
-		addChild(new FlxGame(1280, 720, states.InitState));
+		addChild(new FlxGame(1280, 720, states.InitState,120,120));
 		addChild(debugCounter = new FPS(10, 10, 0xFFFFFFFF));
 		FlxG.signals.focusGained.add(() ->
 		{

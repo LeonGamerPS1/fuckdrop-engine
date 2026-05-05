@@ -187,7 +187,7 @@ class ModchartBackend implements IAdapter
 	// Options section
 	public function getHoldSubdivisions(item:FlxSprite)
 	{
-		return 4;
+		return 1;
 	}
 
 	public function getDownscroll():Bool

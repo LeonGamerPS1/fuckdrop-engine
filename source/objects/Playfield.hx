@@ -35,6 +35,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 	public function new(song:SongChartData, skin:String = "default", keys:Int = 4)
 	{
 		backend.graphics.ModchartBackend.instance = this;
+		modchart.Config.HOLDS_BEHIND_STRUM = SaveData.currentSettings.sustainsBehind;
 		speed = song.data.speed;
 		super();
 		final strumY = SaveData.currentSettings.downScroll ? FlxG.height - 150 : 50;
@@ -109,29 +110,16 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		add(iconP2);
 		add(iconP1);
 		scoreTxt = new FlxText(healthBarBG.x + healthBarBG.width / 2 - 150, healthBarBG.y + 50, 0, "", 20);
-		scoreTxt.setFormat(Paths.getFont("vcr"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.getFont("vcr"), 14, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
-		scoreTxtBG = new FlxSprite(scoreTxt.x, scoreTxt.y);
-		scoreTxtBG.makeGraphic(1, 1);
-		scoreTxtBG.color = FlxColor.BLACK;
-		scoreTxtBG.alpha = 0.7;
-		add(scoreTxtBG);
 		add(scoreTxt);
 
 		var shitWatermark = new FlxText(4, FlxG.height - 17, 0, song.meta.data.songDisplayName + "-" + (song.diff) + " | SE " + Main.version, 16);
-		shitWatermark.setFormat(Paths.getFont("vcr"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		shitWatermark.setFormat(Paths.getFont("vcr"), 14, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		shitWatermark.scrollFactor.set();
 		shitWatermark.antialiasing = scoreTxt.antialiasing = true;
 
-		var shitWatermarkBG = new FlxSprite(shitWatermark.x, shitWatermark.y);
-		shitWatermarkBG.makeGraphic(1, 1);
-		shitWatermarkBG.color = FlxColor.BLACK;
-		shitWatermarkBG.alpha = 0.7;
-		shitWatermarkBG.setGraphicSize(shitWatermark.width + 5, shitWatermark.height + 5);
-		shitWatermarkBG.updateHitbox();
-		shitWatermarkBG.x = shitWatermark.x - 2.5;
-		shitWatermarkBG.y = shitWatermark.y - 5;
-		add(shitWatermarkBG);
+		
 		add(shitWatermark);
 
 		time = new FlxText(4, FlxG.height - 17, 0, song.meta.data.songDisplayName + "-" + (song.diff) + " | SE " + Main.version, 16);
@@ -161,7 +149,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 	public var accuracy:Float = 0.000000000000000001;
 
 	var scoreTxt:FlxText;
-	var scoreTxtBG:FlxSprite;
+
 
 	public function missNote(n:Note, dir:Int, strumline)
 	{
@@ -256,7 +244,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		for (icon in [iconP1, iconP2])
 		{
 			FlxTween.cancelTweensOf(icon.scale);
-			FlxTween.tween(icon.scale, {x: 1, y: 1}, 0.05);
+			FlxTween.tween(icon.scale, {x: 1, y: 1}, 0.2);
 		}
 	}
 
@@ -295,11 +283,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		if (scoreTxt.text != scoreTextText)
 		{
 			scoreTxt.text = scoreTextText;
-			scoreTxtBG.setGraphicSize(scoreTxt.width + 3, scoreTxt.height + 3);
-			scoreTxtBG.updateHitbox();
 			scoreTxt.screenCenter(X);
-			scoreTxtBG.screenCenter(X);
-			scoreTxtBG.y = scoreTxt.y + (scoreTxt.height * 0.5 - scoreTxtBG.height * 0.5);
 		}
 
 		iconP1.updateHitbox();

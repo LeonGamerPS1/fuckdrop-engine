@@ -64,6 +64,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 	override public function create()
 	{
+		FlxG.fixedTimestep = FlxG.autoPause = false;
 		final songFolder = song.songFolder;
 		FlxG.sound.music?.stop();
 		camUnderlay = new FlxCamera();
@@ -113,6 +114,8 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		set('modchart', playfield.modchartSystem);
 		playfield.cameras = playfield.modchartingCameras = [camHUD];
 		// playfield.modchartingCamera = camHUD;
+
+		set('playfield', playfield);
 		camGame.bgColor = 0x0;
 		for (strumLines in [playfield.dadStrumline, playfield.bfStrumline])
 		{
@@ -132,6 +135,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 			stepHit();
 		});
 		loadNXScript('assets/data/stages/${song.data.stage}.nx');
+
 		call('onCreate');
 		call('onStageLoad', [stageJSON, song.data.stage]);
 
@@ -185,15 +189,8 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		camGame.snapToTarget();
 		call('onCreatePost');
 
-		if (SaveData.currentSettings.sustainsBehind)
-			for (note in playfield.bfStrumline.unspawnedNotes.concat(playfield.dadStrumline.unspawnedNotes))
-				if (note.isSustainNote)
-					note.cameras = [camUnderlay];
 		playfield.iconP1.changeIcon(bf.json.icon);
 		playfield.iconP2.changeIcon(dad.json.icon);
-
-		set('isPlayState', true);
-		set('playfield', playfield);
 
 		super.create();
 	}
@@ -217,6 +214,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		trace(hm);
 		script = new NxScriptM(hm, hm);
 		scripts.set(hm, script);
+		script.setVariable('isPlayState', true);
 		script.call('new');
 	}
 
@@ -406,21 +404,20 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 	{
 		super.onFocusLost();
 		focusLost = true;
-		enemyVocals.volume = playerVocals.volume = 0;
-		enemyVocals.pause();
-		playerVocals.pause();
+		if(paused)
+			return;
+		pauseOrSmth();
 	}
 
 	override function onFocus()
 	{
 		super.onFocus();
 		focusLost = false;
-		enemyVocals.volume = enemyVolume;
-		playerVocals.volume = playerVolume;
-		if (startedSong)
+		if (paused)
 		{
-			playerVocals.resume();
-			enemyVocals.resume();
+			inst.pause();
+			for (shit in playerVocals.sounds.concat(enemyVocals.sounds))
+				shit.pause();
 		}
 	}
 
@@ -439,6 +436,15 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 	public function sectionHit()
 	{
+		for (vocalSFX in playerVocals.sounds.concat(enemyVocals.sounds))
+		{
+			if (paused)
+				break;
+			if (!vocalSFX.playing || !inst.playing || Math.floor(Conductor.curBeat) % 2 != 0)
+				continue;
+			if (Math.abs(Conductor.time - vocalSFX.time) > 200)
+				vocalSFX.time = Conductor.time;
+		}
 		call('sectionHit', [Math.floor(Conductor.curSection)]);
 	}
 
@@ -446,6 +452,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 	public override function destroy()
 	{
+		call('destroy');
 		for (vocalSFX in playerVocals.sounds.concat(enemyVocals.sounds))
 		{
 			vocalSFX.destroy();
@@ -466,15 +473,6 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		{
 			FlxG.camera.zoom += 0.015 * camBopMult;
 			camHUD.zoom += 0.03 * hudBopMult;
-		}
-		for (vocalSFX in playerVocals.sounds.concat(enemyVocals.sounds))
-		{
-			if (paused)
-				break;
-			if (!vocalSFX.playing || !inst.playing || Math.floor(Conductor.curBeat) % 2 != 0)
-				continue;
-			if (Math.abs(inst.time - vocalSFX.time) > 200)
-				vocalSFX.time = inst.time;
 		}
 	}
 
@@ -584,7 +582,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 			shit.resume();
 	}
 
-	public function onEndSong()
+	public dynamic function onEndSong()
 	{
 		var val = call('onEndSong');
 		if (val == 'stop')
@@ -594,7 +592,6 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 	public function endSong()
 	{
-		call('destroy');
 		call('endSong');
 		HighScore.postHighScore(currentScoreEntry.name, currentScoreEntry);
 		FlxG.switchState(new states.menus.FreeplayState());

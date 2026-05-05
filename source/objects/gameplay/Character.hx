@@ -1,6 +1,7 @@
 package objects.gameplay;
 
 import animate.FlxAnimate;
+import backend.data.SongChartData.SongNoteData;
 import haxe.Json;
 
 typedef CharacterJSON =
@@ -45,6 +46,7 @@ class Character extends FlxAnimate
 	static public var sing = ['singLEFT', 'singDOWN', 'singUP', 'singRIGHT'];
 
 	public var curCharacter = "N/A";
+	public var chart:Array<SongNoteData> = [];
 
 	public function new(?x:Float = 0, ?y:Float = 0, char:String = "bf", player:Bool = false)
 	{
@@ -152,6 +154,7 @@ class Character extends FlxAnimate
 	}
 
 	var idleInterval = 1;
+
 	public function dance(beat:Float)
 	{
 		this.beat = Math.floor(beat);
@@ -172,9 +175,26 @@ class Character extends FlxAnimate
 		}
 	}
 
+
+
+	
+
+	
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		if (chart.length > 0)
+		{
+			var note = chart[0];
+			if (note.tms - Conductor.offset < Conductor.time)
+			{
+				playAnim(sing[note.l % sing.length], true);
+				if (animExists(sing[note.l % sing.length]))
+					holdTimer = (Conductor.stepLength * json.time) / 1000;
+				chart.remove(note);
+				chart.sort((a, b) -> Math.floor(a.tms - b.tms));
+			}
+		}
 
 		if (holdTimer > 0)
 		{

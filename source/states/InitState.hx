@@ -29,7 +29,7 @@ class InitState extends flixel.addons.transition.FlxTransitionableState
 		Permissions.requestPermissions(defaultAndroidPermissions);
 		Sys.setCwd(Path.addTrailingSlash(extension.androidtools.content.Context.getExternalFilesDir()));
 		#end
-		modchart.Config.PREVENT_SCALED_HOLD_END = true;
+		//modchart.Config.PREVENT_SCALED_HOLD_END = true;
 		modchart.Config.OPTIMIZE_HOLDS = true;
 
 		SaveData.init();
