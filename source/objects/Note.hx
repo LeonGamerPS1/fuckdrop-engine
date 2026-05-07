@@ -94,8 +94,7 @@ class Note extends FunkinSprite
 		alpha = isSustainNote && !SaveData.currentSettings.opaqueSustains ? 0.6 : 1;
 		if (isSustainNote && !isEndNote)
 		{
-			scale.y = (63 / frameHeight) * 0.7;
-			scale.y = ((Conductor.stepLength * 0.45 * (strumline?.speed ?? 1)) / frameHeight);
+			scale.y = ((Conductor.stepLength * 0.45 * (strumline?.speed ?? 1) + (tempskin.susScale ?? 0)) / frameHeight);
 			updateHitbox();
 			earlyHitMult = 0;
 		}
@@ -145,7 +144,7 @@ class Note extends FunkinSprite
 	public static var defaultLanes = [new RGBSwap(), new RGBSwap(), new RGBSwap(), new RGBSwap()];
 	public static function getSwapShaderForLane(lane:Int):RGBSwap
 	{
-		return defaultLanes[lane % defaultLanes.length].copy();
+		return defaultLanes[lane % defaultLanes.length];
 	}
 
 	function set_hit(value:Bool):Bool

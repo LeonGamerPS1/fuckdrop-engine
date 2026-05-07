@@ -122,7 +122,7 @@ class SongChartData
 			stickerPack: "default",
 			startPreview: 0,
 			endPreview: 10000,
-			noteStyle: "default",
+			noteStyle: data.arrowSkin ??"funkin",
 			notes: [],
 			offset: 0,
 			speed: data.speed,

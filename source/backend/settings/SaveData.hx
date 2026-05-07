@@ -12,6 +12,7 @@ class OptionSaveData
 	public var opaqueSustains:Bool = false;
 	public var opponentStrums:Bool = true;
 	public var hideHUD:Bool = false;
+	public var botplay:Bool = false;
 
 	// gameplay
 	public var downScroll:Bool = false;

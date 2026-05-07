@@ -22,7 +22,7 @@ class Strumline extends FlxGroup
 	public var onHitNote:FlxTypedSignal<Note->Void> = new FlxTypedSignal<Note->Void>();
 	public var onMissNote:FlxTypedSignal<Note->Null<Int>->Strumline->Void> = new FlxTypedSignal<Note->Null<Int>->Strumline->Void>();
 
-	public function new(pf:Playfield, skin:String = "default", keys:Int = 4)
+	public function new(pf:Playfield, skin:String = "funkin", keys:Int = 4)
 	{
 		super();
 		this.playfield = pf;
@@ -39,7 +39,7 @@ class Strumline extends FlxGroup
 		genstrums(keys, skin);
 	}
 
-	function genstrums(keys:Int = 4, skin:String = "default")
+	function genstrums(keys:Int = 4, skin:String = "funkin")
 	{
 		this.skin = skin;
 		for (i in 0...keys)
@@ -49,7 +49,7 @@ class Strumline extends FlxGroup
 				strum.cover = new HoldCover(strum);
 			strum.strumline = this;
 			strum.flipScroll = SaveData.currentSettings.downScroll;
-			strum.x = Note.swag * i;
+			strum.x = strum.width * i;
 			strums.add(strum);
 			if (SaveData.currentSettings.holdCovers)
 				covers.add(strum.cover);
@@ -201,7 +201,7 @@ class Strumline extends FlxGroup
 	public function hitNote(note:Note)
 	{
 		var strum = strums.members[note.noteData.l % strums.length];
-		note.rgbswap.copy(strum.rgbswap);
+		strum.rgbswap = note.rgbswap;
 		strum.playAnim("confirm", true);
 		note.hit = true;
 		onHitNote.dispatch(note);
@@ -224,7 +224,7 @@ class Strumline extends FlxGroup
 			}
 		}
 		if (isBot)
-			strum.rT = Conductor.stepLength / 1000;
+			strum.rT = 0.15 ;
 		if (!note.isSustainNote)
 			killNote(note);
 	}

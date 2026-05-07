@@ -169,14 +169,9 @@ class FreeplayState extends FlxTransitionableState
 		{
 			var item = items.members[i];
 			item.targetY = i - itemIndex;
-			item.screenCenter(X);
+			item.xAdd = (i == itemIndex) ? 150 : 100;
 		}
 		super.update(dT);
-		for (i in 0...items.length)
-		{
-			var item = items.members[i];
-
-			item.screenCenter(X);
-		}
 	}
 }
+

@@ -214,8 +214,12 @@ class ModchartBackend implements IAdapter
 	 * ]
 	 * @return Array<Array<Array<FlxSprite>>>
 	 */
+	static var emptyArray:Array<Array<Array<FlxSprite>>> = [];
+	public var strumlines:Array<Array<Array<FlxSprite>>> = [];
 	public function getArrowItems():Array<Array<Array<FlxSprite>>>
 	{
+		if (!instance.modchartEnabled #if web || true #end)
+			return emptyArray;
 		var dadStrumline = instance.dadStrumline;
 		var bfStrumline = instance.bfStrumline;
 		var dadStrums:Array<Array<FlxSprite>> = cast [dadStrumline.strums.members, [], [], []];
@@ -229,13 +233,20 @@ class ModchartBackend implements IAdapter
 			bfStrums[isHoldNote(note) ? 2 : 1].push(note);
 		for (splash in bfStrumline.covers)
 			bfStrums[3].push(splash);
-        for(splash in instance.noteSplashes)
-        {
-            var sl = getPlayerFromArrow(splash) == 0 ? dadStrums : bfStrums;
-            sl[3].push(splash);
-        }
-
-		return [dadStrums, bfStrums];
+		for (splash in instance.noteSplashes)
+		{
+			var sl = getPlayerFromArrow(splash) == 0 ? dadStrums : bfStrums;
+			sl[3].push(splash);
+		}
+		// clear the arrays to prevent duplicates
+		for(strumline in strumlines)
+		{
+			strumlines.remove(strumline);
+			strumline = null;
+		}
+		strumlines.push(dadStrums);
+		strumlines.push(bfStrums);
+		return  strumlines;	
 	}
 
 	public function isHoldNote(n:Note)
@@ -255,5 +266,6 @@ interface IModchartInstance
 	var bfStrumline:Strumline;
 	var modchartingCameras:Array<FlxCamera>;
 	var speed:Float;
-    var noteSplashes:FlxTypedGroup<NoteSplash>;
+	var noteSplashes:FlxTypedGroup<NoteSplash>;
+	var modchartEnabled:Bool;
 }

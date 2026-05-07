@@ -8,6 +8,7 @@ typedef Sskindat =
 	var splashImage:String;
 	var antialiasing:Bool;
 	var name:String;
+	@:optional var susScale:Float;
 	@:optional var enableRGB:Bool;
 	@:optional var splashScale:Float;
 	@:optional var fps:Int;

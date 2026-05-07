@@ -31,6 +31,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 	public var iconP2:HealthIcon;
 
 	public var modchartSystem:Manager;
+	public var bot:Bool = false;
 
 	public function new(song:SongChartData, skin:String = "default", keys:Int = 4)
 	{
@@ -119,7 +120,6 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		shitWatermark.scrollFactor.set();
 		shitWatermark.antialiasing = scoreTxt.antialiasing = true;
 
-		
 		add(shitWatermark);
 
 		time = new FlxText(4, FlxG.height - 17, 0, song.meta.data.songDisplayName + "-" + (song.diff) + " | SE " + Main.version, 16);
@@ -137,6 +137,8 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		add(noteSplashes);
 	}
 
+	public var modchartEnabled:Bool = false;
+
 	public function spawnSplashOnStrum(s:Strum)
 	{
 		var s2 = noteSplashes.recycle(NoteSplash);
@@ -149,7 +151,6 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 	public var accuracy:Float = 0.000000000000000001;
 
 	var scoreTxt:FlxText;
-
 
 	public function missNote(n:Note, dir:Int, strumline)
 	{
@@ -164,7 +165,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 
 	public function hitNote(n:Note)
 	{
-		if (!n.strumline.isBot)
+		if (!n.strumline.isBot || n.strumline == bfStrumline)
 		{
 			if (health < 2)
 				health += 0.04;
@@ -272,14 +273,14 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		// iconP1.scale.set(scaleP1, scaleP1);
 		// iconP2.scale.set(scaleP2, scaleP2);
 
-		var scoreTextText = "Score:"
+		var scoreTextText = !bot ? "Score:"
 			+ songScore
 			+ " | Misses:"
 			+ misses
 			+ " | Accuracy:"
 			+ FlxMath.roundDecimal(accuracy, 2)
 			+ "% "
-			+ (misses < 1 ? "| FC" : misses == 0 ? "| A" : accuracy <= 75 ? "| BAD" : "");
+			+ (misses < 1 ? "| FC" : misses == 0 ? "| A" : accuracy <= 75 ? "| BAD" : "") : "Invalidated Run - BotPlay Enabled";
 		if (scoreTxt.text != scoreTextText)
 		{
 			scoreTxt.text = scoreTextText;

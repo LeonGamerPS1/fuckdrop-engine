@@ -5,7 +5,13 @@ import states.menus.MainMenuState;
 
 class PauseSubState extends FlxSubState
 {
-	var itemsA:Array<String> = ['Continue', 'Reboot', 'Exit to Main Menu', 'Exit to freeplay'];
+	var itemsA:Array<String> = [
+		'Continue',
+		'Reboot',
+		'Toggle BotPlay (invalidates current run)',
+		'Exit to Main Menu',
+		'Exit to freeplay'
+	];
 
 	public var itemIndex:Int = 0;
 	public var item:Alphabet;
@@ -13,9 +19,8 @@ class PauseSubState extends FlxSubState
 
 	override function create()
 	{
-		
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
-        var h:FunkinSprite = cast new FunkinSprite(0, 0).makeGraphic(1, 1, 0x75000000);
+		var h:FunkinSprite = cast new FunkinSprite(0, 0).makeGraphic(1, 1, 0x75000000);
 		h.scale.set(2000, 2000);
 		h.updateHitbox();
 		add(h);
@@ -56,6 +61,10 @@ class PauseSubState extends FlxSubState
 					closeCallback = null;
 					close();
 					FlxG.resetState();
+				case 'toggle botplay (invalidates current run)':
+					SaveData.currentSettings.botplay = !SaveData.currentSettings.botplay;
+					PlayState.instance.invalidatedRun = SaveData.currentSettings.botplay;
+
 				case 'exit to main menu':
 					closeCallback = null;
 					close();

@@ -25,7 +25,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 	public static var song:SongChartData;
 
 	public var inst:FlxSound;
-	public var invalidatedRun:Bool = false;
+	public var invalidatedRun(default, set):Bool = false;
 	public var currentScoreEntry:SongHighScoreEntry = {
 		score: 0,
 		misses: 0,
@@ -62,8 +62,11 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 	public var stageJSON:StageJSON;
 
+	public static var instance:PlayState;
+
 	override public function create()
 	{
+		instance = this;
 		FlxG.fixedTimestep = FlxG.autoPause = false;
 		final songFolder = song.songFolder;
 		FlxG.sound.music?.stop();
@@ -404,7 +407,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 	{
 		super.onFocusLost();
 		focusLost = true;
-		if(paused)
+		if (paused)
 			return;
 		pauseOrSmth();
 	}
@@ -595,5 +598,17 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		call('endSong');
 		HighScore.postHighScore(currentScoreEntry.name, currentScoreEntry);
 		FlxG.switchState(new states.menus.FreeplayState());
+	}
+
+	function set_invalidatedRun(value:Bool):Bool
+	{
+		if (playfield != null)
+		{
+			if (value)
+				playfield.bot = value;
+			playfield.bfStrumline.isBot = value;
+		}
+
+		return invalidatedRun = value;
 	}
 }

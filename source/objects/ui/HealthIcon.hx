@@ -53,7 +53,7 @@ class HealthIcon extends FunkinSprite
 		super.update(elapsed);
 
 		if (sprTracker != null)
-			setPosition(sprTracker.x + sprTracker.width + 50, sprTracker.y + (sprTracker.height * .5 - height * .5));
+			setPosition(sprTracker.x + sprTracker.width + 50, sprTracker.y + (sprTracker.height * .5 - frameHeight * .5));
 	}
 
 	override function updateHitbox() {
