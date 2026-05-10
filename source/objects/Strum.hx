@@ -11,7 +11,6 @@ class Strum extends FlxAnimate
 
 	public var rT = .0;
 	public var rgbswap:RGBSwap;
-	public var cover:HoldCover;
 	public var strumline:Strumline;
 
 	public function new(skin = "default", dir:Int = 0, k = 4)

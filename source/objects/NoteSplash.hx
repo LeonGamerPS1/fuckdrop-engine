@@ -52,7 +52,9 @@ class NoteSplash extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		if (animation.curAnim.finished)
-			kill();
+		{
+			alpha = 0;
+		}
 
 		super.update(elapsed);
 	}

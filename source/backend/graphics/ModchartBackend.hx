@@ -134,10 +134,7 @@ class ModchartBackend implements IAdapter
 		{
 			return cast(sprite, Note).lane;
 		}
-		if (sprite is HoldCover)
-		{
-			return cast(sprite, HoldCover).strum.dir;
-		}
+		
 		if (sprite is NoteSplash)
 		{
 			return cast(sprite, NoteSplash).strum.dir;
@@ -156,10 +153,7 @@ class ModchartBackend implements IAdapter
 		{
 			return cast(sprite, Note).strumline == instance.dadStrumline ? 0 : 1;
 		}
-		if (sprite is HoldCover)
-		{
-			return cast(sprite, HoldCover).strum.strumline == instance.dadStrumline ? 0 : 1;
-		}
+		
 		if (sprite is NoteSplash)
 		{
 			return cast(sprite, NoteSplash).strum.strumline == instance.dadStrumline ? 0 : 1;
@@ -215,10 +209,10 @@ class ModchartBackend implements IAdapter
 	 * @return Array<Array<Array<FlxSprite>>>
 	 */
 	static var emptyArray:Array<Array<Array<FlxSprite>>> = [];
-	public var strumlines:Array<Array<Array<FlxSprite>>> = [];
+	public var strumlines:Array<Array<Array<FlxSprite>>> = [[[],[],[]],[[],[],[]]];
 	public function getArrowItems():Array<Array<Array<FlxSprite>>>
 	{
-		if (!instance.modchartEnabled #if web || true #end)
+		if(!instance.modchartEnabled)
 			return emptyArray;
 		var dadStrumline = instance.dadStrumline;
 		var bfStrumline = instance.bfStrumline;
@@ -226,27 +220,19 @@ class ModchartBackend implements IAdapter
 		var bfStrums:Array<Array<FlxSprite>> = cast [bfStrumline.strums.members, [], [], []];
 		for (note in dadStrumline.notes)
 			dadStrums[isHoldNote(note) ? 2 : 1].push(note);
-		for (splash in dadStrumline.covers)
-			dadStrums[3].push(splash);
+		
 
 		for (note in bfStrumline.notes)
 			bfStrums[isHoldNote(note) ? 2 : 1].push(note);
-		for (splash in bfStrumline.covers)
-			bfStrums[3].push(splash);
+		
 		for (splash in instance.noteSplashes)
 		{
 			var sl = getPlayerFromArrow(splash) == 0 ? dadStrums : bfStrums;
 			sl[3].push(splash);
 		}
 		// clear the arrays to prevent duplicates
-		for(strumline in strumlines)
-		{
-			strumlines.remove(strumline);
-			strumline = null;
-		}
-		strumlines.push(dadStrums);
-		strumlines.push(bfStrums);
-		return  strumlines;	
+		
+		return  [dadStrums,bfStrums];	
 	}
 
 	public function isHoldNote(n:Note)

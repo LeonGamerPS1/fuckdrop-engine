@@ -9,7 +9,6 @@ import objects.gameplay.Character;
 class Strumline extends FlxGroup
 {
 	public var strums:FlxTypedSpriteGroup<Strum>;
-	public var covers:FlxTypedGroup<HoldCover>;
 	public var playfield:Playfield;
 	public var isBot:Bool = false;
 
@@ -29,12 +28,15 @@ class Strumline extends FlxGroup
 
 		strums = new FlxTypedSpriteGroup();
 		add(strums);
+
+
+	
+
 		notes = new FlxTypedGroup<Note>();
 		notes.active = false;
 		add(notes);
 
-		covers = new FlxTypedGroup<HoldCover>();
-		add(covers);
+
 
 		genstrums(keys, skin);
 	}
@@ -45,14 +47,10 @@ class Strumline extends FlxGroup
 		for (i in 0...keys)
 		{
 			var strum:Strum = new Strum(skin, i, keys);
-			if (SaveData.currentSettings.holdCovers)
-				strum.cover = new HoldCover(strum);
 			strum.strumline = this;
 			strum.flipScroll = SaveData.currentSettings.downScroll;
 			strum.x = strum.width * i;
 			strums.add(strum);
-			if (SaveData.currentSettings.holdCovers)
-				covers.add(strum.cover);
 		}
 	}
 
@@ -127,6 +125,7 @@ class Strumline extends FlxGroup
 		if (!isBot)
 			inputSystemStuff();
 		notes.forEachAlive(updateNote);
+
 		super.update(elapsed);
 	}
 
@@ -206,23 +205,7 @@ class Strumline extends FlxGroup
 		note.hit = true;
 		onHitNote.dispatch(note);
 		char?.hitNote(note);
-		if (strum.cover != null)
-		{
-			strum.cover.visible = note.noteData.lms > 0 || note.isSustainNote;
-			if (note.noteData.lms > 0 && !note.isSustainNote)
-			{
-				strum.cover.playAnim('start');
-				strum.cover.revive();
-			}
-			if (note.isEndNote)
-			{
-				if (!isBot)
-					strum.cover.playAnim('end');
-				else
-					strum.cover.visible = false;
-				strum.playAnim(isBot ? 'confirm' : 'press');
-			}
-		}
+		
 		if (isBot)
 			strum.rT = 0.15 ;
 		if (!note.isSustainNote)

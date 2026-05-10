@@ -7,8 +7,6 @@ import lime.app.Application;
 @:structInit
 class OptionSaveData
 {
-	// gameplay hud
-	public var holdCovers:Bool = false;
 	public var opaqueSustains:Bool = false;
 	public var opponentStrums:Bool = true;
 	public var hideHUD:Bool = false;
