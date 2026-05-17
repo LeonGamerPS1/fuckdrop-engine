@@ -42,7 +42,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		final strumY = SaveData.currentSettings.downScroll ? FlxG.height - 150 : 50;
 		Conductor.offset = song.data.offset ?? 0;
 		Conductor.bpm = song.data.bpm;
-		dadStrumline = cast(add(new Strumline(this, skin, keys)));
+		dadStrumline = cast(add(new Strumline(this, song.data.oppSkin ?? skin, keys)));
 		bfStrumline = cast(add(new Strumline(this, skin, keys)));
 
 		modchartSystem = new Manager();
@@ -62,8 +62,10 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		bfStrumline.speed = dadStrumline.speed = song.data.speed;
 		currentSong = song;
 
-		if (!SaveData.currentSettings.opponentStrums)
+		if (!SaveData.currentSettings.opponentStrums || SaveData.currentSettings.middleScroll)
 			dadStrumline.strums.x = -1000;
+		if(SaveData.currentSettings.middleScroll)
+			bfStrumline.strums.screenCenter(X);
 
 		for (tm in song.data.timingChanges)
 			Conductor.addTimeChangeAt(tm.time, tm.bpm);
@@ -245,7 +247,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		for (icon in [iconP1, iconP2])
 		{
 			FlxTween.cancelTweensOf(icon.scale);
-			FlxTween.tween(icon.scale, {x: 1, y: 1}, 0.2);
+			FlxTween.tween(icon.scale, {x: 1, y: 1}, 0.02);
 		}
 	}
 

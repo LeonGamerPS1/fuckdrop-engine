@@ -1,6 +1,7 @@
 package states.menus;
 
 import states.gameplay.LoadingScreen;
+import states.options.subs.VSLICEFreeplay;
 
 class MainMenuState extends flixel.addons.transition.FlxTransitionableState
 {
@@ -104,7 +105,7 @@ class MainMenuState extends flixel.addons.transition.FlxTransitionableState
 			case "playstate":
 				FlxG.switchState(new LoadingScreen('bopeebo', 'hard'));
 			case "freeplay":
-				FlxG.switchState(new FreeplayState());
+				openSubState(new VSLICEFreeplay());
 			case "options":
 				FlxG.switchState(new OptionsState());
 		}

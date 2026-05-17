@@ -57,6 +57,9 @@ class OptionSaveData
 
 	public  var controlSchemeOptions:Array<String> = ['ARROW KEYS + WASD', 'DFJK', 'ASKL'];
 	public var currentScheme:String = 'ARROW KEYS + WASD';
+
+	public var fps:Int = 64;
+	public var middleScroll:Bool = false;
 }
 
 class SaveData

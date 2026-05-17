@@ -7,9 +7,10 @@ import flixel.util.FlxSignal;
 enum OptionType
 {
 	BOOL;
-	INT;
-	FLOAT;
+	INT(min:Int,max:Float,increment:Float);
+	FLOAT(min:Float,max:Float,increment:Float);
 	STRING(options:Array<String>);
+	N;
 }
 
 class Option extends FlxSpriteGroup
@@ -57,6 +58,8 @@ class Option extends FlxSpriteGroup
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		if(type == N)
+			return;
 		switch (type)
 		{
 			case BOOL:

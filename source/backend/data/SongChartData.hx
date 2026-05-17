@@ -32,8 +32,8 @@ typedef SongChartDataR =
 	public var endPreview:Float;
 	public var notes:Array<SongNoteData>;
 	public var bpm:Float;
-	@:optional
-	public var events:Array<SongEventData>;
+	@:optional public var events:Array<SongEventData>;
+	@:optional public var oppSkin:String;
 }
 
 typedef SongNoteData =
@@ -76,6 +76,7 @@ typedef SwagSongPsych042 =
 	var stage:String;
 
 	var arrowSkin:String;
+	var oppSkin:String;
 	var splashSkin:String;
 	var validScore:Bool;
 	var events:Array<Dynamic>;
@@ -128,6 +129,8 @@ class SongChartData
 			speed: data.speed,
 			stage: data.stage ?? 'stage',
 		};
+		if(data.oppSkin != null)
+			someSongChartIG.oppSkin = data.oppSkin;
 
 		var lastDaddy = null;
 		var bpm4:Float = (60 / someSongChartIG.bpm) * 4000;

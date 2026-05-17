@@ -194,7 +194,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 		playfield.iconP1.changeIcon(bf.json.icon);
 		playfield.iconP2.changeIcon(dad.json.icon);
-
+		invalidatedRun = SaveData.currentSettings.botplay;
 		super.create();
 	}
 

@@ -241,7 +241,7 @@ class Strumline extends FlxGroup
 				var swagRect = recycleClipRect(note, 0, 0, note.frameWidth, note.frameHeight);
 				swagRect.height = (center - note.y) / note.scale.y;
 				swagRect.y = note.frameHeight - swagRect.height;
-				note.clipRect = swagRect.round();
+				note.clipRect = swagRect;
 			}
 		}
 		else
@@ -254,7 +254,7 @@ class Strumline extends FlxGroup
 				var swagRect:FlxRect = recycleClipRect(note, 0, 0, note.width / note.scale.x, note.height / note.scale.y);
 				swagRect.y = (center - note.y) / note.scale.y;
 				swagRect.height -= swagRect.y;
-				note.clipRect = swagRect.round();
+				note.clipRect = swagRect;
 			}
 		}
 

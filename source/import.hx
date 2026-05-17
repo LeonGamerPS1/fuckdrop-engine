@@ -1,3 +1,4 @@
+#if !macro
 import animate.FlxAnimate;
 import backend.assets.Paths;
 import backend.gameplay.Conductor;
@@ -24,5 +25,6 @@ import objects.FunkinSprite;
 import objects.OffsetSprite;
 import objects.ui.Alphabet;
 import openfl.Assets as OpenFLAssets;
+#end
 
 using StringTools;

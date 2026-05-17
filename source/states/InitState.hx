@@ -39,6 +39,7 @@ class InitState extends flixel.addons.transition.FlxTransitionableState
 		PolymodHandler.init();
 		Controls.init();
 		ControlsSubstate.applyControlSchemeToKeyboard(SaveData.currentSettings.currentScheme);
+		FlxG.updateFramerate = FlxG.drawFramerate = SaveData.currentSettings.fps;
 
 		Adapter.instance = new backend.graphics.ModchartBackend();
 		FlxG.cameras.useBufferLocking = true;

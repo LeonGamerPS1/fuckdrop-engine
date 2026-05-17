@@ -24,7 +24,7 @@ import openfl.Lib;
 @:fileXml('tags="haxe,release"')
 @:noDebug
 #end
-typedef SizeType = #if cpp Single #else Float #end;
+typedef SizeType = #if cpp SizeT #else Float #end;
 
 class FPS extends TextField
 {
@@ -83,12 +83,12 @@ class FPS extends TextField
 		}
 
 		var currentCount = times.length;
-		currentFPS = ((currentCount + cacheCount) / 2);
+		currentFPS = Math.floor((currentCount + cacheCount) / 2);
 
 		if (getMem() > peakMemory)
 			peakMemory = getMem();
 
-		var newText = "FPS: " + currentFPS;
+		var newText = "FPS: " + FlxMath.bound(currentFPS, 0, SaveData.currentSettings?.fps ?? stage.frameRate);
 
 		#if (gl_stats && !disable_cffi && (!html5 || !canvas))
 		newText += "\ntotalDC: " + Context3DStats.totalDrawCalls();
@@ -105,7 +105,7 @@ class FPS extends TextField
 
 	function getMem():SizeType
 	{
-		return System.totalMemoryNumber;
+		return #if(windows && cpp) backend.external.windows.WinAPI.getProcessMemoryWorkingSetSize() #else System.totalMemoryNumber #end;
 	}
 }
 
@@ -115,12 +115,13 @@ class Main extends Sprite
 	// ReleaseName-Month-Year-releasecount
 	public static var version:String = "ALPHA-04-2026-r3";
 	public static var debugCounter:FPS;
+
 	public function new()
 	{
 		CustomLogger.init();
 
 		super();
-		addChild(new FlxGame(1280, 720, states.InitState,60,60));
+		addChild(new FlxGame(1280, 720, states.InitState, 60, 60));
 		addChild(debugCounter = new FPS(10, 10, 0xFFFFFFFF));
 		FlxG.signals.focusGained.add(() ->
 		{
