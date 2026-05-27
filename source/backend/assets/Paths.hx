@@ -112,7 +112,7 @@ class Paths
 		if (cachedAtlases.exists(pathXML))
 			return cast cachedAtlases.get(pathXML);
 		else if (cachedAtlases.exists(pathPng))
-			return cast cachedAtlases.get(pathXML);
+			return cast cachedAtlases.get(pathPng);
 		if (!OpenFLAssets.exists(pathPng) || !OpenFLAssets.exists(pathXML))
 			return null;
 

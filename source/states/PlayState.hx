@@ -285,8 +285,8 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		switch (event.n)
 		{
 			case 'change character':
-				var charname = event.v[1];
-				var chartoreplace = event.v[0];
+				var charname = event.v[0];
+				var chartoreplace = event.v[1];
 				var charOBJ = getCharFromString(chartoreplace);
 				var oldchar = charOBJ.curCharacter;
 				charOBJ.loadJson(charname ?? charOBJ.curCharacter);
@@ -369,7 +369,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		{
 			switch (charname)
 			{
-				case "gf", 'girlfirned':
+				case "gf", 'girlfriend':
 					char = gf;
 				case "dad", 'opponent':
 					char = dad;

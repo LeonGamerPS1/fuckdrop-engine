@@ -11,7 +11,7 @@ class Conductor
 
 	public static var time(default, set):Float = 0;
 	public static var bpm(default, set):Float = 100;
-	public static var beatLength = (bpm / 60) * 1000;
+	public static var beatLength = (60 / bpm) * 1000;
 	public static var stepLength = (beatLength * 0.25);
 	public static var measureLength:Float = (beatLength * 4);
 
@@ -74,7 +74,7 @@ class Conductor
 
 	public static function addTimeChangeAt(time:Float, bpm:Float)
 	{
-		var lastTimeChange:SongTmPoint = {time: 0, bpm: bpm};
+		var lastTimeChange:SongTmPoint = {time: time, bpm: bpm};
 		timeChanges.push(lastTimeChange);
 		timeChanges.sort((tm:SongTmPoint, tm2:SongTmPoint) ->
 		{
@@ -101,7 +101,7 @@ class Conductor
 		var songTime:Float = time - offset;
 
 		// calculate step relative to that change
-		curStep = (songTime - offset) / stepLength;
+		curStep = songTime / stepLength;
 	}
 
 	public static function updateBeat()

@@ -150,7 +150,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 
 	public var songScore:Int = 0;
 	public var misses:Int = 0;
-	public var accuracy:Float = 0.000000000000000001;
+	public var accuracy:Float = 0;
 
 	var scoreTxt:FlxText;
 
@@ -267,8 +267,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 			healthBarBG.alpha = healthBar.alpha;
 		if (progressBarBG.alpha != progressBar.alpha)
 			progressBarBG.alpha = progressBar.alpha;
-		FlxTween.cancelTweensOf(this, ["curHealth"]);
-		FlxTween.tween(this, {curHealth: health}, 0.2);
+		curHealth = FlxMath.lerp(health, curHealth, Math.exp(-elapsed * 10));
 		super.update(elapsed);
 		// var scaleP1 = FlxMath.lerp(1, iconP1.scale.x, Math.exp(-elapsed * 8));
 		// var scaleP2 = FlxMath.lerp(1, iconP2.scale.x, Math.exp(-elapsed * 8));
@@ -282,7 +281,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 			+ " | Accuracy:"
 			+ FlxMath.roundDecimal(accuracy, 2)
 			+ "% "
-			+ (misses < 1 ? "| FC" : misses == 0 ? "| A" : accuracy <= 75 ? "| BAD" : "") : "Invalidated Run - BotPlay Enabled";
+			+ (misses < 1 ? "| FC" : accuracy > 75 ? "" : "| BAD") : "Invalidated Run - BotPlay Enabled";
 		if (scoreTxt.text != scoreTextText)
 		{
 			scoreTxt.text = scoreTextText;
