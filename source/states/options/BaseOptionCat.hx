@@ -1,6 +1,5 @@
 package states.options;
 
-
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.plugin.taskManager.FlxTask;
 import flixel.addons.transition.FlxTransitionableState;
@@ -90,15 +89,32 @@ class BaseOptionCat extends FlxTransitionableState
 		if (addition != 0)
 			FlxG.sound.play(Paths.getSound("sounds/scrollMenu"));
 
-		itemIndex += addition;
-		itemIndex = FlxMath.wrap(itemIndex, 0, optionsGroup.length - 1);
+		var len = optionsGroup.length;
+		if (len == 0)
+			return;
+
+		var startIndex = itemIndex;
+
+		for (i in 0...len)
+		{
+			itemIndex = FlxMath.wrap(itemIndex + addition, 0, len - 1);
+
+			if (optionsGroup.members[itemIndex].type != N)
+				break;
+
+			// if we've looped all the way around, stop
+			if (itemIndex == startIndex)
+				break;
+		}
+
+		var curSelected = optionsGroup.members[itemIndex];
 
 		camTarget.setPosition(curSelected.getMidpoint().x, curSelected.getMidpoint().y);
+
 		optionsGroup.forEachAlive((o) ->
 		{
-			o.alpha = o == curSelected ? 1 : 0.5;
-
-			o.selected = o == curSelected;
+			o.alpha = (o == curSelected) ? 1 : 0.5;
+			o.selected = (o == curSelected);
 		});
 	}
 
@@ -107,4 +123,3 @@ class BaseOptionCat extends FlxTransitionableState
 		return optionsGroup.members[itemIndex];
 	}
 }
-

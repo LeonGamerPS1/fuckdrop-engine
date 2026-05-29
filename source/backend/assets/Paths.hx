@@ -64,7 +64,6 @@ class Paths
 		if (FlxG.state is PlayState)
 			return;
 		clearGraphics();
-	
 	}
 
 	public static var defaultListExludes = ['assets/data/scripts/stages'];
@@ -94,6 +93,12 @@ class Paths
 		FlxG.assets.getSound(path, false);
 		cachedSounds.set(path, sound);
 		return sound;
+	}
+
+	public static function exists(s:String, ?type:AssetType)
+	{
+		var path = getPath(s);
+		return OpenFLAssets.exists(path, type);
 	}
 
 	public static function getFont(path:String, fontType:FontExtension = TTF):String

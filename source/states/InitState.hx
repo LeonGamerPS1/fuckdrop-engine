@@ -25,6 +25,8 @@ class InitState extends flixel.addons.transition.FlxTransitionableState
 
 	override function create()
 	{
+
+		FlxG.scaleMode = new flixel.system.scaleModes.FillScaleMode();
 		#if android
 		Permissions.requestPermissions(defaultAndroidPermissions);
 		Sys.setCwd(Path.addTrailingSlash(extension.androidtools.content.Context.getExternalFilesDir()));
@@ -39,7 +41,7 @@ class InitState extends flixel.addons.transition.FlxTransitionableState
 		PolymodHandler.init();
 		Controls.init();
 		ControlsSubstate.applyControlSchemeToKeyboard(SaveData.currentSettings.currentScheme);
-		FlxG.updateFramerate = FlxG.drawFramerate = SaveData.currentSettings.fps;
+		FlxG.drawFramerate = FlxG.updateFramerate = SaveData.currentSettings.fps;
 
 		Adapter.instance = new backend.graphics.ModchartBackend();
 		FlxG.cameras.useBufferLocking = true;

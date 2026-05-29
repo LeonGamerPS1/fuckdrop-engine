@@ -2,7 +2,9 @@
 	"difficulties": [
 		"easy",
 		"normal",
-		"hard"
+		"hard",
+		"erect",
+		"nightmare"
 	],
 	"previewBPM": 180,
 	"icon": "dad",

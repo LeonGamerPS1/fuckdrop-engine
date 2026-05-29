@@ -6,8 +6,29 @@ import backend.scripting.NxScriptM;
 import flixel.input.keyboard.FlxKey;
 import shaders.RGBSwap;
 
+@:structInit
+class Quantization
+{
+	public var snap:Int;
+	public var color:FlxColor;
+}
+
 class Note extends FunkinSprite
 {
+	static var localQuantization:Array<Quantization> = [
+		{snap: 4, color: 0xE51919},
+		{snap: 8, color: 0x193BE5},
+		{snap: 12, color: 0xA119E5},
+		{snap: 16, color: 0x26D93E},
+		{snap: 20, color: 0x0000B2},
+		{snap: 24, color: 0xA119E5},
+		{snap: 32, color: 0xE5C319},
+		{snap: 48, color: 0xA119E5},
+		{snap: 64, color: 0x13ECA4},
+		{snap: 96, color: 0x3A3A6C},
+		{snap: 192, color: 0x3A3A6C}
+	];
+
 	public var strumline:Strumline;
 	public var noteScript:NxScriptM;
 
@@ -42,7 +63,7 @@ class Note extends FunkinSprite
 		this.noteData = dir;
 		this.isEndNote = isEndNote;
 		this.isSustainNote = isSusNote;
-		rgbswap = getSwapShaderForLane(lane);
+		rgbswap = !SaveData.currentSettings.quants ? getSwapShaderForLane(lane) : getQuantForTime(noteData.tms);
 		shader = rgbswap.shader;
 
 		reload(strumline != null ? strumline.skin : 'funkin');
@@ -51,6 +72,33 @@ class Note extends FunkinSprite
 		else
 			earlyHitMult = 0;
 		initscript(dir.t ?? 'normal');
+	}
+
+	public static function getQuantForTime(t:Float):RGBSwap
+	{
+		var beat = Conductor.getBeat(t);
+
+		// convert to 4-beat measure space
+		var measurePos = beat % 4;
+
+		var snaps = SaveData.currentSettings.quantRGB.length;
+
+		var index = Std.int((measurePos * snaps) % snaps);
+
+		var c = SaveData.currentSettings.quantRGB[index];
+
+		return new RGBSwap(c[0], c[1], c[2]);
+	}
+
+	static var quants:Map<Int, RGBSwap> = [];
+
+	static function cacheQuant(quantized:Quantization)
+	{
+		if (quants.exists(quantized.snap))
+			return quants.get(quantized.snap);
+		var quant = new RGBSwap(quantized.color.red, quantized.color.green, quantized.color.blue);
+		quants.set(quantized.snap, quant);
+		return quant;
 	}
 
 	public function initscript(type:String = 'normal')
@@ -141,10 +189,19 @@ class Note extends FunkinSprite
 		return noteData?.l % 4 ?? 0;
 	}
 
-	public static var defaultLanes = [new RGBSwap(), new RGBSwap(), new RGBSwap(), new RGBSwap()];
+	public static var defaultLanes:Array<RGBSwap> = [];
+
 	public static function getSwapShaderForLane(lane:Int):RGBSwap
 	{
-		return defaultLanes[lane % defaultLanes.length];
+		if (defaultLanes[lane] == null)
+		{
+			trace('e');
+			var swap:RGBSwap = new RGBSwap(SaveData.currentSettings.arrowRGB[lane][0], SaveData.currentSettings.arrowRGB[lane][1],
+				SaveData.currentSettings.arrowRGB[lane][2]);
+			defaultLanes[lane] = swap;
+			return swap;
+		}
+		return defaultLanes[lane];
 	}
 
 	function set_hit(value:Bool):Bool

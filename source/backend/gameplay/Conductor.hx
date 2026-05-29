@@ -98,10 +98,8 @@ class Conductor
 
 	public static function updateStep()
 	{
-		var songTime:Float = time - offset;
-
 		// calculate step relative to that change
-		curStep = (songTime - offset) / stepLength;
+		curStep = getStep(time);
 	}
 
 	public static function updateBeat()
@@ -112,5 +110,14 @@ class Conductor
 	public static function updateSec()
 	{
 		curSection = curStep / 16;
+	}
+
+	public static function getStep(time:Float)
+	{
+		return (time) / stepLength;
+	}
+
+	public static function getBeat(time:Float) {
+		return getStep(time)/4;
 	}
 }

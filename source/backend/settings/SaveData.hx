@@ -7,6 +7,7 @@ import lime.app.Application;
 @:structInit
 class OptionSaveData
 {
+	public var quants:Bool = false;
 	public var opaqueSustains:Bool = false;
 	public var opponentStrums:Bool = true;
 	public var hideHUD:Bool = false;
@@ -20,7 +21,7 @@ class OptionSaveData
 	// sfx
 	public var hitSounds:Bool = false;
 
-	public  var keyBinds:Map<String, Array<FlxKey>> = [
+	public var keyBinds:Map<String, Array<FlxKey>> = [
 		// Key Bind, Name for ControlsSubState
 		'note_up' => [W, UP],
 		'note_left' => [A, LEFT],
@@ -40,7 +41,7 @@ class OptionSaveData
 		'debug_1' => [SEVEN],
 		'debug_2' => [EIGHT]
 	];
-	public  var gamepadBinds:Map<String, Array<FlxGamepadInputID>> = [
+	public var gamepadBinds:Map<String, Array<FlxGamepadInputID>> = [
 		'note_up' => [DPAD_UP, Y],
 		'note_left' => [DPAD_LEFT, X],
 		'note_down' => [DPAD_DOWN, A],
@@ -55,11 +56,33 @@ class OptionSaveData
 		'reset' => [BACK]
 	];
 
-	public  var controlSchemeOptions:Array<String> = ['ARROW KEYS + WASD', 'DFJK', 'ASKL'];
+	public var controlSchemeOptions:Array<String> = ['ARROW KEYS + WASD', 'DFJK', 'ASKL'];
 	public var currentScheme:String = 'ARROW KEYS + WASD';
 
 	public var fps:Int = 64;
 	public var middleScroll:Bool = false;
+
+	// colors
+	public var arrowRGB:Array<Array<FlxColor>> = [
+		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
+		[0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
+		[0xFF12FA05, 0xFFFFFFFF, 0xFF0A4447],
+		[0xFFF9393F, 0xFFFFFFFF, 0xFF651038]
+	];
+
+	public var quantRGB:Array<Array<FlxColor>> = [
+		[0xFFE51919, 0xFFFFFFFF, 0xFF7A0C0C], // 4
+		[0xFF193BE5, 0xFFFFFFFF, 0xFF0F247A], // 8
+		[0xFFA119E5, 0xFFFFFFFF, 0xFF4B0F7A], // 12
+		[0xFF26D93E, 0xFFFFFFFF, 0xFF0F5A1A], // 16
+		[0xFF0000B2, 0xFFFFFFFF, 0xFF00004A], // 20
+		[0xFFA119E5, 0xFFFFFFFF, 0xFF4B0F7A], // 24
+		[0xFFE5C319, 0xFFFFFFFF, 0xFF6A5700], // 32
+		[0xFFA119E5, 0xFFFFFFFF, 0xFF4B0F7A], // 48
+		[0xFF13ECA4, 0xFFFFFFFF, 0xFF0A6B4A], // 64
+		[0xFF3A3A6C, 0xFFFFFFFF, 0xFF1A1A2F], // 96
+		[0xFF3A3A6C, 0xFFFFFFFF, 0xFF1A1A2F] // 192
+	];
 }
 
 class SaveData

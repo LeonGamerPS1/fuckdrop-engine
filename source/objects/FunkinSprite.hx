@@ -14,7 +14,7 @@ class FunkinSprite extends OffsetSprite
 	public function new(x:Float = 0, y:Float = 0, ?graphic:FlxGraphicAsset)
 	{
 		super(x, y, graphic);
-		useRenderTexture = true; // glup glup glup
+		//useRenderTexture = true; // glup glup glup
 	}
 
 	public function addAnimPrefix(name:String, prefix:String, ?frameRate = 24, ?looped = false, ?flipX = false, ?flipY = false)

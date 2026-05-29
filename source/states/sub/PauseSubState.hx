@@ -8,7 +8,7 @@ class PauseSubState extends FlxSubState
 	var itemsA:Array<String> = [
 		'Continue',
 		'Reboot',
-		'Toggle BotPlay (invalidates current run)',
+		'Toggle BotPlay',
 		'Exit to Main Menu',
 		'Exit to freeplay'
 	];
@@ -61,9 +61,10 @@ class PauseSubState extends FlxSubState
 					closeCallback = null;
 					close();
 					FlxG.resetState();
-				case 'toggle botplay (invalidates current run)':
+				case 'toggle botplay':
 					SaveData.currentSettings.botplay = !SaveData.currentSettings.botplay;
 					PlayState.instance.invalidatedRun = SaveData.currentSettings.botplay;
+
 
 				case 'exit to main menu':
 					closeCallback = null;

@@ -105,7 +105,7 @@ class MainMenuState extends flixel.addons.transition.FlxTransitionableState
 			case "playstate":
 				FlxG.switchState(new LoadingScreen('bopeebo', 'hard'));
 			case "freeplay":
-				openSubState(new VSLICEFreeplay());
+				FlxG.switchState(new FreeplayState());
 			case "options":
 				FlxG.switchState(new OptionsState());
 		}

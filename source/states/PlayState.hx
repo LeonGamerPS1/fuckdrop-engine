@@ -93,6 +93,8 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		Conductor.time = -(Conductor.beatLength * 5);
 
 		var instPath = '$songFolder/audio/${song.data.characters.instPath}';
+		if (Paths.exists(instPath + '-' + song.diff, SOUND))
+			instPath += '-' + song.diff;
 		inst = FlxG.sound.list.add(new FlxSound());
 		inst.load(Paths.getSound(instPath, true), false);
 
@@ -102,6 +104,8 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		for (vocalEnemy in song.data.characters.enemyVocals)
 		{
 			var vocalPath = '$songFolder/audio/${vocalEnemy}';
+			if (Paths.exists(vocalPath + '-' + song.diff + '.ogg', SOUND))
+				vocalPath += '-' + song.diff;
 			var flxsound:FlxSound = new FlxSound();
 			flxsound.load(Paths.getSound(vocalPath, true), false);
 			enemyVocals.add(flxsound);
@@ -109,6 +113,8 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		for (playerVocal in song.data.characters.playerVocals)
 		{
 			var vocalPath = '$songFolder/audio/${playerVocal}';
+			if (Paths.exists(vocalPath + '-' + song.diff, SOUND))
+				vocalPath += '-' + song.diff;
 			var flxsound:FlxSound = new FlxSound();
 			flxsound.load(Paths.getSound(vocalPath, true), false);
 			playerVocals.add(flxsound);
@@ -317,10 +323,16 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 				{
 					default:
 						character = getCharFromString(event.v[0]);
+						focusOnChar(character);
+
 					case 5:
 						character = focusCharList[event.v[4]];
+						focusOnChar(character);
+					case 6:
+						character = focusCharList[event.v[4]];
+						focusOnChar(character);
 				}
-				focusOnChar(character);
+
 			case 'PlayAnimation':
 				var anim = event.v[0];
 				var char = getCharFromString(event.v[1]);
@@ -342,7 +354,22 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 							defaultZoomGame = val;
 							camGame.zoom = val;
 						});
+					case 5:
+						var firstEase = event.v[1];
+						var type = event.v[0];
+						var steps = event.v[2];
+						var stage = event.v[3] == 'stage' ? true : false;
+						var zoom = event.v[4];
 
+						var ease = Reflect.getProperty(FlxEase, '$firstEase$type');
+						trace('$firstEase$type');
+						var zoomTarget = stage ? stageJSON.zoom * zoom : zoom;
+						var steeLength:Float = steps * Conductor.stepLength * 0.001;
+						FlxTween.num(camGame.zoom, zoomTarget, steeLength / 1000, {ease: ease}, (val) ->
+						{
+							defaultZoomGame = val;
+							camGame.zoom = val;
+						});
 					case 3:
 						var ease = Reflect.getProperty(FlxEase, event.v[0]);
 						var length = (Conductor.stepLength * event.v[1]) * 0.001;

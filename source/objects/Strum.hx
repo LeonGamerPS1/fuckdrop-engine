@@ -17,8 +17,8 @@ class Strum extends FlxAnimate
 	{
 		super();
 		this.dir = dir;
-		// rgbswap = Note.getSwapShaderForLane(dir);
-		// shader = rgbswap.shader;
+		rgbswap = Note.getSwapShaderForLane(dir);
+		shader = rgbswap.shader;
 		reload(skin, k);
 	}
 
