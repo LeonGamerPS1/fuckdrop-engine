@@ -1,5 +1,6 @@
 #if !macro
 import animate.FlxAnimate;
+import backend.Constants;
 import backend.assets.Paths;
 import backend.gameplay.Conductor;
 import backend.input.Controls.inputSystem;

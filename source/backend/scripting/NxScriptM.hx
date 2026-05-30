@@ -16,7 +16,7 @@ class NxScriptM
 	public function new(scriptName:String, path:String)
 	{
 		this.name = scriptName;
-		interp = new Interpreter(Main.isDebug, false, SyntaxRules.nxScript());
+		interp = new Interpreter(Main.isDebug, false);
 		load(path);
 	}
 

@@ -218,7 +218,7 @@ class Strumline extends FlxGroup
 		note.update(FlxG.elapsed);
 		var strum = strums.members[note.noteData.l % strums.length];
 		note.x = strum.x + (strum.width * 0.5 - note.width * 0.5);
-		final distance = (note.noteData.tms - Conductor.time) * (0.45 * speed * note.multSpeed) * (strum.flipScroll ? -1 : 1);
+		final distance = (note.noteData.tms - Conductor.time) * (Constants.PIXEL_PER_MS * speed * note.multSpeed) * (strum.flipScroll ? -1 : 1);
 		note.y = strum.y + distance + note.offsetY;
 		if (strum.flipScroll && note.isSustainNote)
 		{

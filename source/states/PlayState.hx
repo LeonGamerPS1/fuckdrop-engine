@@ -590,6 +590,11 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		{
 			pauseOrSmth();
 		}
+
+		#if FLX_KEYBOARD
+		if(FlxG.keys.justPressed.SEVEN)
+			FlxG.switchState(new states.gameplay.Charter(song));
+		#end
 	}
 
 	function pauseOrSmth()

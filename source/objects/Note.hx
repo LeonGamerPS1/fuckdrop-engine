@@ -142,7 +142,7 @@ class Note extends FunkinSprite
 		alpha = isSustainNote && !SaveData.currentSettings.opaqueSustains ? 0.6 : 1;
 		if (isSustainNote && !isEndNote)
 		{
-			scale.y = ((Conductor.stepLength * 0.45 * (strumline?.speed ?? 1) + (tempskin.susScale ?? 0)) / frameHeight);
+			scale.y = ((Conductor.stepLength * Constants.PIXEL_PER_MS * (strumline?.speed ?? 1) + (tempskin.susScale ?? 0)) / frameHeight);
 			updateHitbox();
 			earlyHitMult = 0;
 		}
