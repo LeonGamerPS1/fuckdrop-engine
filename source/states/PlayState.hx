@@ -66,6 +66,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 	override public function create()
 	{
+		
 		instance = this;
 		FlxG.fixedTimestep = FlxG.autoPause = false;
 		final songFolder = song.songFolder;
@@ -196,12 +197,12 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 		focusOnChar(dad);
 		camGame.snapToTarget();
-		call('onCreatePost');
 
 		playfield.iconP1.changeIcon(bf.json.icon);
 		playfield.iconP2.changeIcon(dad.json.icon);
 		invalidatedRun = SaveData.currentSettings.botplay;
 		super.create();
+		call('onCreatePost');
 	}
 
 	public var scripts:Map<String, NxScriptM> = [];

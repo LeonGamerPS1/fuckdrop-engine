@@ -31,6 +31,7 @@ class NxScriptM
 		setFunction('createShader',(n:String,?glVersion:Int)->{
 			return new RuntimeShader(n);
 		});
+		
 
 		interp.runFile(path);
 
