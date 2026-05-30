@@ -5,7 +5,6 @@ import haxe.Constraints.Function;
 import nx.bridge.NxStd;
 import nx.script.Bytecode.Value;
 import nx.script.Interpreter;
-import nx.script.SyntaxRules;
 import shaders.RuntimeShader;
 
 class NxScriptM
