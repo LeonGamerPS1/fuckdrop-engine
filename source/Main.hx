@@ -99,13 +99,14 @@ class FPS extends TextField
 		text = newText;
 
 		cacheCount = currentCount;
+		
 	}
 
 	var peakMemory:SizeType = 0;
 
 	function getMem():SizeType
 	{
-		return #if(windows && cpp) backend.external.windows.WinAPI.getProcessMemoryWorkingSetSize() #else System.totalMemoryNumber #end;
+		return #if(windows && cpp) backend.external.windows.WinAPI.getProcessMemoryWorkingSetSize() #else cast System.totalMemoryNumber #end;
 	}
 }
 
