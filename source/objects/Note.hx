@@ -56,22 +56,27 @@ class Note extends FunkinSprite
 	public var type:String = "unknown";
 	public var rating:String;
 
-	public function new(dir:SongNoteData, strumline:Strumline, isSusNote:Bool = false, isEndNote:Bool = false)
+	static var unknownNote:SongNoteData = {
+		tms: 0,
+		l: 0,
+		lms: 0,
+		t: "normal"
+	};
+
+	public function new(?dir:SongNoteData, ?strumline:Strumline, isSusNote:Bool = false, isEndNote:Bool = false)
 	{
 		super();
 		this.strumline = strumline;
-		this.noteData = dir;
+		this.noteData = dir ?? unknownNote;
 		this.isEndNote = isEndNote;
 		this.isSustainNote = isSusNote;
-		rgbswap = !SaveData.currentSettings.quants ? getSwapShaderForLane(lane) : getQuantForTime(noteData.tms);
-		shader = rgbswap.shader;
 
 		reload(strumline != null ? strumline.skin : 'funkin');
 		if (!isSustainNote)
 			earlyHitMult *= 0.5;
 		else
 			earlyHitMult = 0;
-		initscript(dir.t ?? 'normal');
+		initscript(dir?.t ?? 'normal');
 	}
 
 	public static function getQuantForTime(t:Float):RGBSwap
@@ -117,11 +122,14 @@ class Note extends FunkinSprite
 	public var lastSkin = "";
 	public var tempskin:Sskindat;
 
-	function reload(skin = "default")
+	function reload(skin = "funkin")
 	{
 		lastSkin = skin;
 		tempskin = NoteSkin.getSkin(skin);
 		applySkinRaw(tempskin);
+
+		rgbswap = !SaveData.currentSettings.quants ? getSwapShaderForLane(lane) : getQuantForTime(noteData.tms);
+		shader = rgbswap.shader;
 	}
 
 	public function applySkinRaw(tempskin:Sskindat)

@@ -76,11 +76,8 @@ class Character extends FlxAnimate
 	public function loadJson(char:String)
 	{
 		json = null;
-		var path = Paths.getPath('data/characters/$char.json');
-		if (!OpenFLAssets.exists(path, TEXT))
-			path = Paths.getPath('data/characters/dad.json');
+		json = getJson(char);
 		curCharacter = char;
-		json = Json.parse(OpenFLAssets.getText(path));
 
 		flipX = (json.flipX != player);
 		antialiasing = json.antialiasing;
@@ -124,6 +121,15 @@ class Character extends FlxAnimate
 
 		updateHitbox();
 		playAnim(animExists("danceRight") && animExists("danceLeft") ? 'danceRight' : 'idle');
+	}
+
+	public static function getJson(char:String):CharacterJSON
+	{
+		var path = Paths.getPath('data/characters/$char.json');
+		if (!OpenFLAssets.exists(path, TEXT))
+			path = Paths.getPath('data/characters/dad.json');
+
+		return cast Json.parse(OpenFLAssets.getText(path));
 	}
 
 	public function playAnim(anim:String, ?force:Bool = true)
@@ -175,11 +181,6 @@ class Character extends FlxAnimate
 		}
 	}
 
-
-
-	
-
-	
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);

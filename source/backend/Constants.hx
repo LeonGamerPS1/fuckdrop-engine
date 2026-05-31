@@ -4,7 +4,7 @@ class Constants
 {
 	//public static var gitcommit(default, null):?;
 	// general gameplay stuff
-	public static inline var PIXEL_PER_MS:Float = 0.45;
+	public static inline var PIXEL_PER_MS:Float = 0.46;
 
 	// charter
 	public static inline var GRID_SIZE:Int = 40;

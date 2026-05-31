@@ -13,7 +13,7 @@ class Strum extends FlxAnimate
 	public var rgbswap:RGBSwap;
 	public var strumline:Strumline;
 
-	public function new(skin = "default", dir:Int = 0, k = 4)
+	public function new(skin = "funkin", dir:Int = 0, k = 4)
 	{
 		super();
 		this.dir = dir;
@@ -25,7 +25,7 @@ class Strum extends FlxAnimate
 	public var lastSkin = "";
 	public var tempskin:Sskindat;
 
-	function reload(skin = "default", ?keys:Int = 4)
+	function reload(skin = "funkin", ?keys:Int = 4)
 	{
 		lastSkin = skin;
 		tempskin = NoteSkin.getSkin(skin);

@@ -39,16 +39,13 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		modchart.Config.HOLDS_BEHIND_STRUM = SaveData.currentSettings.sustainsBehind;
 		speed = song.data.speed;
 		super();
-				modchartSystem = new Manager();
+		modchartSystem = new Manager();
 		add(modchartSystem);
 		final strumY = SaveData.currentSettings.downScroll ? FlxG.height - 150 : 50;
 		Conductor.offset = song.data.offset ?? 0;
 		Conductor.bpm = song.data.bpm;
 		dadStrumline = cast(add(new Strumline(this, song.data.oppSkin ?? skin, keys)));
 		bfStrumline = cast(add(new Strumline(this, skin, keys)));
-
-
-	
 
 		for (sL in [dadStrumline, bfStrumline])
 		{
@@ -65,7 +62,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 
 		if (!SaveData.currentSettings.opponentStrums || SaveData.currentSettings.middleScroll)
 			dadStrumline.strums.x = -1000;
-		if(SaveData.currentSettings.middleScroll)
+		if (SaveData.currentSettings.middleScroll)
 			bfStrumline.strums.screenCenter(X);
 
 		for (tm in song.data.timingChanges)
