@@ -2,12 +2,13 @@
 package backend.graphics;
 
 
-
+#if (cpp && windows)
 @:cppFileCode('
 #include <windows.h>
 #include <dwmapi.h>
 #pragma comment(lib, "Dwmapi")
 ')
+#end
 class FlxWindowUtil
 {
 	public static var isTransparent:Bool = false;
@@ -44,7 +45,7 @@ class FlxWindowUtil
 		}
 	}
 
-	
+	#if(cpp && windows)
 	@:functionCode('
 		HWND hWnd = GetActiveWindow();
 		SetWindowLong(hWnd, GWL_EXSTYLE,
@@ -53,8 +54,10 @@ class FlxWindowUtil
 		MARGINS margins = {-1, -1, -1, -1};
 		DwmExtendFrameIntoClientArea(hWnd, &margins);
 	')
+	#end
 	static private function _enableTransparency():Void {}
 
+	#if(cpp && windows)
 	@:functionCode('
 		HWND hWnd = GetActiveWindow();
 		SetWindowLong(hWnd, GWL_EXSTYLE,
@@ -62,5 +65,6 @@ class FlxWindowUtil
 		MARGINS margins = {0, 0, 0, 0};
 		DwmExtendFrameIntoClientArea(hWnd, &margins);
 	')
+	#end
 	static private function _disableTransparency():Void {}
 }

@@ -6,14 +6,20 @@ package backend.external.windows;
  */
 @:build(util.macro.LinkerMacro.xml('project/Build.xml'))
 @:include('winapi.hpp')
-extern class WinAPI
+
+extern #end class WinAPI
 {
 	/**
 	 * Retrieves the current working set size (in bytes) of the process.
 	 *
 	 * @return The size of the working set memory used by the process.
 	 */
+	#if (windows && cpp)
 	@:native('WINAPI_GetProcessMemoryWorkingSetSize')
 	static function getProcessMemoryWorkingSetSize():cpp.SizeT;
+	#else
+	static function getProcessMemoryWorkingSetSize() {
+		return 0;
+	}
+	#end
 }
-#end
