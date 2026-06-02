@@ -14,7 +14,7 @@ class FunkinSprite extends OffsetSprite
 	public function new(x:Float = 0, y:Float = 0, ?graphic:FlxGraphicAsset)
 	{
 		super(x, y, graphic);
-		//useRenderTexture = true; // glup glup glup
+		// useRenderTexture = true; // glup glup glup
 	}
 
 	public function addAnimPrefix(name:String, prefix:String, ?frameRate = 24, ?looped = false, ?flipX = false, ?flipY = false)
@@ -57,6 +57,15 @@ class FunkinSprite extends OffsetSprite
 	public function loadImage(key:String)
 	{
 		loadGraphic(Paths.getGraphic(key));
+		return this;
+	}
+
+	public function solidColor(i:Int, i2:Float, i3:FlxColor = 0xFFFFFFFF)
+	{
+		trace(i3);
+		makeGraphic(1, 1, i3);
+		setGraphicSize(i, i2);
+		updateHitbox();
 		return this;
 	}
 }

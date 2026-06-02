@@ -7,6 +7,7 @@ import backend.gameplay.HighScore.SongHighScoreEntry;
 import backend.gameplay.HighScore;
 import backend.gameplay.SongLoader;
 import backend.scripting.NxScriptM;
+import backend.scripting.ScriptBase;
 import flixel.math.FlxPoint;
 import flixel.sound.FlxSoundGroup;
 import flixel.tweens.FlxEase;
@@ -66,7 +67,6 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 	override public function create()
 	{
-		
 		instance = this;
 		FlxG.fixedTimestep = FlxG.autoPause = false;
 		final songFolder = song.songFolder;
@@ -77,8 +77,8 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		FlxG.cameras.add(camHUD, false);
 		camOverlay = new FlxCamera();
 		FlxG.cameras.add(camOverlay, false);
-		loadNXScripts(Paths.listDirectory('assets/$songFolder/scripts'));
-		loadNXScripts(Paths.listDirectory('assets/data/scripts'));
+		loadScripts(Paths.listDirectory('assets/$songFolder/scripts'));
+		loadScripts(Paths.listDirectory('assets/data/scripts'));
 
 		Conductor.timeChanges.resize(0);
 		super.create();
@@ -144,7 +144,8 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		{
 			stepHit();
 		});
-		loadNXScript('assets/data/stages/${song.data.stage}.nx');
+		for (ext in scriptExts)
+			loadScript('assets/data/stages/${song.data.stage}.$ext');
 
 		call('onCreate');
 		call('onStageLoad', [stageJSON, song.data.stage]);
@@ -205,27 +206,42 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		call('onCreatePost');
 	}
 
-	public var scripts:Map<String, NxScriptM> = [];
+	public var scripts:Map<String, ScriptBase> = [];
 
-	function loadNXScripts(paths:Array<String>)
+	function loadScripts(paths:Array<String>)
 	{
 		for (hm in paths)
-			loadNXScript(hm);
+			loadScript(hm);
 	}
 
-	function loadNXScript(hm:String)
+	static var scriptExts:Array<String> = ['hx', 'nx' #if (cpp), 'py' #end, 'lua'];
+
+	function loadScript(hm:String)
 	{
 		var script = scripts.get(hm);
 		if (script != null)
 			scripts.remove(hm);
 		script?.dispose();
-		if (!OpenFLAssets.exists(hm))
+		var possiblePath:String = hm;
+		var isValid = false;
+		var ext = '';
+		var extArray = possiblePath.split('.');
+		ext = extArray[extArray.length - 1];
+		if (scriptExts.contains(ext))
+			isValid = true;
+
+		if (!isValid || !OpenFLAssets.exists(possiblePath) || possiblePath == null)
 			return;
-		trace(hm);
-		script = new NxScriptM(hm, hm);
-		scripts.set(hm, script);
-		script.setVariable('isPlayState', true);
-		script.call('new');
+
+		trace('loading $ext script | $possiblePath');
+		switch (ext)
+		{
+			case 'nx':
+				var script = new NxScriptM(hm, hm);
+				scripts.set(possiblePath, script);
+				script.setVariable('isPlayState', true);
+				script.call('new');
+		}
 	}
 
 	public function call(fn:String, ?fv:Array<Dynamic>):Dynamic
@@ -592,7 +608,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		}
 
 		#if FLX_KEYBOARD
-		if(FlxG.keys.justPressed.SEVEN)
+		if (FlxG.keys.justPressed.SEVEN)
 			FlxG.switchState(new states.gameplay.Charter(song));
 		#end
 	}

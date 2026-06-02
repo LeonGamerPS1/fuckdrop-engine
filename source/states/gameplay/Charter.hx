@@ -3,6 +3,7 @@ package states.gameplay;
 import backend.data.SongChartData;
 import backend.gameplay.SongLoader;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.addons.ui.FlxSlider;
 import flixel.group.FlxSpriteContainer;
 import objects.Note;
 import objects.Strum;
@@ -21,6 +22,7 @@ typedef ChartSection =
 class Charter extends FlxTransitionableState
 {
 	var song:SongChartData = SongLoader.loadSong('bopeebo', 'easy');
+	var charterCam:FlxCamera;
 
 	public function new(song:SongChartData)
 	{
@@ -34,12 +36,21 @@ class Charter extends FlxTransitionableState
 
 	var strumline:FlxSprite;
 	var baseIconScale = 1.;
+	var ui:FlxGroup;
 
 	override function create()
 	{
+		super.create();
+		charterCam = new FlxCamera();
+		charterCam.bgColor = 0x0;
+		FlxG.cameras.add(charterCam, false);
+
+		ui = new FlxGroup();
+		ui.cameras = [charterCam];
+		add(ui);
+
 		Conductor.bpm = song.data.bpm;
 		Conductor.time = 0;
-		trace(msToY(song.data.notes[1].tms, Conductor.bpm));
 
 		inst = new FlxSound().load(Paths.getSound(song.songFolder + '/audio/' + song.data.characters.instPath, true));
 		FlxG.sound.list.add(inst);
@@ -173,6 +184,7 @@ class Charter extends FlxTransitionableState
 		currentSectionIndex = Std.int(sec);
 		sectionDirty = true;
 		camera.zoom += 1 / 12;
+		applySection(currentSectionIndex);
 	}
 
 	public function beatHit(beat:Float = 0)
@@ -204,15 +216,11 @@ class Charter extends FlxTransitionableState
 		if (inst.playing)
 			Conductor.time = inst.time;
 
-		if (sectionDirty)
-		{
-			applySection(currentSectionIndex);
-			sectionDirty = false;
-		}
-
 		var localTime = Conductor.time - currentSection.startTime;
+		localTime = Math.max(0, localTime);
+		localTime = Math.min(localTime, currentSection.endTime - currentSection.startTime);
 
-		strumline.y = mainGrid.y + msToY(localTime, Conductor.bpm) + strumline.height;
+		strumline.y = mainGrid.y + msToY(localTime, Conductor.bpm);
 		for (strum in strums)
 			strum.y = strumline.y + strumline.height * .5 - strum.height * .5;
 
@@ -244,6 +252,8 @@ class Charter extends FlxTransitionableState
 
 	function applySection(section:Int)
 	{
+		if (sections[section] == null)
+			return;
 		currentSection = sections[section];
 
 		curNotes.killMembers();
@@ -292,7 +302,7 @@ class Charter extends FlxTransitionableState
 				curSustain.isSustainNote = true;
 				curSustain.isEndNote = true;
 				curSustain.reload('funkin');
-				//curSustain.playAnim('end');
+				// curSustain.playAnim('end');
 				curSustain.setGraphicSize(size / 4, size / 3);
 				curSustain.x = newNote.x + newNote.width * .5 - size / 8;
 				curSustain.updateHitbox();
