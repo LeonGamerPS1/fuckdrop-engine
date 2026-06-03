@@ -48,7 +48,7 @@ class Paths
 
 		if (!OpenFLAssets.exists(path))
 		{
-			trace('oh noes! image not here $path');
+			FlxG.log.warn('oh noes! image not here $path');
 			return null;
 		}
 
@@ -123,7 +123,7 @@ class Paths
 			return cast cachedAtlases.get(pathXML);
 		if (!OpenFLAssets.exists(pathPng) || !OpenFLAssets.exists(pathXML))
 		{
-			trace('oh noes!!! atlas not here!!! $pathPng | $pathXML');
+			FlxG.log.warn('oh noes!!! atlas not here!!! $pathPng | $pathXML');
 			return null;
 		}
 
@@ -143,7 +143,7 @@ class Paths
 			return cast cachedAtlases.get(animJSON);
 		if (!OpenFLAssets.exists(animJSON))
 		{
-			trace('oh noes!!! atlas not here!!! $path');
+			FlxG.log.warn('oh noes!!! atlas not here!!! $path');
 			return null;
 		}
 
