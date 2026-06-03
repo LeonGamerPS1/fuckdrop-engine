@@ -1,6 +1,6 @@
 package;
 
-#if cpp import cpp.SizeT; #end
+
 import haxe.Timer;
 import openfl.display.FPS;
 import openfl.display.Sprite;
@@ -24,7 +24,7 @@ import openfl.Lib;
 @:fileXml('tags="haxe,release"')
 @:noDebug
 #end
-typedef SizeType = #if cpp SizeT #else Float #end;
+
 
 class FPS extends TextField
 {
@@ -102,11 +102,11 @@ class FPS extends TextField
 		
 	}
 
-	var peakMemory:SizeType = 0;
+	var peakMemory:Float = 0;
 
-	function getMem():SizeType
+	function getMem():Float
 	{
-		return #if(windows && cpp) backend.external.windows.WinAPI.getProcessMemoryWorkingSetSize() #else cast System.totalMemoryNumber #end;
+		return #if(windows && cpp) Math.round(backend.external.windows.WinAPI.getProcessMemoryWorkingSetSize()) #else cast System.totalMemoryNumber #end;
 	}
 }
 
