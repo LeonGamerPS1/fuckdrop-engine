@@ -47,7 +47,10 @@ class Paths
 			return cachedImages.get(path);
 
 		if (!OpenFLAssets.exists(path))
+		{
+			trace('oh noes! image not here $path');
 			return null;
+		}
 
 		var bitmap = OpenFLAssets.getBitmapData(path);
 
@@ -119,7 +122,10 @@ class Paths
 		else if (cachedAtlases.exists(pathPng))
 			return cast cachedAtlases.get(pathXML);
 		if (!OpenFLAssets.exists(pathPng) || !OpenFLAssets.exists(pathXML))
+		{
+			trace('oh noes!!! atlas not here!!! $pathPng | $pathXML');
 			return null;
+		}
 
 		var atlas = FlxAtlasFrames.fromSparrow(getGraphic(path), pathXML);
 		atlas.parent.persist = true;
@@ -136,7 +142,10 @@ class Paths
 		if (cachedAtlases.exists(animJSON))
 			return cast cachedAtlases.get(animJSON);
 		if (!OpenFLAssets.exists(animJSON))
+		{
+			trace('oh noes!!! atlas not here!!! $path');
 			return null;
+		}
 
 		var atlas = FlxAnimateFrames.fromAnimate(path);
 		atlas.parent?.bitmap.disposeImage();

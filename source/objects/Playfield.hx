@@ -80,7 +80,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		Conductor.onBeat.add(beatHit);
 		Conductor.onStep.add(stepHit);
 
-		healthBarBG = new FlxSprite(0, !SaveData.currentSettings.downScroll ? FlxG.height * 0.9 + 1 : 135).loadGraphic(Paths.getGraphic('healthBar'));
+		healthBarBG = new FlxSprite(0, !SaveData.currentSettings.downScroll ? FlxG.height * 0.9 + 1 : 120).loadGraphic(Paths.getGraphic('healthBar'));
 		healthBarBG.screenCenter(X);
 		add(healthBarBG);
 

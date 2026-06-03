@@ -4,5 +4,6 @@
   "image": "default",
   "splashImage": "noteSplashes",
   "splashScale":2,
+  "susScale":1,
   "fallback": "default"
 }

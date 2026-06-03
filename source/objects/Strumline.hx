@@ -221,7 +221,6 @@ class Strumline extends FlxGroup
 		if (strum.flipScroll && note.isSustainNote)
 		{
 			note.y -= note.height;
-			note.y += Note.swag - 10;
 		}
 
 		if (!note.hit && isBot && note.noteData.tms <= Conductor.time)
