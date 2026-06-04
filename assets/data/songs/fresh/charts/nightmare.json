@@ -4,11 +4,11 @@
 	"characters": {
 		"gf": "gf",
 		"playerVocals": [
-			"Voices-bf"
+			"Voices-bf-erect"
 		],
 		"instPath": "Inst-erect",
 		"enemyVocals": [
-			"Voices-dad"
+			"Voices-dad-erect"
 		],
 		"boyfriend": "bf",
 		"dad": "dad"
