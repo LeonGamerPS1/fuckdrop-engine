@@ -432,6 +432,9 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 	public function focusOnChar(char:Character)
 	{
+		if (char == null)
+			return;
+
 		if (char.player)
 		{
 			camtracker.setPosition(char.getMidpoint().x - 100, char.getMidpoint().y - 100);
