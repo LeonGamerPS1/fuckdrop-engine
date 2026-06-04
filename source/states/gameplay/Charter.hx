@@ -224,7 +224,7 @@ class Charter extends FlxTransitionableState
 
 	override function update(elapsed:Float)
 	{
-		box.setPosition(Math.floor(FlxG.mouse.x / size) * size, Math.floor(FlxG.mouse.y / size) * size);
+				#if FLX_MOUSE box.setPosition(Math.floor(FlxG.mouse.x / size) * size, Math.floor(FlxG.mouse.y / size) * size); #end
 		if (inputSystem.BACK)
 			FlxG.switchState(() -> new PlayState());
 
@@ -261,6 +261,7 @@ class Charter extends FlxTransitionableState
 			if (note.noteData.tms >= Conductor.time)
 				note.hit = false;
 			note.alpha = note.hit ? 0.5 : 1;
+			#if FLX_MOUSE
 			if (box.overlaps(note))
 			{
 				if (FlxG.mouse.justPressed)
@@ -280,10 +281,12 @@ class Charter extends FlxTransitionableState
 					}
 				}
 			}
+			#end
 		});
 
 		if (box.overlaps(mainGrid) && !box.overlaps(curNotes))
 		{
+					#if FLX_MOUSE
 			if (FlxG.mouse.justPressed)
 			{
 				var noteData:SongNoteData = {
@@ -296,6 +299,7 @@ class Charter extends FlxTransitionableState
 				currentSection.notes.push(noteData);
 				_pendingRemake = true;
 			}
+			#end
 		}
 
 		if (_pendingRemake)

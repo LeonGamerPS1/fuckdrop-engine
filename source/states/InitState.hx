@@ -26,7 +26,7 @@ class InitState extends flixel.addons.transition.FlxTransitionableState
 	override function create()
 	{
 
-		FlxG.scaleMode = new flixel.system.scaleModes.FillScaleMode();
+		FlxG.scaleMode = new backend.scalemodes.FullScreenScalemode();
 		#if android
 		Permissions.requestPermissions(defaultAndroidPermissions);
 		Sys.setCwd(Path.addTrailingSlash(extension.androidtools.content.Context.getExternalFilesDir()));

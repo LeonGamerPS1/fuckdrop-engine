@@ -23,6 +23,7 @@ class ScriptBase
 		setVariable('FlxG', FlxG, false);
 		setVariable('FlxWindowUtil', FlxWindowUtil, false);
 		setVariable('FlxTween', FlxTween);
+		setVariable('MathUtil', MathUtil);
 		setFunction('createShader', (n:String, ?glVersion:Int) ->
 		{
 			return new RuntimeShader(n, glVersion);

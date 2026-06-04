@@ -1,6 +1,6 @@
 {
   "scale": 0.7,
-  "antialiasing": false,
+  "antialiasing": true,
   "image": "default",
   "splashImage": "noteSplashes",
   "splashScale":2,

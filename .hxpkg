@@ -83,6 +83,10 @@
 			{
 				"name": "hscript-insanity",
 				"link": "https://github.com/inky03/hscript-insanity.git"
+			},
+			{
+				"name": "flxsoundfilters",
+				"link": "https://github.com/TheZoroForce240/FlxSoundFilters"
 			}
 		]
 	}
