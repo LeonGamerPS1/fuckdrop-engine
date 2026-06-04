@@ -55,7 +55,7 @@ class Character extends FlxAnimate
 		this.player = player;
 		loadJson(char);
 
-		useRenderTexture = true;
+		//useRenderTexture = true;
 		Conductor.onBeat.add(dance);
 	}
 

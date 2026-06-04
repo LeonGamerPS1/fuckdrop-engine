@@ -79,6 +79,10 @@
 			{
 				"name": "extensiontools-android",
 				"link": "https://github.com/LimeExtensions/extension-androidtools"
+			},
+			{
+				"name": "hscript-insanity",
+				"link": "https://github.com/inky03/hscript-insanity.git"
 			}
 		]
 	}

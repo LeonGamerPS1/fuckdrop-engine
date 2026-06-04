@@ -4,7 +4,7 @@ import backend.data.SongChartData;
 import backend.gameplay.SongLoader;
 import objects.Strum;
 import objects.gameplay.Character;
-import shaders.RGBSwap;
+
 #if (target.threaded) import sys.thread.Thread; #end
 
 @:enum abstract CacheAssetType(String)

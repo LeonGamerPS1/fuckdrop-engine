@@ -31,7 +31,7 @@ class NxScriptM extends ScriptBase
 		interp.globals.set(name, interp.vm.haxeToValue(val));
 	}
 
-	override public function setFunction(name:String, func:Function)
+	override public function setFunction(name:String, func:Dynamic)
 	{
 		interp.globals.set(name, interp.vm.haxeToValue(func));
 	}

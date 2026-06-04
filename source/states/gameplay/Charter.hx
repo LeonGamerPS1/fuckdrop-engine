@@ -21,14 +21,18 @@ typedef ChartSection =
 
 class Charter extends FlxTransitionableState
 {
-	var song:SongChartData = SongLoader.loadSong('bopeebo', 'easy');
+	static var song:SongChartData;
+
 	var charterCam:FlxCamera;
 
-	public function new(song:SongChartData)
+	var box:FunkinSprite;
+
+	public function new(?song:SongChartData)
 	{
 		super();
 		if (song != null)
-			this.song = song;
+			Charter.song = song;
+		Charter.song ??= SongLoader.loadSong('bopeebo', 'easy');
 	}
 
 	var inst:FlxSound;
@@ -105,9 +109,6 @@ class Charter extends FlxTransitionableState
 			chartGrids.push(grid);
 			grid.y = grid.height * i;
 			add(grid);
-
-			final color = i == 1 ? 0xFFFFFFFF : 0xFFBEBEBE;
-			grid.color = color;
 		}
 		mainGrid = chartGrids[1];
 
@@ -115,6 +116,12 @@ class Charter extends FlxTransitionableState
 		strumline.makeGraphic(Math.floor(size * 8), 4);
 		strumline.color = 0xB9B9B9;
 		add(strumline);
+
+		curSustains = new FlxTypedGroup<Note>();
+		add(curSustains);
+
+		curNotes = new FlxTypedGroup<Note>();
+		add(curNotes);
 
 		for (i in 0...8)
 		{
@@ -126,11 +133,8 @@ class Charter extends FlxTransitionableState
 			add(strum);
 		}
 
-		curSustains = new FlxTypedGroup<Note>();
-		add(curSustains);
-
-		curNotes = new FlxTypedGroup<Note>();
-		add(curNotes);
+		box = new FunkinSprite().solidColor(size, size);
+		add(box);
 
 		FlxG.camera.follow(strumline);
 
@@ -179,6 +183,16 @@ class Charter extends FlxTransitionableState
 	var currentSectionIndex = -1;
 	var sectionAddons:Array<FlxObject> = [];
 
+	function getStrumTime(yPos:Float):Float
+	{
+		return FlxMath.remapToRange(yPos, mainGrid.y, mainGrid.y + mainGrid.height, 0, 16 * Conductor.stepLength);
+	}
+
+	function getYfromStrum(strumTime:Float):Float
+	{
+		return FlxMath.remapToRange(strumTime, 0, 16 * Conductor.stepLength, mainGrid.y, mainGrid.y + mainGrid.height);
+	}
+
 	public function onSectionChange(sec:Float = 0)
 	{
 		currentSectionIndex = Std.int(sec);
@@ -206,8 +220,11 @@ class Charter extends FlxTransitionableState
 
 	var icons:Array<HealthIcon> = [];
 
+	var _pendingRemake = false;
+
 	override function update(elapsed:Float)
 	{
+		box.setPosition(Math.floor(FlxG.mouse.x / size) * size, Math.floor(FlxG.mouse.y / size) * size);
 		if (inputSystem.BACK)
 			FlxG.switchState(() -> new PlayState());
 
@@ -220,9 +237,9 @@ class Charter extends FlxTransitionableState
 		localTime = Math.max(0, localTime);
 		localTime = Math.min(localTime, currentSection.endTime - currentSection.startTime);
 
-		strumline.y = mainGrid.y + msToY(localTime, Conductor.bpm);
+		strumline.y = getYfromStrum(localTime);
 		for (strum in strums)
-			strum.y = strumline.y + strumline.height * .5 - strum.height * .5;
+			strum.y = strumline.y;
 
 		for (icon in icons)
 		{
@@ -244,17 +261,61 @@ class Charter extends FlxTransitionableState
 			if (note.noteData.tms >= Conductor.time)
 				note.hit = false;
 			note.alpha = note.hit ? 0.5 : 1;
+			if (box.overlaps(note))
+			{
+				if (FlxG.mouse.justPressed)
+				{
+					if (FlxG.keys.justPressed.CONTROL || FlxG.mouse.pressedRight) {
+						// select note
+						curSelectedNote = note.noteData;
+					}
+					else
+					{
+						// delete note
+						if (curSelectedNote == note.noteData)
+							curSelectedNote = null;
+						currentSection.notes.remove(note.noteData);
+						trace('deleting silly note ${note.noteData}');
+						_pendingRemake = true;
+					}
+				}
+			}
 		});
 
-		camera.zoom = FlxMath.lerp(1, camera.zoom, Math.exp(-elapsed * 4));
+		if (box.overlaps(mainGrid) && !box.overlaps(curNotes))
+		{
+			if (FlxG.mouse.justPressed)
+			{
+				var noteData:SongNoteData = {
+					t: 'normal',
+					l: Math.floor(box.x / size),
+					tms: getStrumTime(box.y) + currentSection.startTime,
+					lms: 0
+				};
+				curSelectedNote = noteData;
+				currentSection.notes.push(noteData);
+				_pendingRemake = true;
+			}
+		}
+
+		if (_pendingRemake)
+		{
+			_pendingRemake = false;
+			regenNotes();
+		}
+		camera.zoom = FlxMath.lerp(1, camera.zoom, Math.exp(-elapsed * 8));
 		super.update(elapsed);
 	}
+
+	var curSelectedNote:SongNoteData;
+	var cSec = 0;
 
 	function applySection(section:Int)
 	{
 		if (sections[section] == null)
 			return;
 		currentSection = sections[section];
+		cSec = section;
 
 		curNotes.killMembers();
 		curSustains.killMembers();
@@ -262,9 +323,20 @@ class Charter extends FlxTransitionableState
 		if (sections[section - 1] != null)
 			spawnNotes(0, sections[section - 1]);
 
+		regenNotes();
+	}
+
+	function regenNotes()
+	{
+		curNotes.killMembers();
+		curSustains.killMembers();
+
+		if (sections[cSec - 1] != null)
+			spawnNotes(0, sections[cSec - 1]);
+
 		spawnNotes(1, currentSection);
-		if (sections[section + 1] != null)
-			spawnNotes(2, sections[section + 1]);
+		if (sections[cSec + 1] != null)
+			spawnNotes(2, sections[cSec + 1]);
 	}
 
 	function spawnNotes(id:Int = 0, sec:ChartSection)

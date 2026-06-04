@@ -2,8 +2,7 @@ package objects;
 
 import backend.NoteSkin;
 import shaders.RGBSwap;
-
-class Strum extends FlxAnimate
+class Strum extends FlxSprite
 {
 	public var flipScroll = false;
 

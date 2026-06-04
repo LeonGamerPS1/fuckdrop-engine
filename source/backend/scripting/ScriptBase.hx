@@ -22,20 +22,21 @@ class ScriptBase
 		setVariable('FunkinSprite', FunkinSprite, false);
 		setVariable('FlxG', FlxG, false);
 		setVariable('FlxWindowUtil', FlxWindowUtil, false);
+		setVariable('FlxTween', FlxTween);
 		setFunction('createShader', (n:String, ?glVersion:Int) ->
 		{
 			return new RuntimeShader(n, glVersion);
 		});
 	}
 
-	public function get(vari:String)
+	public function get(vari:String):Dynamic
 	{
 		return null;
 	}
 
 	public function setVariable(name:String, val:Dynamic, ?convert:Bool = true) {}
 
-	public function setFunction(name:String, func:Function) {}
+	public function setFunction(name:String, func:Dynamic) {}
 
 	public function dispose() {}
 

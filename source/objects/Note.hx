@@ -13,7 +13,7 @@ class Quantization
 	public var color:FlxColor;
 }
 
-class Note extends FunkinSprite
+class Note extends FlxSprite
 {
 	static var localQuantization:Array<Quantization> = [
 		{snap: 4, color: 0xE51919},
@@ -50,8 +50,6 @@ class Note extends FunkinSprite
 	public var offsetY:Float = 0;
 
 	public static var swag:Float = (160 * 0.7);
-
-	public static var noteShaders = [for (i in 0...4) new RGBSwap()];
 
 	public var type:String = "unknown";
 	public var rating:String;
@@ -167,9 +165,9 @@ class Note extends FunkinSprite
 
 	public var dir:SongNoteData;
 
-	public override function playAnim(animName:String, force = false, reversed = false, frame = 0)
+	public function playAnim(animName:String, force = false, reversed = false, frame = 0)
 	{
-		animController.play(animName, force, reversed, frame);
+		animation.play(animName, force, reversed, frame);
 		centerOffsets();
 		centerOrigin();
 	}

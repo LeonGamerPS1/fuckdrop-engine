@@ -6,6 +6,7 @@ import backend.data.SongStageData;
 import backend.gameplay.HighScore.SongHighScoreEntry;
 import backend.gameplay.HighScore;
 import backend.gameplay.SongLoader;
+import backend.scripting.Hscript;
 import backend.scripting.NxScriptM;
 import backend.scripting.ScriptBase;
 import flixel.math.FlxPoint;
@@ -39,7 +40,6 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 	public var playerVocals:FlxSoundGroup;
 
 	public var camGame(get, null):FlxCamera;
-	public var camUnderlay:FlxCamera;
 	public var camHUD:FlxCamera;
 	public var camOverlay:FlxCamera;
 
@@ -71,8 +71,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		FlxG.fixedTimestep = FlxG.autoPause = false;
 		final songFolder = song.songFolder;
 		FlxG.sound.music?.stop();
-		camUnderlay = new FlxCamera();
-		FlxG.cameras.add(camUnderlay, false);
+
 		camHUD = new FlxCamera();
 		FlxG.cameras.add(camHUD, false);
 		camOverlay = new FlxCamera();
@@ -214,7 +213,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 			loadScript(hm);
 	}
 
-	static var scriptExts:Array<String> = ['hx', 'nx' #if (cpp), 'py' #end, 'lua'];
+	static var scriptExts:Array<String> = ['hx', 'nx' #if (cpp), 'lua' #end];
 
 	function loadScript(hm:String)
 	{
@@ -238,6 +237,11 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		{
 			case 'nx':
 				var script = new NxScriptM(hm, hm);
+				scripts.set(possiblePath, script);
+				script.setVariable('isPlayState', true);
+				script.call('new');
+			case 'hx':
+				var script = new Hscript(hm, hm);
 				scripts.set(possiblePath, script);
 				script.setVariable('isPlayState', true);
 				script.call('new');
@@ -564,7 +568,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 			currentScoreEntry.accuracy = playfield.accuracy;
 		FlxG.camera.zoom = FlxMath.lerp(defaultZoomGame, FlxG.camera.zoom, Math.exp(-elapsed * 6));
 		camHUD.zoom = FlxMath.lerp(defaultZoomHUD, camHUD.zoom, Math.exp(-elapsed * 6));
-		camUnderlay.zoom = camHUD.zoom;
+
 		enemyVocals.volume = enemyVolume * inst.getActualVolume();
 		playerVocals.volume = playerVolume * inst.getActualVolume();
 		inst.volume = FlxG.sound.volume > 0 ? 1 : 0;

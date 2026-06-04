@@ -16,7 +16,7 @@
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
-	<window width="1280" height="720" fps="60" background="null" hardware="true" vsync="false" allow-high-dpi="true" />
+	<window width="1280" height="720" fps="60" background="0x0" hardware="true" vsync="false" allow-high-dpi="true" />
 
 	<!--HTML5-specific-->
 	<window if="html5" resizable="true" />
@@ -47,7 +47,9 @@
 	<haxelib name="flixel-addons"/>
 	<haxelib name="nxscript"/>
 	<haxelib name="polymod"/>
-	<haxedev set='webgl' />
+	<haxelib name="hscript-insanity"/>
+
+	
 	<haxelib name="extensiontools-android" if="android"/>
 
 	<haxedef name="FM_ENGINE" value="shit"/>

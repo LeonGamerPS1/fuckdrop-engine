@@ -31,7 +31,7 @@ class TitleState extends flixel.addons.transition.FlxTransitionableState
 		logo.updateHitbox();
 
 		// Position ONCE
-		logo.setPosition(-100, -100);
+		logo.setPosition(100, 100);
 		logo.antialiasing = true;
 		add(logo);
 

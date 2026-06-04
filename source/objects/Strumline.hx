@@ -197,18 +197,18 @@ class Strumline extends FlxGroup
 	public function hitNote(note:Note)
 	{
 		var strum = strums.members[note.noteData.l % strums.length];
-		strum.rgbswap = note.rgbswap;
+			strum.rgbswap = note.rgbswap;
 
 		strum.playAnim("confirm", true);
-		note.hit = true;
-		onHitNote.dispatch(note);
+	
 		char?.hitNote(note);
 
 		if (isBot)
 			strum.rT = strum.animation.curAnim.numFrames / strum.animation.curAnim.frameRate;
-
+		onHitNote.dispatch(note);
 		if (!note.isSustainNote)
 			killNote(note);
+		note.hit = true;
 	}
 
 	public dynamic function updateNote(note:Note)
