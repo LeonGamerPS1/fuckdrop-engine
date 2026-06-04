@@ -1,5 +1,9 @@
 # [FNF Shit Engine ](https://gamebanana.com/wips/98997)
 
+## Real credits
+- @LeonGamerPS1 - Coder and Engine creator
+- @bopel-maki-macohi - new contributor.. Thank you for deciding to help me out with the engine once and a while and pr #2 & #3
+
 ## Credits
 - Psych Engine - Controls.hx
 - FunkinCrew/ninjamuffin99 - Alphabet.hx
