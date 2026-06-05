@@ -134,6 +134,21 @@ class Paths
 		return atlas;
 	}
 
+	public static function getMultiSparrowAtlas(paths:Array<String>):FlxAtlasFrames
+	{
+		if (cachedAtlases.exists(paths.toString()))
+			return cast cachedAtlases.get(paths.toString());
+
+		var megaAtlas = new FlxAtlasFrames(null);
+		for (goreSee in paths)
+		{
+			megaAtlas.addAtlas(getSparrowAtlas(goreSee));
+		}
+		cachedAtlases.set(paths.toString(), megaAtlas);
+
+		return megaAtlas;
+	}
+
 	public static function getAnimateAtlas(path:String):FlxAnimateFrames
 	{
 		var path = getPath('images/$path');

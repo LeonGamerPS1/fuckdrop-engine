@@ -1,0 +1,60 @@
+{
+  "time": 4,
+  "scale": 1,
+  "icon": "multi",
+  "image": "menus/options/checkbox,menus/title/titleEnter",
+  "antialiasing": true,
+  "flipX": true,
+  "cam_offset": [150, -157],
+  "pos_offset": [0, 350],
+  "animations": [
+    {
+      "name": "idle",
+      "fps": 24,
+      "prefix": "Check Box selecting animation",
+      "looped": false,
+      "offsets": [0, 0],
+      "indices": []
+    },
+    {
+      "name": "hey",
+      "fps": 24,
+      "prefix": "ENTER PRESSED",
+      "looped": false,
+      "offsets": [0, 0],
+      "indices": []
+    },
+    {
+      "name": "singLEFT",
+      "fps": 24,
+      "prefix": "ENTER PRESSED",
+      "looped": false,
+      "offsets": [5, 4],
+      "indices": []
+    },
+    {
+      "name": "singDOWN",
+      "fps": 24,
+      "prefix": "ENTER PRESSED",
+      "looped": false,
+      "offsets": [-10, -41],
+      "indices": []
+    },
+    {
+      "name": "singUP",
+      "fps": 24,
+      "prefix": "ENTER PRESSED",
+      "looped": false,
+      "offsets": [-13, 67],
+      "indices": []
+    },
+    {
+      "name": "singRIGHT",
+      "fps": 24,
+      "prefix": "ENTER PRESSED",
+      "looped": false,
+      "offsets": [-49, 7],
+      "indices": []
+    }
+  ]
+}

@@ -92,6 +92,9 @@ class Character extends FlxAnimate
 		if (!atlas)
 		{
 			frames = Paths.getSparrowAtlas(json.image);
+			if(json.image.split(',').length > 0) {
+				frames = Paths.getMultiSparrowAtlas(json.image.split(','));
+			}
 
 			// ✅ Load animations and animOffsets
 			for (anim in json.animations)
