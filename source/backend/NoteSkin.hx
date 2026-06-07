@@ -9,7 +9,7 @@ typedef Sskindat =
 	var antialiasing:Bool;
 	var name:String;
 	@:optional var susScale:Float;
-	@:optional var enableRGB:Bool;
+	@:optional var disableRGB:Bool;
 	@:optional var splashScale:Float;
 	@:optional var fps:Int;
 }

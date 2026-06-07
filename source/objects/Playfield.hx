@@ -165,7 +165,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 
 	public function hitNote(n:Note)
 	{
-		if (!n.strumline.isBot || n.strumline == bfStrumline)
+		if (!n.hit && (!n.strumline.isBot || n.strumline == bfStrumline))
 		{
 			if (health < 2)
 				health += 0.04;

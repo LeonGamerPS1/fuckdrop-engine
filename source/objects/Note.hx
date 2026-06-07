@@ -95,6 +95,8 @@ class Note extends FlxSprite
 
 	static var quants:Map<Int, RGBSwap> = [];
 
+	public var stain:Stain;
+
 	static function cacheQuant(quantized:Quantization)
 	{
 		if (quants.exists(quantized.snap))
@@ -127,7 +129,8 @@ class Note extends FlxSprite
 		applySkinRaw(tempskin);
 
 		rgbswap = !SaveData.currentSettings.quants ? getSwapShaderForLane(lane) : getQuantForTime(noteData.tms);
-		shader = rgbswap.shader;
+		if (!tempskin.disableRGB)
+			shader = rgbswap.shader;
 	}
 
 	public function applySkinRaw(tempskin:Sskindat)

@@ -8,6 +8,7 @@ import objects.gameplay.Character;
 
 class Strumline extends FlxGroup
 {
+	public var stains:FlxTypedGroup<Stain>;
 	public var strums:FlxTypedSpriteGroup<Strum>;
 	public var playfield:Playfield;
 	public var isBot:Bool = false;
@@ -28,6 +29,9 @@ class Strumline extends FlxGroup
 
 		strums = new FlxTypedSpriteGroup();
 		add(strums);
+
+		stains = new FlxTypedGroup<Stain>();
+		add(stains);
 
 		notes = new FlxTypedGroup<Note>();
 		notes.active = false;
@@ -64,27 +68,6 @@ class Strumline extends FlxGroup
 			note.setPosition(-5000, -5000);
 			unspawnedNotes.push(note);
 			note.prevNote = unspawnedNotes[unspawnedNotes.length - 1] ?? note;
-			var hmm = note.noteData.lms;
-
-			if (hmm > 0)
-			{
-				var cock = hmm / Conductor.stepLength;
-
-				for (segmentID in 0...Math.floor(cock))
-				{
-					var sData = Reflect.copy(noteData);
-
-					var isEnd = (segmentID) == Math.floor(cock) - 1;
-					var noteHold:Note = new Note(sData, this, true, isEnd);
-					sData.tms = noteData.tms + 2 + (Conductor.stepLength * segmentID);
-					noteHold.offsetY = note.height / 2;
-					note.children.push(noteHold);
-					unspawnedNotes.push(noteHold);
-					noteHold.setPosition(-5000, -5000);
-					noteHold.parentNote = note;
-					noteHold.prevNote = unspawnedNotes[unspawnedNotes.length - 1];
-				}
-			}
 		}
 		unspawnedNotes.sort((n1, n2) ->
 		{
@@ -116,6 +99,14 @@ class Strumline extends FlxGroup
 
 				var index:Int = unspawnedNotes.indexOf(note);
 				unspawnedNotes.splice(index, 1);
+
+				if (note.noteData.lms > 0)
+				{
+					var sus:Stain = new Stain(note);
+					note.stain = sus;
+					sus.setPosition(-1000, -1000);
+					stains.add(sus);
+				}
 			}
 		}
 		notes.sort(sortNotesByTimeHelper, FlxSort.DESCENDING);
@@ -197,18 +188,19 @@ class Strumline extends FlxGroup
 	public function hitNote(note:Note)
 	{
 		var strum = strums.members[note.noteData.l % strums.length];
-			strum.rgbswap = note.rgbswap;
+		strum.rgbswap = note.rgbswap;
 
-		strum.playAnim("confirm", true);
-	
+		strum.playAnim("confirm", !note.hit);
+		note._fmVisible = false;
+		note.visible = false;
 		char?.hitNote(note);
 
 		if (isBot)
 			strum.rT = strum.animation.curAnim.numFrames / strum.animation.curAnim.frameRate;
 		onHitNote.dispatch(note);
-		if (!note.isSustainNote)
-			killNote(note);
+
 		note.hit = true;
+	
 	}
 
 	public dynamic function updateNote(note:Note)
@@ -218,47 +210,21 @@ class Strumline extends FlxGroup
 		note.x = strum.x + (strum.width * 0.5 - note.width * 0.5);
 		final distance = (note.noteData.tms - Conductor.time) * (Constants.PIXEL_PER_MS * speed * note.multSpeed) * (strum.flipScroll ? -1 : 1);
 		note.y = strum.y + distance + note.offsetY;
-		if (strum.flipScroll && note.isSustainNote)
-		{
-			note.y -= note.height;
-		}
+		
 
-		if (!note.hit && isBot && note.noteData.tms <= Conductor.time)
+		if (isBot && note.noteData.tms <= Conductor.time)
 			hitNote(note);
+		note.stain?.updateVisuals();
 
-		var center = strum.y + Note.swag * 0.5;
-		note.flipY = note.isSustainNote && strum.flipScroll;
-		note.strumline = this;
-		if (strum.flipScroll)
+		if (note.hit && note.noteData.tms + note.noteData.lms <= Conductor.time)
 		{
-			if ((note.parentNote != null && note.parentNote.hit)
-				&& note.y + note.height >= center
-				&& (isBot || (note.hit || (note.prevNote.hit && !note.canBeHit)))
-				|| ((strum.holding || isBot) && note.overlaps(strum) && note.isSustainNote))
-			{
-				var swagRect = recycleClipRect(note, 0, 0, note.frameWidth, note.frameHeight);
-				swagRect.height = (center - note.y) / note.scale.y;
-				swagRect.y = note.frameHeight - swagRect.height;
-				note.clipRect = swagRect;
-			}
-		}
-		else
-		{
-			if ((note.parentNote != null && note.parentNote.hit)
-				&& note.y <= center
-				&& (isBot || (note.hit || (note.prevNote.hit && !note.canBeHit)))
-				|| ((strum.holding || isBot) && note.overlaps(strum) && note.isSustainNote))
-			{
-				var swagRect:FlxRect = recycleClipRect(note, 0, 0, note.width / note.scale.x, note.height / note.scale.y);
-				swagRect.y = (center - note.y) / note.scale.y;
-				swagRect.height -= swagRect.y;
-				note.clipRect = swagRect;
-			}
+			killNote(note);
+	
 		}
 
-		if (note.noteData.tms <= Conductor.time - (350 / note.multSpeed / speed))
+		if (note.noteData.tms <= Conductor.time - (350 / note.multSpeed / speed) && !note.hit)
 		{
-			if (!isBot && !note.hit)
+			if (!isBot)
 				onMissNote.dispatch(note, note.lane, this);
 
 			for (child in note.children)
