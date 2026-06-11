@@ -80,6 +80,9 @@ class Strumline extends FlxGroup
 	{
 		notes.remove(note, true);
 		note?.destroy();
+		stains.remove(note.stain, true);
+		note.stain?.destroy();
+		note.stain = null;
 		unspawnedNotes.remove(note);
 	}
 

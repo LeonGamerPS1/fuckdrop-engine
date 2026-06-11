@@ -199,7 +199,11 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		camGame.snapToTarget();
 
 		playfield.iconP1.changeIcon(bf.json.icon);
+		playfield.iconP1.baseScale = bf.json.iconScale ?? 1;
+
 		playfield.iconP2.changeIcon(dad.json.icon);
+		playfield.iconP2.baseScale = dad.json.iconScale ?? 1;
+
 		invalidatedRun = SaveData.currentSettings.botplay;
 		super.create();
 		call('onCreatePost');

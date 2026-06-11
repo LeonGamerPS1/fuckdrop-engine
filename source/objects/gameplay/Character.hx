@@ -19,6 +19,7 @@ typedef CharacterJSON =
 	var pos_offset:Array<Float>;
 
 	var animations:Array<Animation>;
+	@:optional var iconScale:Float;
 }
 
 typedef Animation =
@@ -54,6 +55,7 @@ class Character extends FlxAnimate
 
 		this.player = player;
 		loadJson(char);
+		
 
 		//useRenderTexture = true;
 		Conductor.onBeat.add(dance);
@@ -124,6 +126,7 @@ class Character extends FlxAnimate
 
 		updateHitbox();
 		playAnim(animExists("danceRight") && animExists("danceLeft") ? 'danceRight' : 'idle');
+		trace(json.iconScale);
 	}
 
 	public static function getJson(char:String):CharacterJSON
@@ -162,7 +165,7 @@ class Character extends FlxAnimate
 			holdTimer = (Conductor.stepLength * json.time) / 1000;
 	}
 
-	var idleInterval = 1;
+	var idleInterval = 2;
 
 	public function dance(beat:Float)
 	{

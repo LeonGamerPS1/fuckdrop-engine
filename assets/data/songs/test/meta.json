@@ -1,0 +1,17 @@
+{
+	"difficulties": [
+		"test"
+	],
+	"previewBPM": 150,
+	"icon": "bf-pixel",
+	"charter": "MtH",
+	"version": 1,
+	"generatedBy": "Vslice->SHITV1 Converter",
+	"volume": 1,
+	"artist": "Kawai Sprite, MtH",
+	"songDisplayName": "Test",
+	"previewWindow": {
+		"endTime": -1,
+		"startTime": 0
+	}
+}

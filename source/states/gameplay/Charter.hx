@@ -107,6 +107,7 @@ class Charter extends FlxTransitionableState
 		{
 			var grid:FlxSprite = FlxGridOverlay.create(size, size, size * 8, size * 16);
 			chartGrids.push(grid);
+			grid.color = i == 1 ? FlxColor.WHITE :  FlxColor.GRAY;
 			grid.y = grid.height * i;
 			add(grid);
 		}

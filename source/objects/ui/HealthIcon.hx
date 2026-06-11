@@ -5,7 +5,7 @@ class HealthIcon extends FunkinSprite
 	public var char:String = 'bf';
 	public var isPlayer:Bool = false;
 	public var isOldIcon:Bool = false;
-
+	public var baseScale:Float = 1;
 	/**
 	 * Used for FreeplayState! If you use it elsewhere, prob gonna annoying
 	 */

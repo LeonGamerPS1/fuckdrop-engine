@@ -89,7 +89,7 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		healthBar.numDivisions = 500;
 		// healthBar
 		insert(members.indexOf(healthBarBG), healthBar);
-		
+
 		progressBarBG = new FlxSprite(0, 25).loadGraphic(Paths.getGraphic('healthBar'));
 		progressBarBG.screenCenter(X);
 		add(progressBarBG);
@@ -237,12 +237,11 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		dadStrumline?.beatHit();
 		bfStrumline?.beatHit();
 
-		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
+		iconP1.scale.set(1.2 * iconP1.baseScale, 1.2 * iconP1.baseScale);
+		iconP2.scale.set(1.2 * iconP2.baseScale, 1.2 * iconP2.baseScale);
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
-		
 	}
 
 	public function stepHit(step:Float)
@@ -263,8 +262,8 @@ class Playfield extends FlxGroup implements backend.graphics.ModchartBackend.IMo
 		FlxTween.cancelTweensOf(this, ["curHealth"]);
 		FlxTween.tween(this, {curHealth: health}, 0.2);
 		super.update(elapsed);
-		var scaleP1 = FlxMath.lerp(1, iconP1.scale.x, Math.exp(-elapsed * 16));
-		var scaleP2 = FlxMath.lerp(1, iconP2.scale.x, Math.exp(-elapsed * 16));
+		var scaleP1 = FlxMath.lerp(iconP1.baseScale, iconP1.scale.x, Math.exp(-elapsed * 16));
+		var scaleP2 = FlxMath.lerp(iconP2.baseScale, iconP2.scale.x, Math.exp(-elapsed * 16));
 		iconP1.scale.set(scaleP1, scaleP1);
 		iconP2.scale.set(scaleP2, scaleP2);
 
