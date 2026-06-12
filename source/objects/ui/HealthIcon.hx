@@ -35,9 +35,7 @@ class HealthIcon extends FunkinSprite
 			char = 'face';
 
 		var graphic = Paths.getGraphic('icons/icon-' + char);
-		var w = graphic.height;
-		var h = graphic.height;
-		loadGraphic(Paths.getGraphic('icons/icon-' + char), true, w, h);
+		loadGraphic(Paths.getGraphic('icons/icon-' + char), true, graphic.height, graphic.height);
 
 		if (char.endsWith('-pixel') || char.startsWith('senpai') || char.startsWith('spirit'))
 			antialiasing = false;

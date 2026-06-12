@@ -40,6 +40,8 @@
 
 	<assets path ="secret" rename="assets" if="secret_assets"/>
 
+	<assets path="example_mods" rename="mods"/>
+
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />

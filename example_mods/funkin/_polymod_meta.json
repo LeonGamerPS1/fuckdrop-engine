@@ -1,0 +1,14 @@
+{
+	"title":"Example Mod",
+	"description":"Adds Example Mod",
+	"homepage": "github.com",
+	"contributors": [
+		{
+			"name": "SilvaGunner",
+			"role": "Chart and Music of Bopeebo beta mix"
+		}
+	],
+	"api_version":"26.3.28",
+	"mod_version":"1.0.0-alpha",
+	"license":"CC BY 4.0,MIT"
+}

@@ -96,7 +96,7 @@ class TitleState extends flixel.addons.transition.FlxTransitionableState
 			enter.playAnim("press");
 			FlxG.sound.play(Paths.getSound("sounds/confirmMenu"));
 
-			startTimer = new FlxTimer().start(1.5, (t) -> exit());
+			startTimer = new FlxTimer().start(1, (t) -> exit());
 		}
 	}
 

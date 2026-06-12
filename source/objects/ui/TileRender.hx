@@ -126,8 +126,8 @@ class TileRender extends FlxSprite
 			if (i == bodyIndex && tiles < tileCount)
 			{
 				final clipReduction:Float = frameToDraw.frame.height * (tileCount - tiles);
-
-	
+				frameToDraw.frame.height -= clipReduction;
+				frameToDraw.frame.y += clipReduction;
 
 				if (flipY)
 				{
@@ -139,6 +139,8 @@ class TileRender extends FlxSprite
 
 				offsetAmount = frameToDraw.frame.height * absScaleY;
 
+				frameToDraw.frame.height += clipReduction;
+				frameToDraw.frame.y -= clipReduction;
 			}
 			else
 			{
