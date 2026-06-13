@@ -107,7 +107,7 @@ class Charter extends FlxTransitionableState
 		{
 			var grid:FlxSprite = FlxGridOverlay.create(size, size, size * 8, size * 16);
 			chartGrids.push(grid);
-			grid.color = i == 1 ? FlxColor.WHITE :  FlxColor.GRAY;
+			grid.color = i == 1 ? FlxColor.WHITE : FlxColor.GRAY;
 			grid.y = grid.height * i;
 			add(grid);
 		}
@@ -225,7 +225,7 @@ class Charter extends FlxTransitionableState
 
 	override function update(elapsed:Float)
 	{
-				#if FLX_MOUSE box.setPosition(Math.floor(FlxG.mouse.x / size) * size, Math.floor(FlxG.mouse.y / size) * size); #end
+		#if FLX_MOUSE box.setPosition(Math.floor(FlxG.mouse.x / size) * size, Math.floor(FlxG.mouse.y / size) * size); #end
 		if (inputSystem.BACK)
 			FlxG.switchState(() -> new PlayState());
 
@@ -267,7 +267,8 @@ class Charter extends FlxTransitionableState
 			{
 				if (FlxG.mouse.justPressed)
 				{
-					if (FlxG.keys.justPressed.CONTROL || FlxG.mouse.pressedRight) {
+					if (FlxG.keys.justPressed.CONTROL || FlxG.mouse.pressedRight)
+					{
 						// select note
 						curSelectedNote = note.noteData;
 					}
@@ -287,7 +288,7 @@ class Charter extends FlxTransitionableState
 
 		if (box.overlaps(mainGrid) && !box.overlaps(curNotes))
 		{
-					#if FLX_MOUSE
+			#if FLX_MOUSE
 			if (FlxG.mouse.justPressed)
 			{
 				var noteData:SongNoteData = {
@@ -411,5 +412,19 @@ class Charter extends FlxTransitionableState
 		var beat:Float = ms / (60000 / bpm);
 		var step:Float = beat * Constants.STEPS_PER_BEAT;
 		return step * Constants.GRID_SIZE;
+	}
+
+	override function destroy()
+	{
+		song.data.notes.resize(0);
+
+		for (section in sections)
+		{
+			for (note in section.notes)
+			{
+				song.data.notes.push(note);
+			}
+		}
+		super.destroy();
 	}
 }

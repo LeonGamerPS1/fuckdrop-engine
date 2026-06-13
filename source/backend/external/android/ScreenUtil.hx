@@ -1,6 +1,5 @@
 package backend.external.android;
 
-
 #if android
 import extension.androidtools.jni.JNIUtil;
 import lime.math.Rectangle;

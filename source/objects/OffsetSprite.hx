@@ -1,6 +1,5 @@
 package objects;
 
-
 import animate.FlxAnimate;
 import flixel.animation.FlxAnimationController;
 

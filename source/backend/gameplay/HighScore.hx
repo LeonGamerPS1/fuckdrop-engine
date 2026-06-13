@@ -79,7 +79,7 @@ class HighScore
 
 		if (old != null && entry.score <= old.score)
 			return;
-        trace('New Highscore Points ${entry.score} for Song $entryName!');
+		trace('New Highscore Points ${entry.score} for Song $entryName!');
 		scoreBoard.songs.set(formattedName, entry);
 	}
 

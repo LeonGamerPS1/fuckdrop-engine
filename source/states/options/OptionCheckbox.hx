@@ -1,6 +1,5 @@
 package states.options;
 
-
 class OptionCheckbox extends FunkinSprite
 {
 	public var option:Option;
@@ -14,16 +13,15 @@ class OptionCheckbox extends FunkinSprite
 		addAnimPrefix("selected", "Check Box selecting animation");
 
 		playAnim("unselected");
-		scale.set(0.9,0.9);
+		scale.set(0.9, 0.9);
 		updateHitbox();
 		playAnim(option.value ? "selected" : "unselected");
 		option.onValChange.add((option:Option) ->
 		{
 			playAnim(option.value ? "selected" : "unselected");
 		});
-        
- 
-        antialiasing = true;
+
+		antialiasing = true;
 	}
 
 	override function update(elapsed:Float)
@@ -33,7 +31,7 @@ class OptionCheckbox extends FunkinSprite
 		if (x != targetX)
 			x = targetX;
 		if (y != targetY)
-			y = targetY ;
+			y = targetY;
 		super.update(elapsed);
 	}
 }

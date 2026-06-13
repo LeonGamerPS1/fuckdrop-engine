@@ -1,7 +1,6 @@
 // https://github.com/corecathx/haxeflixel-window-transparency/blob/main/FlxWindowUtil.hx
 package backend.graphics;
 
-
 #if (cpp && windows)
 @:cppFileCode('
 #include <windows.h>
@@ -19,7 +18,8 @@ class FlxWindowUtil
 
 	static public function setTransparency(val:Bool):Void
 	{
-		if (val == isTransparent) return;
+		if (val == isTransparent)
+			return;
 		isTransparent = val;
 		if (isTransparent)
 		{
@@ -45,7 +45,7 @@ class FlxWindowUtil
 		}
 	}
 
-	#if(cpp && windows)
+	#if (cpp && windows)
 	@:functionCode('
 		HWND hWnd = GetActiveWindow();
 		SetWindowLong(hWnd, GWL_EXSTYLE,
@@ -57,7 +57,7 @@ class FlxWindowUtil
 	#end
 	static private function _enableTransparency():Void {}
 
-	#if(cpp && windows)
+	#if (cpp && windows)
 	@:functionCode('
 		HWND hWnd = GetActiveWindow();
 		SetWindowLong(hWnd, GWL_EXSTYLE,

@@ -3,7 +3,8 @@ package modchart.engine.events;
 import modchart.Manager;
 import modchart.engine.events.EventType;
 
-class Event {
+class Event
+{
 	public var name:String;
 	public var target:Float;
 
@@ -23,7 +24,8 @@ class Event {
 
 	public var active:Bool = false;
 
-	public function new(beat:Float, callback:Event->Void, parent:EventManager, ?mercy:Bool = false) {
+	public function new(beat:Float, callback:Event->Void, parent:EventManager, ?mercy:Bool = false)
+	{
 		this.beat = beat;
 		this.callback = callback;
 		this.mercy = mercy;
@@ -31,8 +33,10 @@ class Event {
 		this.parent = parent;
 	}
 
-	public function update(curBeat:Float) {
-		if (curBeat >= beat && callback != null) {
+	public function update(curBeat:Float)
+	{
+		if (curBeat >= beat && callback != null)
+		{
 			callback(this);
 
 			fired = !mercy;
@@ -44,23 +48,28 @@ class Event {
 
 	public function create() {}
 
-	public inline function setModPercent(name, value, player) {
+	public inline function setModPercent(name, value, player)
+	{
 		parent.pf.setPercent(name, value, player);
 	}
 
-	public inline function getModPercent(name, player):Float {
+	public inline function getModPercent(name, player):Float
+	{
 		return parent.pf.getPercent(name, player);
 	}
 
-	public inline function unsafeSet(id, value, player) {
+	public inline function unsafeSet(id, value, player)
+	{
 		parent.pf.setPercent(id, value, player);
 	}
 
-	public inline function unsafeGet(id, player):Float {
+	public inline function unsafeGet(id, player):Float
+	{
 		return parent.pf.getPercent(id, player);
 	}
 
-	inline public function getType():EventType {
+	inline public function getType():EventType
+	{
 		return type;
 	}
 }

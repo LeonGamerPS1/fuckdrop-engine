@@ -16,7 +16,6 @@ import modchart.backend.standalone.Adapter;
 import states.menus.TitleState;
 import states.options.subs.ControlsSubstate;
 
-
 class InitState extends flixel.addons.transition.FlxTransitionableState
 {
 	#if android
@@ -25,13 +24,12 @@ class InitState extends flixel.addons.transition.FlxTransitionableState
 
 	override function create()
 	{
-
 		FlxG.scaleMode = new backend.scalemodes.FullScreenScalemode();
 		#if android
 		Permissions.requestPermissions(defaultAndroidPermissions);
 		Sys.setCwd(Path.addTrailingSlash(extension.androidtools.content.Context.getExternalFilesDir()));
 		#end
-		//modchart.Config.PREVENT_SCALED_HOLD_END = true;
+		// modchart.Config.PREVENT_SCALED_HOLD_END = true;
 		modchart.Config.OPTIMIZE_HOLDS = true;
 
 		SaveData.init();

@@ -15,9 +15,8 @@ class Hscript extends ScriptBase
 	override function load(path:String)
 	{
 		script = new Script(OpenFLAssets.getText(path));
-         	script.start();
+		script.start();
 		super.load(path);
-       
 	}
 
 	override public function get(variable:String):Dynamic
@@ -27,7 +26,7 @@ class Hscript extends ScriptBase
 
 	override public function setVariable(name:String, val:Dynamic, ?convert:Bool = true)
 	{
-      //  script.interp.environment.variables.set(name, val);
+		//  script.interp.environment.variables.set(name, val);
 		script.variables.set(name, val);
 	}
 
@@ -43,8 +42,8 @@ class Hscript extends ScriptBase
 
 	override public function call(fn:String, ?fv:Array<Dynamic>):Dynamic
 	{
-        if(get(fn) == null)
-            return null;
+		if (get(fn) == null)
+			return null;
 		return script.call(fn, fv);
 	}
 }

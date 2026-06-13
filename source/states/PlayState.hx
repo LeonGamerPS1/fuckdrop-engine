@@ -626,6 +626,12 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		if (FlxG.keys.justPressed.SEVEN)
 			FlxG.switchState(new states.gameplay.Charter(song));
 		#end
+
+		if (playfield.health <= 0)
+		{
+			FlxTransitionableState.skipNextTransOut = true;
+			FlxG.switchState(new GameoverState(boyfriendPosition, FlxG.camera.scroll.copyTo()));
+		}
 	}
 
 	function pauseOrSmth()
@@ -642,7 +648,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 			shit.pause();
 	}
 
-	var introIndexes = ['intro3','intro2','intro1','introGo'];
+	var introIndexes = ['intro3', 'intro2', 'intro1', 'introGo'];
 
 	public function unPause()
 	{

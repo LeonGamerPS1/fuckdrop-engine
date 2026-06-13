@@ -55,9 +55,8 @@ class Character extends FlxAnimate
 
 		this.player = player;
 		loadJson(char);
-		
 
-		//useRenderTexture = true;
+		// useRenderTexture = true;
 		Conductor.onBeat.add(dance);
 	}
 
@@ -94,7 +93,8 @@ class Character extends FlxAnimate
 		if (!atlas)
 		{
 			frames = Paths.getSparrowAtlas(json.image);
-			if(json.image.split(',').length > 1) {
+			if (json.image.split(',').length > 1)
+			{
 				frames = Paths.getMultiSparrowAtlas(json.image.split(','));
 			}
 

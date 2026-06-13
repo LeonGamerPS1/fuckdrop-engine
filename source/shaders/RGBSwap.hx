@@ -69,7 +69,8 @@ class RGBSwap
 	{
 		// 1. Force the custom FlxShader class to initialize its uniforms first
 		@:privateAccess {
-			if (shader.__initGL != null) shader.__initGL();
+			if (shader.__initGL != null)
+				shader.__initGL();
 		}
 
 		// 2. Set internal properties safely

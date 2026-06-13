@@ -41,7 +41,8 @@ class ScriptBase
 
 	public function dispose() {}
 
-	public function call(fn:String, ?fv:Array<Dynamic>):Dynamic {
-        return null;
-    }
+	public function call(fn:String, ?fv:Array<Dynamic>):Dynamic
+	{
+		return null;
+	}
 }

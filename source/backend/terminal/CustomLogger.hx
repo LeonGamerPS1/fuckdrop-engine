@@ -84,9 +84,9 @@ class CustomLogger
 		#if sys
 		if (colorTextInput)
 		{
-			var firstPoop = '['+colorText(Date.now().toString(),AnsiColor.Magenta)+']';
-			var secondPart = '['+colorText(status,getColorForStatus(status))+']';
-			var lastPart = colorText('${posInfo?.fileName}:${posInfo?.methodName}(${posInfo?.lineNumber}) $str',getColorForStatus(status));
+			var firstPoop = '[' + colorText(Date.now().toString(), AnsiColor.Magenta) + ']';
+			var secondPart = '[' + colorText(status, getColorForStatus(status)) + ']';
+			var lastPart = colorText('${posInfo?.fileName}:${posInfo?.methodName}(${posInfo?.lineNumber}) $str', getColorForStatus(status));
 			var coloredText = '$firstPoop $secondPart $lastPart';
 			Sys.println(coloredText);
 		}
@@ -115,7 +115,7 @@ class CustomLogger
 
 	static function colorText(text:String, color:AnsiColor):String
 	{
-		if(color == Empty)
+		if (color == Empty)
 			return text;
 		return color.code() + text + AnsiColor.White.code(); // reset to default after
 	}

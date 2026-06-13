@@ -203,7 +203,6 @@ class Strumline extends FlxGroup
 		onHitNote.dispatch(note);
 
 		note.hit = true;
-	
 	}
 
 	public dynamic function updateNote(note:Note)
@@ -213,7 +212,6 @@ class Strumline extends FlxGroup
 		note.x = strum.x + (strum.width * 0.5 - note.width * 0.5);
 		final distance = (note.noteData.tms - Conductor.time) * (Constants.PIXEL_PER_MS * speed * note.multSpeed) * (strum.flipScroll ? -1 : 1);
 		note.y = strum.y + distance + note.offsetY;
-		
 
 		if (isBot && note.noteData.tms <= Conductor.time)
 			hitNote(note);
@@ -222,7 +220,6 @@ class Strumline extends FlxGroup
 		if (note.hit && note.noteData.tms + note.noteData.lms <= Conductor.time)
 		{
 			killNote(note);
-	
 		}
 
 		if (note.noteData.tms <= Conductor.time - (350 / note.multSpeed / speed) && !note.hit)

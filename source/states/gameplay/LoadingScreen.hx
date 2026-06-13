@@ -4,7 +4,6 @@ import backend.data.SongChartData;
 import backend.gameplay.SongLoader;
 import objects.Strum;
 import objects.gameplay.Character;
-
 #if (target.threaded) import sys.thread.Thread; #end
 
 @:enum abstract CacheAssetType(String)
@@ -47,7 +46,7 @@ class LoadingScreen extends flixel.addons.transition.FlxTransitionableState
 	public override function create()
 	{
 		var songFolder = song.songFolder;
-		
+
 		addShitToCache({assetType: SOUNDc, assetPath: 'sounds/hitsound'});
 		addShitToCache({
 			assetType: custom,
@@ -99,7 +98,6 @@ class LoadingScreen extends flixel.addons.transition.FlxTransitionableState
 			doShit(thing);
 			thingsComplete = i;
 		}
-	
 	}
 
 	function doShit(thing:CacheType)
@@ -110,8 +108,7 @@ class LoadingScreen extends flixel.addons.transition.FlxTransitionableState
 			case SOUND:
 				FlxG.sound.cache(thing.assetPath);
 			case SOUNDc:
-				Paths.getSound(thing.assetPath);	
-
+				Paths.getSound(thing.assetPath);
 		}
 	}
 

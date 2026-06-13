@@ -117,7 +117,8 @@ class Conductor
 		return (time) / stepLength;
 	}
 
-	public static function getBeat(time:Float) {
-		return getStep(time)/4;
+	public static function getBeat(time:Float)
+	{
+		return getStep(time) / 4;
 	}
 }

@@ -11,7 +11,6 @@ class NxScriptM extends ScriptBase
 {
 	public var interp:Interpreter;
 
-
 	override function load(path:String)
 	{
 		if (interp == null)

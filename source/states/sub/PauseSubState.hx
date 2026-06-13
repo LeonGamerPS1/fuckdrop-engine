@@ -5,13 +5,7 @@ import states.menus.MainMenuState;
 
 class PauseSubState extends FlxSubState
 {
-	var itemsA:Array<String> = [
-		'Continue',
-		'Reboot',
-		'Toggle BotPlay',
-		'Exit to Main Menu',
-		'Exit to freeplay'
-	];
+	var itemsA:Array<String> = ['Continue', 'Reboot', 'Toggle BotPlay', 'Exit to Main Menu', 'Exit to freeplay'];
 
 	public var itemIndex:Int = 0;
 	public var item:Alphabet;
@@ -64,7 +58,6 @@ class PauseSubState extends FlxSubState
 				case 'toggle botplay':
 					SaveData.currentSettings.botplay = !SaveData.currentSettings.botplay;
 					PlayState.instance.invalidatedRun = SaveData.currentSettings.botplay;
-
 
 				case 'exit to main menu':
 					closeCallback = null;

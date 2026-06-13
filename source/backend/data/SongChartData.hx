@@ -123,13 +123,13 @@ class SongChartData
 			stickerPack: "default",
 			startPreview: 0,
 			endPreview: 10000,
-			noteStyle: data.arrowSkin ??"funkin",
+			noteStyle: data.arrowSkin ?? "funkin",
 			notes: [],
 			offset: 0,
 			speed: data.speed,
 			stage: data.stage ?? 'stage',
 		};
-		if(data.oppSkin != null)
+		if (data.oppSkin != null)
 			someSongChartIG.oppSkin = data.oppSkin;
 
 		var lastDaddy = null;

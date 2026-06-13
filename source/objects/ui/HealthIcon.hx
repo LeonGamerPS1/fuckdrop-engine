@@ -6,6 +6,7 @@ class HealthIcon extends FunkinSprite
 	public var isPlayer:Bool = false;
 	public var isOldIcon:Bool = false;
 	public var baseScale:Float = 1;
+
 	/**
 	 * Used for FreeplayState! If you use it elsewhere, prob gonna annoying
 	 */
@@ -14,7 +15,6 @@ class HealthIcon extends FunkinSprite
 	public function new(?char:String = "bf", ?isPlayer:Bool = false)
 	{
 		super();
-
 
 		this.char = char;
 		this.isPlayer = isPlayer;
@@ -42,7 +42,7 @@ class HealthIcon extends FunkinSprite
 		else
 			antialiasing = true;
 
-		animation.add(char, [for(i in 0...frames.frames.length) i], 0, false, isPlayer);
+		animation.add(char, [for (i in 0...frames.frames.length) i], 0, false, isPlayer);
 		animation.play(char);
 	}
 
@@ -54,10 +54,10 @@ class HealthIcon extends FunkinSprite
 			setPosition(sprTracker.x + sprTracker.width + 50, sprTracker.y + (sprTracker.height * .5 - frameHeight * .5));
 	}
 
-	override function updateHitbox() {
+	override function updateHitbox()
+	{
 		super.updateHitbox();
 		centerOffsets();
 		centerOrigin();
 	}
-	
 }

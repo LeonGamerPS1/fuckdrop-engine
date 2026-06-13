@@ -13,8 +13,6 @@ class MainMenuState extends flixel.addons.transition.FlxTransitionableState
 	public var bg:FunkinSprite;
 	public var camTarget:FlxObject;
 
-	
-
 	public override function create()
 	{
 		super.create();
@@ -51,8 +49,8 @@ class MainMenuState extends flixel.addons.transition.FlxTransitionableState
 		changeSelected(0);
 
 		var text:FlxText = new FlxText();
-		text.setFormat(Paths.getFont('vcr'), 20,0xFFFFFFFF,LEFT,OUTLINE,0xFF000000);
-		var someshitig =  'Git Commit('+Constants.gitcommit +')' #if (!gitcommit) + ' Release version ' + Main.version#end;
+		text.setFormat(Paths.getFont('vcr'), 20, 0xFFFFFFFF, LEFT, OUTLINE, 0xFF000000);
+		var someshitig = 'Git Commit(' + Constants.gitcommit + ')' #if (!gitcommit) + ' Release version ' + Main.version #end;
 		text.text = 'FNF 0.2.8\nShit Engine ' + someshitig;
 		text.y = FlxG.height - text.height * 1.1;
 		text.scrollFactor.set();

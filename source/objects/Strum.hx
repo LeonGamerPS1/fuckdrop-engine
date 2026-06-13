@@ -2,6 +2,7 @@ package objects;
 
 import backend.NoteSkin;
 import shaders.RGBSwap;
+
 class Strum extends FlxSprite
 {
 	public var flipScroll = false;
@@ -73,7 +74,7 @@ class Strum extends FlxSprite
 		centerOrigin();
 		if (rgbswap != null)
 			shader = s != 'static' ? rgbswap.shader : null;
-		if(tempskin.disableRGB)
+		if (tempskin.disableRGB)
 			shader = null;
 	}
 

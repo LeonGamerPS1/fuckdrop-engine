@@ -474,7 +474,7 @@ class AlphaCharacter extends FunkinSprite
 			letterCase = 'capital';
 		}
 
-		animation.addByPrefix(letter, letter + " " + letterCase, 24,true);
+		animation.addByPrefix(letter, letter + " " + letterCase, 24, true);
 		animation.play(letter);
 		updateHitbox();
 
@@ -484,7 +484,7 @@ class AlphaCharacter extends FunkinSprite
 
 	public function createNumber(letter:String):Void
 	{
-		animation.addByPrefix(letter, letter, 24,true);
+		animation.addByPrefix(letter, letter, 24, true);
 		animation.play(letter);
 
 		updateHitbox();
@@ -498,20 +498,20 @@ class AlphaCharacter extends FunkinSprite
 		switch (letter)
 		{
 			case '#':
-				animation.addByPrefix(letter, 'hashtag', 24,true);
+				animation.addByPrefix(letter, 'hashtag', 24, true);
 			case '.':
-				animation.addByPrefix(letter, 'period', 24,true);
+				animation.addByPrefix(letter, 'period', 24, true);
 			case "'":
-				animation.addByPrefix(letter, 'apostraphie', 24,true);
+				animation.addByPrefix(letter, 'apostraphie', 24, true);
 				y -= 50;
 			case "?":
-				animation.addByPrefix(letter, 'question mark', 24,true);
+				animation.addByPrefix(letter, 'question mark', 24, true);
 			case "!":
-				animation.addByPrefix(letter, 'exclamation point', 24,true);
+				animation.addByPrefix(letter, 'exclamation point', 24, true);
 			case ",":
-				animation.addByPrefix(letter, 'comma', 24,true);
+				animation.addByPrefix(letter, 'comma', 24, true);
 			default:
-				animation.addByPrefix(letter, letter, 24,true);
+				animation.addByPrefix(letter, letter, 24, true);
 		}
 		animation.play(letter);
 

@@ -12,9 +12,8 @@ class SongLoader
 		if (!OpenFLAssets.exists(Paths.getPath(metaPath), TEXT))
 			throw "SongLoader: Failed to find metadata " + metaPath;
 
-			if (OpenFLAssets.exists(Paths.getPath('$songFolder/meta-$songDifficulty.json'), TEXT))
-				metaPath = '$songFolder/meta-$songDifficulty.json';
-		
+		if (OpenFLAssets.exists(Paths.getPath('$songFolder/meta-$songDifficulty.json'), TEXT))
+			metaPath = '$songFolder/meta-$songDifficulty.json';
 
 		var songDataOBJ:SongChartData;
 		var songMetaData:SongMetaData = SongMetaData.frompath(Paths.getPath(metaPath));
@@ -27,8 +26,8 @@ class SongLoader
 
 		songDataOBJ = SongChartData.frompath(Paths.getPath('$songFolder/charts/$songDifficulty.json'), null, true);
 		songDataOBJ.meta = songMetaData;
-        // for  audios lol
-        songDataOBJ.songFolder = songFolder;
+		// for  audios lol
+		songDataOBJ.songFolder = songFolder;
 		songDataOBJ.diff = songDifficulty;
 		return songDataOBJ;
 	}

@@ -174,4 +174,3 @@ class FreeplayState extends FlxTransitionableState
 		super.update(dT);
 	}
 }
-
