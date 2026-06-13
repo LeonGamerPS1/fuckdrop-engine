@@ -68,9 +68,11 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 	override public function create()
 	{
 		instance = this;
+		persistentUpdate = true;
 		FlxG.fixedTimestep = FlxG.autoPause = false;
 		final songFolder = song.songFolder;
 		FlxG.sound.music?.stop();
+		introIndexes.reverse();
 
 		camHUD = new FlxCamera();
 		FlxG.cameras.add(camHUD, false);
@@ -559,6 +561,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		startTimer = new FlxTimer().start(Conductor.beatLength / 1000, (t) ->
 		{
 			call('tickCountdown', [t]);
+			FlxG.sound.play(Paths.getSound('sounds/${introIndexes[t.loopsLeft]}'));
 		}, 4);
 		startTimer.active = true;
 		call('startCountdown');
@@ -616,6 +619,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		if (inputSystem.ACCEPT)
 		{
 			pauseOrSmth();
+			startTimer.active = false;
 		}
 
 		#if FLX_KEYBOARD
@@ -626,6 +630,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 	function pauseOrSmth()
 	{
+		persistentUpdate = false;
 		var subState = new PauseSubState();
 		subState.closeCallback = unPause;
 		openSubState(subState);
@@ -637,8 +642,11 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 			shit.pause();
 	}
 
+	var introIndexes = ['intro3','intro2','intro1','introGo'];
+
 	public function unPause()
 	{
+		startTimer.active = true;
 		paused = false;
 		inst.resume();
 		for (shit in playerVocals.sounds.concat(enemyVocals.sounds))
