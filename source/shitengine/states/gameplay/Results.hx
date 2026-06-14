@@ -19,6 +19,8 @@ class Results extends MusicState
 
 	var resultsOST:ShitTrack;
 
+	var lines:Array<String> = [];
+
 	override function create()
 	{
 		super.create();
@@ -29,7 +31,10 @@ class Results extends MusicState
 		resultsOST.onBeatHit.add(onBeatHit);
 		resultsOST.onStepHit.add(onStepHit);
 
-		trace(ratingMap);
+		lines.push('sicks:');
+		for (key => value in ratingMap) {}
+
+		// trace(ratingMap);
 	}
 
 	override function update(elapsed:Float)
