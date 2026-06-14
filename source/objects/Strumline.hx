@@ -216,8 +216,6 @@ class Strumline extends FlxGroup
 		if (isBot && note.noteData.tms <= Conductor.time)
 			hitNote(note);
 		note.stain?.updateVisuals();
-		if (note.stain != null)
-			note.stain.flipY = strum.flipScroll;
 
 		if (note.hit && note.noteData.tms + note.noteData.lms <= Conductor.time)
 		{
