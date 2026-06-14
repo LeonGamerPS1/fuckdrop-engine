@@ -89,7 +89,7 @@ class TitleState extends flixel.addons.transition.FlxTransitionableState
 			}
 		}
 		#end
-		if (inputSystem.ACCEPT || accept && !exiting)
+		if ((inputSystem.ACCEPT || accept) && !exiting)
 		{
 			exiting = true;
 			FlxG.camera.flash();
