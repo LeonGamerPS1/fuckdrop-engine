@@ -29,6 +29,8 @@ class PauseSubState extends FlxSubState
 			songOBJ.targetY = items.length - 1;
 		}
 		super.create();
+
+		changeSelection();
 	}
 
 	function changeSelection(add:Int = 0)
