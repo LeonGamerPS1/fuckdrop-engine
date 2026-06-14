@@ -1,12 +1,13 @@
 package;
 
 import openfl.display.Sprite;
+import util.macro.EmbedMacro;
 
 class Main extends Sprite
 {
 	public static var isDebug(default, null):Bool = #if debug true #else false #end;
 	// ReleaseName-Month-Year-releasecount
-	public static var version:String = "BETA-06-2026-r4";
+	public static var version:String = EmbedMacro.embedFileContent('.VERSION');
 	public static var debugCounter:FPS;
 
 	public function new()

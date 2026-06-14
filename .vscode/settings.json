@@ -15,5 +15,83 @@
 			"envManager": "ms-python.python:venv",
 			"packageManager": "ms-python.python:pip"
 		}
-	]
+	],
+	"lime.defaultTargetConfiguration": "Windows / Debug",
+	"lime.targets": [
+		{
+			"name": "windows",
+			"enabled": true,
+			"label": "Windows"
+		},
+		{
+			"name": "mac",
+			"enabled": true,
+			"label": "macOS"
+		},
+		{
+			"name": "linux",
+			"enabled": true,
+			"label": "Linux"
+		},
+		{
+			"name": "hl",
+			"enabled": true,
+			"label": "HashLink"
+		},
+		{
+			"name": "html5",
+			"enabled": false,
+			"label": "HTML5"
+		},
+		{
+			"name": "android",
+			"enabled": false,
+			"label": "Android"
+		},
+		{
+			"name": "ios",
+			"enabled": false,
+			"label": "iOS"
+		},
+		{
+			"name": "air",
+			"enabled": false
+		},
+		{
+			"name": "electron",
+			"enabled": false
+		},
+		{
+			"name": "flash",
+			"enabled": false
+		},
+		{
+			"name": "neko",
+			"enabled": false
+		},
+		{
+			"name": "tvos",
+			"enabled": false
+		}
+	],
+	"lime.buildTypes": [
+		{
+			"label": "Debug",
+			"args": [
+				"-debug"
+			]
+		},
+		{
+			"label": "Release",
+			"args": [
+				"-release"
+			]
+		},
+		{
+			"label": "Final",
+			"args": [
+				"-final"
+			]
+		}
+	],
 }
