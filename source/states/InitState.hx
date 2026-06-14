@@ -74,7 +74,12 @@ class InitState extends flixel.addons.transition.FlxTransitionableState
 			width: 32,
 			height: 32,
 		}, FlxRect.get(0, 0, FlxG.width, FlxG.height), TOP);
-		FlxG.switchState(new states.menus.TitleState());
+
+		FlxG.signals.focusGained.add(() ->
+		{
+			FlxG.sound.resume();
+		});
+
 		FlxG.switchState(() -> new TitleState());
 	}
 }

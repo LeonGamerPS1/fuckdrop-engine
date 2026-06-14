@@ -17,9 +17,5 @@ class Main extends Sprite
 		super();
 		addChild(new FlxGame(1280, 720, states.InitState, 60, 60));
 		addChild(debugCounter = new FPS(10, 10, 0xFFFFFFFF));
-		FlxG.signals.focusGained.add(() ->
-		{
-			FlxG.sound.resume();
-		});
 	}
 }
