@@ -98,4 +98,23 @@ class HighScore
 	{
 		return s.toLowerCase().replace(" ", "-");
 	}
+
+	public static function getRatingMap(song:String):Map<String, Array<Float>>
+	{
+		var ratings:Map<String, Array<Float>> = [];
+		var highscoreEntry = getHighScoreEntry(song);
+
+		if (highscoreEntry == null)
+			return ratings;
+
+		for (rating in highscoreEntry.ratings)
+		{
+			if (!ratings.exists(rating.rating))
+				ratings.set(rating.rating, []);
+
+			ratings.get(rating.rating).push(rating.time);
+		}
+
+		return ratings;
+	}
 }

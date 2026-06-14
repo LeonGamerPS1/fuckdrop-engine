@@ -17,6 +17,7 @@ import shitengine.backend.scripting.ScriptBase;
 import shitengine.objects.Note;
 import shitengine.objects.Playfield;
 import shitengine.objects.gameplay.Character;
+import shitengine.states.gameplay.Results;
 import shitengine.states.menus.MainMenuState;
 import shitengine.states.sub.PauseSubState;
 
@@ -678,7 +679,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 	{
 		call('endSong');
 		HighScore.postHighScore(currentScoreEntry.name, currentScoreEntry);
-		FlxG.switchState(() -> new shitengine.states.menus.FreeplayState());
+		FlxG.switchState(() -> new Results(currentScoreEntry));
 	}
 
 	function set_invalidatedRun(value:Bool):Bool
