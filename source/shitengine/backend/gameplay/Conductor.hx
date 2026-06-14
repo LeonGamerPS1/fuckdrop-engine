@@ -1,13 +1,13 @@
 package shitengine.backend.gameplay;
 
 import lime.app.Event;
-import shitengine.backend.data.SongChartData.SongTmPoint;
+import shitengine.backend.data.MusicTimeChangePoint;
 
 class Conductor
 {
 	public static var safeFrames:Int = 10;
 	public static var sfz:Float = (safeFrames / 60) * 1000; // is calculated in create(), is safeFrames in milliseconds
-	public static var timeChanges:Array<SongTmPoint> = [];
+	public static var timeChanges:Array<MusicTimeChangePoint> = [];
 
 	public static var time(default, set):Float = 0;
 	public static var bpm(default, set):Float = 100;
@@ -32,7 +32,7 @@ class Conductor
 	public static function update(time:Float)
 	{
 		var flo = Math.floor;
-		timeChanges.sort((tm:SongTmPoint, tm2:SongTmPoint) ->
+		timeChanges.sort((tm:MusicTimeChangePoint, tm2:MusicTimeChangePoint) ->
 		{
 			return Math.floor(tm.time - tm2.time);
 		});
@@ -63,9 +63,9 @@ class Conductor
 		return bpm = value;
 	}
 
-	public static function getTimeChangeAt(time:Float):SongTmPoint
+	public static function getTimeChangeAt(time:Float):MusicTimeChangePoint
 	{
-		var lastTimeChange:SongTmPoint = {time: 0, bpm: bpm};
+		var lastTimeChange:MusicTimeChangePoint = {time: 0, bpm: bpm};
 		for (timeChange in timeChanges)
 			if (timeChange.time <= (time - offset))
 				lastTimeChange = timeChange;
@@ -74,9 +74,9 @@ class Conductor
 
 	public static function addTimeChangeAt(time:Float, bpm:Float)
 	{
-		var lastTimeChange:SongTmPoint = {time: time, bpm: bpm};
+		var lastTimeChange:MusicTimeChangePoint = {time: time, bpm: bpm};
 		timeChanges.push(lastTimeChange);
-		timeChanges.sort((tm:SongTmPoint, tm2:SongTmPoint) ->
+		timeChanges.sort((tm:MusicTimeChangePoint, tm2:MusicTimeChangePoint) ->
 		{
 			return Math.floor(tm.time - tm2.time);
 		});
@@ -84,11 +84,11 @@ class Conductor
 
 	public static function removeLatestTimeChangeAt(time:Float)
 	{
-		var lastTimeChange:SongTmPoint = getTimeChangeAt(time);
+		var lastTimeChange:MusicTimeChangePoint = getTimeChangeAt(time);
 		if (lastTimeChange == null)
 			return;
 		timeChanges.remove(lastTimeChange);
-		timeChanges.sort((tm:SongTmPoint, tm2:SongTmPoint) ->
+		timeChanges.sort((tm:MusicTimeChangePoint, tm2:MusicTimeChangePoint) ->
 		{
 			return Math.floor(tm.time - tm2.time);
 		});

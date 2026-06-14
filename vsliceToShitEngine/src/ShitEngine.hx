@@ -19,7 +19,7 @@ typedef SongMetaDataRAW =
 	
 }
 
-typedef SongTmPoint =
+typedef MusicTimeChangePoint =
 	{
 		var time:Float;
 		var bpm:Float;
@@ -41,7 +41,7 @@ typedef SongChartDataR =
 
 	public var speed:Float;
 	public var offset:Float;
-	public var timingChanges:Array<SongTmPoint>;
+	public var timingChanges:Array<MusicTimeChangePoint>;
 	public var noteStyle:String;
 	public var album:String;
 	public var stickerPack:String;

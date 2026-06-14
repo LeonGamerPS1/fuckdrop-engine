@@ -2,6 +2,7 @@ package shitengine.backend.assets;
 
 import flixel.util.FlxSignal.FlxTypedSignal;
 import haxe.io.Path;
+import lime.utils.Assets;
 import shitengine.backend.assets.Paths;
 import shitengine.backend.data.MusicMetaData;
 
@@ -38,7 +39,7 @@ class ShitTrack extends FlxSound
 			return this;
 		}
 
-		data = FlxG.assets.getJson(metaPath);
+		data = Json.parse(Assets.getText(metaPath));
 
 		if (data == null)
 		{
