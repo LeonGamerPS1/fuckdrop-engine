@@ -6,7 +6,7 @@ import objects.Strum;
 import objects.gameplay.Character;
 #if (target.threaded) import sys.thread.Thread; #end
 
-@:enum abstract CacheAssetType(String)
+enum abstract CacheAssetType(String)
 {
 	var SOUND = "SOUND";
 	var IMAGE = "IMAGE";
