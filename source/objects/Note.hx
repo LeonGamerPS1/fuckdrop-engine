@@ -70,9 +70,8 @@ class Note extends FlxSprite
 		this.isSustainNote = isSusNote;
 
 		reload(strumline != null ? strumline.skin : 'funkin');
-		if (!isSustainNote)
-			earlyHitMult *= 0.5;
-		else
+		if (isSustainNote)
+	
 			earlyHitMult = 0;
 		initscript(dir?.t ?? 'normal');
 	}

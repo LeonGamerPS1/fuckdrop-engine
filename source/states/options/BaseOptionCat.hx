@@ -76,7 +76,7 @@ class BaseOptionCat extends FlxTransitionableState
 		{
 			if (inputSystem.UI_DOWN_P)
 				changeSelected(1);
-			else if (inputSystem.NOTE_UP_P)
+			else if (inputSystem.UI_UP_P)
 				changeSelected(-1);
 		}
 		super.update(elapsed);

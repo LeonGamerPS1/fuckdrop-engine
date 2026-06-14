@@ -53,6 +53,9 @@ class Charter extends FlxTransitionableState
 		ui.cameras = [charterCam];
 		add(ui);
 
+		box = new FunkinSprite().solidColor(size - 1, size - 1);
+		add(box);
+
 		Conductor.bpm = song.data.bpm;
 		Conductor.time = 0;
 
@@ -133,9 +136,6 @@ class Charter extends FlxTransitionableState
 			strum.x = size * i;
 			add(strum);
 		}
-
-		box = new FunkinSprite().solidColor(size, size);
-		add(box);
 
 		FlxG.camera.follow(strumline);
 

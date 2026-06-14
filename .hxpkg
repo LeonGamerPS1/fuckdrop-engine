@@ -83,6 +83,14 @@
 			{
 				"name": "hscript-insanity",
 				"link": "https://github.com/inky03/hscript-insanity.git"
+			},
+			{
+				"name": "lui",
+				"link": "https://github.com/NebulaStellaNova/LemonUI.git"
+			},
+			{
+				"name": "hxdiscord_rpc",
+				"link": "https://github.com/MAJigsaw77/hxdiscord_rpc"
 			}
 		]
 	}

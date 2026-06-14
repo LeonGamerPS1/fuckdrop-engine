@@ -82,6 +82,9 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		loadScripts(Paths.listDirectory('assets/data/scripts'));
 
 		Conductor.timeChanges.resize(0);
+		for(guh in song.data.timingChanges)
+			Conductor.addTimeChangeAt(guh.time, guh.bpm);
+	
 		super.create();
 		song ??= SongLoader.loadSong("bopeebo");
 		currentScoreEntry.name = HighScore.formatName(song.meta.data.songDisplayName);
@@ -93,6 +96,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 		Conductor.bpm = song.data.bpm;
 		Conductor.time = -(Conductor.beatLength * 5);
+		
 
 		var instPath = '$songFolder/audio/${song.data.characters.instPath}';
 		if (Paths.exists(instPath + '-' + song.diff, SOUND))
