@@ -33,9 +33,9 @@ class Stain extends TileRender
 		var l = parent.noteData.lms;
 		shader = parent.shader;
 		x = parent.x + parent.width * .5 - width * .5;
-		y = parent.y + ((parent.height / 2) * vertScrollMult);
 		alpha = parent.alpha * 0.7;
 		antialiasing = parent.antialiasing;
+
 		if (parent.hit)
 		{
 			l -= Conductor.time - parent.noteData.tms;
@@ -43,6 +43,8 @@ class Stain extends TileRender
 			final strumline = parent.strumline.strums.members[parent.lane];
 			y = strumline.y + strumline.height * .5 * vertScrollMult;
 		}
+		
 		height = 0.45 * (parent.strumline?.speed ?? 1) * l;
+		y = parent.y + (((parent.height / 2) + this.height) * vertScrollMult);
 	}
 }
