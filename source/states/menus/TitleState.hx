@@ -104,9 +104,13 @@ class TitleState extends flixel.addons.transition.FlxTransitionableState
 
 	public function exit()
 	{
-		startTimer.cancel();
-		startTimer.destroy();
-		startTimer = null;
+		if (startTimer != null)
+		{
+			startTimer.cancel();
+			startTimer.destroy();
+			startTimer = null;
+		}
+		
 		FlxG.switchState(new MainMenuState());
 	}
 }
