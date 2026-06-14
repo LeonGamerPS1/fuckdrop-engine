@@ -1,8 +1,8 @@
 package;
 
 import openfl.display.Sprite;
-import util.macro.DefineMacro;
-import util.macro.EmbedMacro;
+import shitengine.util.macro.DefineMacro;
+import shitengine.util.macro.EmbedMacro;
 
 class Main extends Sprite
 {
@@ -15,11 +15,11 @@ class Main extends Sprite
 	public function new()
 	{
 		if (Define.DISCORD_ALLOWED)
-			backend.DiscordClient.init();
+			shitengine.backend.DiscordClient.init();
 		CustomLogger.init();
 
 		super();
-		addChild(new FlxGame(1280, 720, states.InitState, 60, 60));
+		addChild(new FlxGame(1280, 720, shitengine.states.InitState, 60, 60));
 		addChild(debugCounter = new FPS(10, 10, 0xFFFFFFFF));
 	}
 }
