@@ -4,7 +4,7 @@ import shitengine.backend.assets.ShitTrack;
 import shitengine.backend.gameplay.HighScore.SongHighScoreEntry;
 import shitengine.backend.gameplay.HighScore;
 
-class Results extends FlxTransitionableState
+class Results extends MusicState
 {
 	var highscoreEntry:SongHighScoreEntry;
 	var ratingMap:Map<String, Array<Float>> = [];
@@ -25,5 +25,8 @@ class Results extends FlxTransitionableState
 
 		resultsOST = new ShitTrack().loadFromMetadataID('results/resultsNORMAL');
 		resultsOST.play();
+
+		resultsOST.onBeatHit.add(onBeatHit);
+		resultsOST.onStepHit.add(onStepHit);
 	}
 }
