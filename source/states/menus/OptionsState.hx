@@ -53,7 +53,7 @@ class OptionsState extends FlxTransitionableState
 		else if (inputSystem.UI_UP_P)
 			changeSelected(-1);
 		else if (inputSystem.BACK)
-			FlxG.switchState(new MainMenuState());
+			FlxG.switchState(() -> new MainMenuState());
 		else if (inputSystem.ACCEPT)
 		{
 			FlxG.sound.play(Paths.getSound("sounds/confirmMenu"));
@@ -62,11 +62,11 @@ class OptionsState extends FlxTransitionableState
 				default:
 					FlxG.resetState();
 				case 'gameplay':
-					FlxG.switchState(new states.options.Gameplay());
+					FlxG.switchState(() -> new states.options.Gameplay());
 				case 'controls':
 					openSubState(new states.options.subs.ControlsSubstate());
 				case "visuals and ui":
-					FlxG.switchState(new states.options.UI_and_Looks());
+					FlxG.switchState(() -> new states.options.UI_and_Looks());
 			}
 		}
 	}

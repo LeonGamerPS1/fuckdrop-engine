@@ -82,7 +82,7 @@ class BaseOptionCat extends FlxTransitionableState
 		}
 		super.update(elapsed);
 		if (inputSystem.BACK && canMoveBack)
-			FlxG.switchState(new OptionsState());
+			FlxG.switchState(() -> new OptionsState());
 	}
 
 	public function changeSelected(addition:Int = 0)

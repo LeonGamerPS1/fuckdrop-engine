@@ -119,7 +119,7 @@ class LoadingScreen extends flixel.addons.transition.FlxTransitionableState
 		{ // close enough
 			thingsCompleteLerp = thingsComplete; // snap to target
 			PlayState.song = song;
-			FlxG.switchState(new PlayState());
+			FlxG.switchState(() -> new PlayState());
 		}
 		super.update(elapsed);
 	}

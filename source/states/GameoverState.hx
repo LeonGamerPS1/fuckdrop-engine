@@ -76,6 +76,6 @@ class GameoverState extends FlxState
 
 	public function exit()
 	{
-		FlxG.switchState(new PlayState());
+		FlxG.switchState(() -> new PlayState());
 	}
 }

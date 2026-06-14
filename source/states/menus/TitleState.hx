@@ -111,6 +111,6 @@ class TitleState extends flixel.addons.transition.FlxTransitionableState
 			startTimer = null;
 		}
 		
-		FlxG.switchState(new MainMenuState());
+		FlxG.switchState(() -> new MainMenuState());
 	}
 }

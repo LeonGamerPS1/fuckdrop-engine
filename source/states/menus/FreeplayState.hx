@@ -138,7 +138,7 @@ class FreeplayState extends FlxTransitionableState
 				changeDiff(1);
 			else if (inputSystem.BACK)
 			{
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(() -> new MainMenuState());
 			}
 			else if (inputSystem.ACCEPT)
 			{
@@ -150,7 +150,7 @@ class FreeplayState extends FlxTransitionableState
 					{
 						try
 						{
-							FlxG.switchState(new LoadingScreen(item.song, diffs[curDiff]));
+							FlxG.switchState(() -> new LoadingScreen(item.song, diffs[curDiff]));
 						}
 						catch (e:Dynamic)
 						{
