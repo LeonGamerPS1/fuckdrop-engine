@@ -12,8 +12,16 @@ class ShitTrack extends FlxSound
 
 	var _addedSignals:Bool = false;
 
-	public var onBeatHit:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
-	public var onStepHit:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+	public var onBeatHit:FlxTypedSignal<Int->Void>;
+	public var onStepHit:FlxTypedSignal<Int->Void>;
+
+	override function reset()
+	{
+		super.reset();
+
+		onBeatHit = new FlxTypedSignal<Int->Void>();
+		onStepHit = new FlxTypedSignal<Int->Void>();
+	}
 
 	override function destroy()
 	{
@@ -22,8 +30,10 @@ class ShitTrack extends FlxSound
 		Conductor.onBeat.remove(hitBeat);
 		Conductor.onStep.remove(hitStep);
 
-		onBeatHit.destroy();
-		onStepHit.destroy();
+		if (onBeatHit != null)
+			onBeatHit.destroy();
+		if (onStepHit != null)
+			onStepHit.destroy();
 
 		super.destroy();
 	}
