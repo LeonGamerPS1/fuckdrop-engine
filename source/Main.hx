@@ -1,18 +1,21 @@
 package;
 
 import openfl.display.Sprite;
+import util.macro.DefineMacro;
 import util.macro.EmbedMacro;
 
 class Main extends Sprite
 {
-	public static var isDebug(default, null):Bool = #if debug true #else false #end;
-	// ReleaseName-Month-Year-releasecount
-	public static var version:String = EmbedMacro.embedFileContent('.VERSION');
+	public static var isDebug(default, null):Bool = Define.debug;
+
+	public static var version:String = EmbedMacro.embedFileContent('.VERSION').split('\n')[0].trim();
+
 	public static var debugCounter:FPS;
 
 	public function new()
 	{
-		#if DISCORD_ALLOWED backend.DiscordClient.init(); #end
+		if (Define.DISCORD_ALLOWED)
+			backend.DiscordClient.init();
 		CustomLogger.init();
 
 		super();

@@ -8,7 +8,7 @@
 	<app title="shitEngine" file="shitEngine" main="Main" version="26.6.03" company="FNFShitEngine"
 		package="com.lps1.shitfnf" />
 
-	<define name="DISCORD_ALLOWED" if="cpp" unless="mobile" />
+	<define name="DISCORD_ALLOWED" if="cpp" unless="mobile || hl" />
 
 	<!--The
 	flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a

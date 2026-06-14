@@ -21,12 +21,13 @@ import flixel.tweens.FlxTween;
 import flixel.ui.FlxBar;
 import flixel.util.*;
 import flixel.util.FlxTimer;
-import haxe.Json;
-import haxe.ds.StringMap;
 import objects.FunkinSprite;
 import objects.OffsetSprite;
 import objects.ui.Alphabet;
 import openfl.Assets as OpenFLAssets;
+import util.Define;
 #end
+import haxe.Json;
+import haxe.ds.StringMap;
 
 using StringTools;

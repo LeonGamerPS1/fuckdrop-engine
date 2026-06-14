@@ -159,10 +159,13 @@ class SongChartData
 			}
 			timelas += Math.floor(bpm4);
 		}
-		#if (sys && saveConversion)
-		if (!sys.FileSystem.exists('./conversions'))
-			sys.FileSystem.createDirectory('./conversions');
-		sys.io.File.saveContent('./conversions/${data.song.toLowerCase()}-converted.json', Json.stringify(someSongChartIG, null, '\t'));
+		#if (sys)
+		if (Define.saveConversion)
+		{
+			if (!sys.FileSystem.exists('./conversions'))
+				sys.FileSystem.createDirectory('./conversions');
+			sys.io.File.saveContent('./conversions/${data.song.toLowerCase()}-converted.json', Json.stringify(someSongChartIG, null, '\t'));
+		}
 		#end
 		return someSongChartIG;
 	}

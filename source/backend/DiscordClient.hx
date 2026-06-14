@@ -1,10 +1,14 @@
 package backend;
 
+#if DISCORD_ALLOWED
+#if cpp
 import cpp.ConstCharStar;
+#end
 import hxdiscord_rpc.Discord;
 import hxdiscord_rpc.Types;
 import lime.app.Application;
 import sys.thread.Thread;
+#end
 
 class DiscordClient
 {
@@ -16,8 +20,6 @@ class DiscordClient
 		handlers.disconnected = cpp.Function.fromStaticFunction(onDisconnected);
 		handlers.errored = cpp.Function.fromStaticFunction(onError);
 		Discord.Initialize("345229890980937739", cpp.RawPointer.addressOf(handlers), false, null);
-
-		
 
 		Thread.create(function():Void
 		{
@@ -44,6 +46,7 @@ class DiscordClient
 		#end
 	}
 
+	#if cpp
 	private static function onDisconnected(errorCode:Int, message:cpp.ConstCharStar):Void
 	{
 		Sys.println('Discord: Disconnected ($errorCode:$message)');
@@ -67,10 +70,12 @@ class DiscordClient
 
 		changePresence();
 	}
+	#end
 
 	public static function changePresence(?details:String = 'In the Menus', ?state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool,
 			?endTimestamp:Float)
 	{
+		#if DISCORD_ALLOWED
 		var startTimestamp:Float = 0;
 		if (hasStartTimestamp)
 			startTimestamp = Date.now().getTime();
@@ -85,13 +90,18 @@ class DiscordClient
 		// Obtained times are in milliseconds so they are divided so Discord can use it
 		presence.startTimestamp = Std.int(startTimestamp / 1000);
 		presence.endTimestamp = Std.int(endTimestamp / 1000);
+		#end
 		updatePresence();
 
 		// trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
 	}
 
+	#if DISCORD_ALLOWED
 	static var presence = new DiscordRichPresence();
+	#end
 
 	public static function updatePresence()
-		Discord.UpdatePresence(cpp.RawConstPointer.addressOf(presence));
+	{
+		#if DISCORD_ALLOWED Discord.UpdatePresence(cpp.RawConstPointer.addressOf(presence)); #end
+	}
 }

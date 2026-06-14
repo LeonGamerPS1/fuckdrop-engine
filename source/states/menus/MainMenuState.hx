@@ -50,7 +50,7 @@ class MainMenuState extends flixel.addons.transition.FlxTransitionableState
 
 		var text:FlxText = new FlxText();
 		text.setFormat(Paths.getFont('vcr'), 20, 0xFFFFFFFF, LEFT, OUTLINE, 0xFF000000);
-		var someshitig = 'Git Commit(' + Constants.gitcommit + ')' #if (!gitcommit) + ' Release version ' + Main.version #end;
+		var someshitig = 'Git Commit(' + Constants.gitcommit + ')' + ' Release version ' + Main.version;
 		text.text = 'FNF 0.2.8\nShit Engine ' + someshitig;
 		text.y = FlxG.height - text.height * 1.1;
 		text.scrollFactor.set();
