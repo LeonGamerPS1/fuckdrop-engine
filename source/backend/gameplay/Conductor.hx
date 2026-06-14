@@ -74,7 +74,7 @@ class Conductor
 
 	public static function addTimeChangeAt(time:Float, bpm:Float)
 	{
-		var lastTimeChange:SongTmPoint = {time: 0, bpm: bpm};
+		var lastTimeChange:SongTmPoint = {time: time, bpm: bpm};
 		timeChanges.push(lastTimeChange);
 		timeChanges.sort((tm:SongTmPoint, tm2:SongTmPoint) ->
 		{
@@ -112,9 +112,33 @@ class Conductor
 		curSection = curStep / 16;
 	}
 
-	public static function getStep(time:Float)
+	public static function getStep(time:Float):Float
 	{
-		return (time) / stepLength;
+		var step:Float = 0;
+		var lastTime:Float = 0;
+		var lastBpm:Float = bpm;
+
+		for (i in 0...timeChanges.length)
+		{
+			var tc = timeChanges[i];
+
+			if (tc.time >= time)
+				break;
+
+			var stepLen = (60 / lastBpm) * 1000 / 4;
+
+			step += (tc.time - lastTime) / stepLen;
+
+			lastTime = tc.time;
+			lastBpm = tc.bpm;
+		}
+		if (bpm != lastBpm)
+			bpm = lastBpm;
+
+		var stepLenFinal = (60 / lastBpm) * 1000 / 4;
+		step += (time - lastTime) / stepLenFinal;
+
+		return step;
 	}
 
 	public static function getBeat(time:Float)

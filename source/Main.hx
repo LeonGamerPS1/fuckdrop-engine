@@ -116,6 +116,7 @@ class Main extends Sprite
 
 	public function new()
 	{
+		#if DISCORD_ALLOWED backend.DiscordClient.init(); #end
 		CustomLogger.init();
 
 		super();

@@ -6,6 +6,8 @@ import flixel.math.FlxRect;
 import flixel.util.FlxSignal.FlxTypedSignal;
 import objects.gameplay.Character;
 
+using util.ArrayUtil;
+
 class Strumline extends FlxGroup
 {
 	public var stains:FlxTypedGroup<Stain>;
@@ -123,22 +125,28 @@ class Strumline extends FlxGroup
 	public var pressedShit = [-1];
 	public var hitNotes:Array<Note> = [];
 
+	public var hitNotesInt:Array<Int> = [];
+
 	public function inputSystemStuff()
 	{
 		pressedShit.resize(0);
 		hitNotes.resize(0);
+		hitNotesInt.resize(0);
+
 		final holding = [
 			inputSystem.pressed('note_left'),
 			inputSystem.pressed('note_down'),
 			inputSystem.pressed('note_up'),
 			inputSystem.pressed('note_right')
 		];
+
 		final released = [
 			inputSystem.justReleased('note_left'),
 			inputSystem.justReleased('note_down'),
 			inputSystem.justReleased('note_up'),
 			inputSystem.justReleased('note_right')
 		];
+
 		final pressed = [
 			inputSystem.justPressed('note_left'),
 			inputSystem.justPressed('note_down'),
@@ -148,42 +156,68 @@ class Strumline extends FlxGroup
 
 		if (holding.contains(true))
 		{
+			var laneNotes:Array<Note> = [null, null, null, null];
+
 			notes.forEachAlive((n:Note) ->
 			{
 				if (n.canBeHit && !isBot && !n.hit)
 				{
-					hitNotes.push(n);
-					pressedShit.push(n.noteData.l % strums.length);
+					var lane = n.lane;
+
+					if (laneNotes[lane] == null)
+					{
+						laneNotes[lane] = n;
+					}
+					else if (n.noteData.tms < laneNotes[lane].noteData.tms)
+					{
+						laneNotes[lane] = n;
+					}
 				}
 			});
+
+			for (note in laneNotes)
+			{
+				if (note == null)
+					continue;
+
+				hitNotes.push(note);
+				pressedShit[note.lane] = note.lane;
+			}
 
 			if (hitNotes.length > 0)
 			{
 				for (note in hitNotes)
 				{
-					var i = note.noteData.l % strums.length;
-					var pressed = pressed[i];
-					var holding = holding[i];
+					var lane = note.lane;
+					var lanePressed = pressed[lane];
+					var laneHolding = holding[lane];
 
-					if (!note.isSustainNote && pressed)
+					if (!note.isSustainNote && lanePressed)
+					{
 						hitNote(note);
-					if (note.isSustainNote && (note.parentNote.hit || note.prevNote.hit) && holding)
+					}
+					else if (note.isSustainNote && laneHolding)
+					{
 						hitNote(note);
+					}
 				}
 			}
 		}
+
 		for (i in 0...pressed.length)
 		{
 			var strum = strums.members[i % strums.length];
-			var pressed = pressed[i];
-			var holding = holding[i];
-			strum.holding = holding;
-			if (pressed && strum.animation.name != 'confirm')
+			var lanePressed = pressed[i];
+			var laneHolding = holding[i];
+
+			strum.holding = laneHolding;
+
+			if (lanePressed && strum.animation.name != 'confirm')
 				strum.playAnim('press', true);
-			else if (!holding)
+			else if (!laneHolding)
 				strum.playAnim('static', false, true);
 
-			if (hitNotes.length > 0 && !pressedShit.contains(strum.dir) && pressed)
+			if (hitNotes.length > 0 && !pressedShit.contains(strum.dir) && lanePressed)
 				onMissNote.dispatch(null, strum.dir, this);
 		}
 	}
@@ -193,32 +227,45 @@ class Strumline extends FlxGroup
 		var strum = strums.members[note.noteData.l % strums.length];
 		strum.rgbswap = note.rgbswap;
 
-		strum.playAnim("confirm", !note.hit);
+		strum.playAnim("confirm", true);
 		note._fmVisible = false;
 		note.visible = false;
 		char?.hitNote(note);
 
 		if (isBot)
-			strum.rT = strum.animation.curAnim.numFrames / strum.animation.curAnim.frameRate;
+			strum.rT = Conductor.stepLength * 1.5 / 1000;
 		onHitNote.dispatch(note);
 
 		note.hit = true;
 	}
 
-	public dynamic function updateNote(note:Note)
+	public function updateNote(note:Note)
 	{
 		note.update(FlxG.elapsed);
 		var strum = strums.members[note.noteData.l % strums.length];
-		note.x = strum.x + (strum.width * 0.5 - note.width * 0.5);
+		final TX = strum.x + (strum.width * 0.5 - note.width * 0.5);
+		if (note.x != TX)
+			note.x = TX;
 		final distance = (note.noteData.tms - Conductor.time) * (Constants.PIXEL_PER_MS * speed * note.multSpeed) * (strum.flipScroll ? -1 : 1);
 		note.y = strum.y + distance + note.offsetY;
 
-		if (isBot && note.noteData.tms <= Conductor.time)
+		var _maxTime:Float = note.noteData.tms + note.noteData.lms + Conductor.stepLength;
+		var _inHoldRange:Bool = note.noteData.lms > 0 && Conductor.time < _maxTime - Conductor.stepLength * 2;
+		if (isBot && note.noteData.tms <= Conductor.time && note.noteData.lms < 1 || note.noteData.lms > 0 && _inHoldRange && isBot
+			&& note.noteData.tms <= Conductor.time)
+			hitNote(note);
+		if (strum.holding && !isBot && note.hit && note.noteData.lms > 0 && _inHoldRange)
 			hitNote(note);
 		note.stain?.updateVisuals();
 
 		if (note.hit && note.noteData.tms + note.noteData.lms <= Conductor.time)
 		{
+			killNote(note);
+		}
+
+		if (_inHoldRange && !strum.holding && !isBot && note.hit)
+		{
+			onMissNote.dispatch(note, note.lane, this);
 			killNote(note);
 		}
 
