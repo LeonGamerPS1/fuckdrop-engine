@@ -28,7 +28,7 @@ class Stain extends TileRender
 	{
 		flipY = parent?.strumline?.strums?.members[parent.noteData.l % parent?.strumline?.strums.length]?.flipScroll ?? false;
 
-		var vertScrollMult = (flipY ? -1 : 1);
+		final vertScrollMult = (flipY ? -1 : 1);
 
 		var l = parent.noteData.lms;
 		shader = parent.shader;
@@ -36,20 +36,24 @@ class Stain extends TileRender
 		alpha = parent.alpha * 0.7;
 		antialiasing = parent.antialiasing;
 
-		var multiplierForNoteYOffsetShit = 0.0;
+		var multiplierForNoteYOffsetShit = (flipY) ? 0 : 0.5;
+		var downscrollOffset:Float = 0;
 
-		y = parent.y + (((parent.height * multiplierForNoteYOffsetShit) + getHeight(l)) * vertScrollMult);
+		y = parent.y + (((parent.height * multiplierForNoteYOffsetShit)) * vertScrollMult);
 
 		if (parent.hit)
 		{
 			l -= Conductor.time - parent.noteData.tms;
 
-			if (flipY)
-				multiplierForNoteYOffsetShit = -0.5;
+			multiplierForNoteYOffsetShit = 0.5;
 
 			final strumline = parent.strumline.strums.members[parent.lane];
-			y = strumline.y + (((strumline.height * multiplierForNoteYOffsetShit) + getHeight(l)) * vertScrollMult);
+			y = strumline.y + ((strumline.height * multiplierForNoteYOffsetShit) * vertScrollMult);
 		}
+
+		downscrollOffset = getHeight(l);
+		if (flipY)
+			y += downscrollOffset * vertScrollMult;
 
 		height = getHeight(l);
 	}
