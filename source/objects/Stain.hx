@@ -45,7 +45,7 @@ class Stain extends TileRender
 		{
 			l -= Conductor.time - parent.noteData.tms;
 
-			multiplierForNoteYOffsetShit = 0.5;
+			multiplierForNoteYOffsetShit = 0.5 * vertScrollMult;
 
 			final strumline = parent.strumline.strums.members[parent.lane];
 			y = strumline.y + ((strumline.height * multiplierForNoteYOffsetShit) * vertScrollMult);
