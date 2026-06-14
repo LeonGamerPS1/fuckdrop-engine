@@ -28,6 +28,8 @@ class Results extends MusicState
 
 		resultsOST.onBeatHit.add(onBeatHit);
 		resultsOST.onStepHit.add(onStepHit);
+
+		trace(ratingMap);
 	}
 
 	override function update(elapsed:Float)
