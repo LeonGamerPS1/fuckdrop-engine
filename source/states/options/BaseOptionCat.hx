@@ -20,7 +20,7 @@ class BaseOptionCat extends FlxTransitionableState
 		persistentDraw = persistentUpdate = true;
 		var bg:FlxBackdrop = new FlxBackdrop(Paths.getGraphic("menus/menuDesat"), XY, 0, 0);
 		bg.velocity.set(-20, 0);
-		bg.scrollFactor.y = 0;
+		bg.scrollFactor.set();
 		add(bg);
 
 		optionsGroup = new FlxTypedGroup();
