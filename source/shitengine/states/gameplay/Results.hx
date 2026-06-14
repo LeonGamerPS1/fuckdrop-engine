@@ -29,4 +29,11 @@ class Results extends MusicState
 		resultsOST.onBeatHit.add(onBeatHit);
 		resultsOST.onStepHit.add(onStepHit);
 	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		Conductor.time = resultsOST.time;
+	}
 }
