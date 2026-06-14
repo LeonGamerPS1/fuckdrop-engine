@@ -1,5 +1,6 @@
 package shitengine.backend.assets;
 
+import flixel.util.FlxSignal.FlxTypedSignal;
 import haxe.io.Path;
 import shitengine.backend.assets.Paths;
 import shitengine.backend.data.MusicMetaData;
@@ -7,6 +8,24 @@ import shitengine.backend.data.MusicMetaData;
 class ShitTrack extends FlxSound
 {
 	public var data:MusicMetaData;
+
+	var _addedSignals:Bool = false;
+
+	public var onBeatHit:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+	public var onStepHit:FlxTypedSignal<Int->Void> = new FlxTypedSignal<Int->Void>();
+
+	override function destroy()
+	{
+		_addedSignals = false;
+
+		Conductor.onBeat.remove(hitBeat);
+		Conductor.onStep.remove(hitStep);
+
+		onBeatHit.destroy();
+		onStepHit.destroy();
+
+		super.destroy();
+	}
 
 	public function loadFromMetadataID(fileID:String):ShitTrack
 	{
@@ -41,11 +60,26 @@ class ShitTrack extends FlxSound
 
 		Conductor.bpm = data.timingChanges[0].bpm;
 		data.timingChanges.remove(data.timingChanges[0]);
+
 		for (timingChange in data.timingChanges)
 			Conductor.addTimeChangeAt(timingChange.time, timingChange.bpm);
+
+		if (!_addedSignals)
+		{
+			_addedSignals = true;
+
+			Conductor.onBeat.add(hitBeat);
+			Conductor.onStep.add(hitStep);
+		}
 
 		load(soundPath);
 
 		return this;
 	}
+
+	function hitBeat(beat:Float)
+		onBeatHit.dispatch(Math.floor(beat));
+
+	function hitStep(step:Float)
+		onStepHit.dispatch(Math.floor(step));
 }
