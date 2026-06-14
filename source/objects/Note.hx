@@ -61,6 +61,8 @@ class Note extends FlxSprite
 		t: "normal"
 	};
 
+	public var playedHitsound:Bool = false;
+
 	public function new(?dir:SongNoteData, ?strumline:Strumline, isSusNote:Bool = false, isEndNote:Bool = false)
 	{
 		super();

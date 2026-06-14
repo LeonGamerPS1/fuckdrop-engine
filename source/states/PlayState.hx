@@ -82,9 +82,9 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		loadScripts(Paths.listDirectory('assets/data/scripts'));
 
 		Conductor.timeChanges.resize(0);
-		for(guh in song.data.timingChanges)
+		for (guh in song.data.timingChanges)
 			Conductor.addTimeChangeAt(guh.time, guh.bpm);
-	
+
 		super.create();
 		song ??= SongLoader.loadSong("bopeebo");
 		currentScoreEntry.name = HighScore.formatName(song.meta.data.songDisplayName);
@@ -96,7 +96,6 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 
 		Conductor.bpm = song.data.bpm;
 		Conductor.time = -(Conductor.beatLength * 5);
-		
 
 		var instPath = '$songFolder/audio/${song.data.characters.instPath}';
 		if (Paths.exists(instPath + '-' + song.diff, SOUND))
@@ -291,18 +290,22 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 	public function hitNote(n:Note)
 	{
 		call('onNoteHit', [n]);
-		if (!n.strumline.isBot)
+		if (n.strumline.isBot)
 		{
-			playerVolume = 1;
-			if (!n.isSustainNote)
-			{
-				if (SaveData.currentSettings.hitSounds)
-					FlxG.sound.play(Paths.getSound('sounds/hitsound'), 0.7);
-				currentScoreEntry.ratings.push({rating: n.rating, time: Conductor.time});
-			}
-		}
-		else
 			enemyVolume = 1;
+			return;
+		}
+		
+		playerVolume = 1;
+
+		if (!n.playedHitsound)
+		{
+			n.playedHitsound = true;
+
+			if (SaveData.currentSettings.hitSounds)
+				FlxG.sound.play(Paths.getSound('sounds/hitsound'), 0.7);
+			currentScoreEntry.ratings.push({rating: n.rating, time: Conductor.time});
+		}
 	}
 
 	public function missNote(n:Note, ?dir:Int, strumline)
