@@ -1,11 +1,5 @@
 package shitengine.backend.data;
 
-typedef SongTmPoint =
-{
-	var time:Float;
-	var bpm:Float;
-}
-
 typedef SongCharacterData =
 {
 	var boyfriend:String;
@@ -23,7 +17,7 @@ typedef SongChartDataR =
 
 	public var speed:Float;
 	public var offset:Float;
-	public var timingChanges:Array<SongTmPoint>;
+	public var timingChanges:Array<SongTmPoint>; // TODO : use MusicMetaData
 	public var noteStyle:String;
 	public var album:String;
 	public var stickerPack:String;
