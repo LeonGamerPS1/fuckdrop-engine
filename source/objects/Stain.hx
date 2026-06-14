@@ -36,15 +36,26 @@ class Stain extends TileRender
 		alpha = parent.alpha * 0.7;
 		antialiasing = parent.antialiasing;
 
-		height = 0.45 * (parent.strumline?.speed ?? 1) * l;
-		y = parent.y + (((parent.height / 2) + this.height) * vertScrollMult);
+		var multiplierForNoteYOffsetShit = 0.0;
+
+		y = parent.y + (((parent.height * multiplierForNoteYOffsetShit) + getHeight(l)) * vertScrollMult);
 
 		if (parent.hit)
 		{
 			l -= Conductor.time - parent.noteData.tms;
 
+			if (flipY)
+				multiplierForNoteYOffsetShit = -0.5;
+
 			final strumline = parent.strumline.strums.members[parent.lane];
-			y = strumline.y + strumline.height * .5 * vertScrollMult;
+			y = strumline.y + (((strumline.height * multiplierForNoteYOffsetShit) + getHeight(l)) * vertScrollMult);
 		}
+
+		height = getHeight(l);
+	}
+
+	function getHeight(l:Float)
+	{
+		return 0.45 * (parent.strumline?.speed ?? 1) * l;
 	}
 }
