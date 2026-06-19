@@ -92,6 +92,8 @@ class SaveData
 
 	public static function setVal(name:String, val:Dynamic)
 	{
+		if(name == null)
+			return;
 		try
 		{
 			Reflect.setProperty(currentSettings, name, val);

@@ -5,7 +5,7 @@ import flixel.util.FlxSignal;
 enum OptionType
 {
 	BOOL;
-	INT(min:Int, max:Float, increment:Float);
+	INT(min:Int, max:Float, increment:Int);
 	FLOAT(min:Float, max:Float, increment:Float);
 	STRING(options:Array<String>);
 	N;
@@ -35,7 +35,7 @@ class Option extends FlxSpriteGroup
 	{
 		SaveData.setVal(saveName, value);
 		onValChange.dispatch(this);
-		FlxG.sound.play(Paths.getSound("sounds/confirmMenu"));
+		FlxG.sound.play(Paths.getSound("sounds/scrollMenu"));
 	}
 
 	public override function reset(x, y)
@@ -58,12 +58,43 @@ class Option extends FlxSpriteGroup
 		super.update(elapsed);
 		if (type == N)
 			return;
+
+		// i have no better way of doing this rn :sob:
 		switch (type)
 		{
 			case BOOL:
 				if (selected && inputSystem.ACCEPT)
 				{
 					value = !value;
+					upload();
+				}
+			case INT(min, max, increment):
+				if (selected)
+				{
+					var currentVal:Int = value;
+					if (inputSystem.UI_LEFT_P)
+					{
+						currentVal -= increment;
+						value = FlxMath.bound(currentVal, min, max);
+						upload();
+					}
+					else if (inputSystem.UI_RIGHT_P)
+					{
+						currentVal += increment;
+						value = FlxMath.bound(currentVal, min, max);
+						upload();
+					}
+				}
+
+			case FLOAT(min, max, increment):
+				if (selected)
+				{
+					var currentVal:Float = value;
+					if (inputSystem.UI_LEFT_P)
+						currentVal -= increment;
+					else if (inputSystem.UI_RIGHT_P)
+						currentVal += increment;
+					value = FlxMath.bound(currentVal, min, max);
 					upload();
 				}
 			default: // here so the compiler doesnt nag about Unmatched patterns: FLOAT | INT | STRING

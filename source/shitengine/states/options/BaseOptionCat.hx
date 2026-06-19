@@ -43,7 +43,7 @@ class BaseOptionCat extends FlxTransitionableState
 
 		option.intenName = opName;
 
-		var optionName:Alphabet = new Alphabet(0, 0, option.intenName, true, false);
+		var optionName:Alphabet = new Alphabet(0, 0, option.intenName, true);
 		option.add(optionName);
 
 		optionsGroup.add(option);
@@ -57,9 +57,23 @@ class BaseOptionCat extends FlxTransitionableState
 			case BOOL:
 				var checkbox:OptionCheckbox = new OptionCheckbox(option);
 				option.add(checkbox);
+			case INT(i, i2, i3):
+				option.onValChange.add((option) ->
+				{
+					option.displayText.text = (opName + ': ${option.value}');
+					option.screenCenter(X);
+				});
+			case FLOAT(i, i2, i3):
+				option.onValChange.add((option) ->
+				{
+					option.displayText.text = (opName + '${option.value}');
+					option.screenCenter(X);
+				});
 			default:
 				trace("type " + option.type.getName() + " has no display thing yet");
 		}
+		option.upload();
+			optionName.startPosition.set(optionName.x,optionName.y);
 		return option;
 	}
 

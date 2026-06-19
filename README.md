@@ -5,8 +5,7 @@
 - @bopel-maki-macohi - new contributor.. Thank you for deciding to help me out with the engine once and a while and pr #2 & #3
 
 ## Credits
-- Psych Engine - Controls.hx
-- FunkinCrew/ninjamuffin99 - Alphabet.hx
+- Psych Engine - Controls.hx and Alphabet.hx
 - inky03 - RGBSwap.hx (yes i asked in dms before i put it into source code)
 - Kade Engine/Kade Dev - Hud inspiration and accuracy Code
 - [ALE-Psych-Crew](https://github.com/ALE-Psych-Crew) - [ALE-UI](https://github.com/ALE-Psych-Crew/ALE-UI/tree/main) library found in [ALE-PSYCH](https://gamebanana.com/wips/95612)

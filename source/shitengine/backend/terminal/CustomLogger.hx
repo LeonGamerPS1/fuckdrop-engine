@@ -48,6 +48,8 @@ class CustomLogger
 		});
 		FlxG.log.styles.warning.onLog.add((d, ?d2) ->
 		{
+			if(Std.string(d).contains('Could not parse frame number'))
+				return;
 			log(d, d2, 'WARNING');
 		});
 		FlxG.log.styles.notice.onLog.add((d, ?d2) ->

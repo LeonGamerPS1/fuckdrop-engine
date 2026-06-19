@@ -20,7 +20,7 @@ class OptionsState extends FlxTransitionableState
 
 		for (catName in categories)
 		{
-			var text:Alphabet = new Alphabet(0, 55, catName, true, false);
+			var text:Alphabet = new Alphabet(0, 55, catName, true);
 			text.y += (100 * itemGroup.length);
 			text.x = -FlxG.width / 2;
 			text.antialiasing = true;
