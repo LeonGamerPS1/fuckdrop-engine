@@ -34,6 +34,7 @@ typedef SongChartDataR =
 	public var bpm:Float;
 	@:optional public var events:Array<SongEventData>;
 	@:optional public var oppSkin:String;
+	@:optional public var mania:Int;
 }
 
 typedef SongNoteData =
@@ -80,6 +81,8 @@ typedef SwagSongPsych042 =
 	var splashSkin:String;
 	var validScore:Bool;
 	var events:Array<Dynamic>;
+	@:optional public var mania:Int;
+	@:optional public var inst:String;
 }
 
 class SongChartData
@@ -99,11 +102,13 @@ class SongChartData
 
 		if (raw != null)
 			data = cast raw;
-		if (raw.song != null && !(raw.song is String))
+		if (raw != null && raw.song != null && !(raw.song is String))
 		{
 			data = getConvertedShitFromLegacy(cast raw.song);
 		}
 		meta = SongMetaData.frompath(metaPath, skipError);
+		if(data != null)
+		data.mania ??= 3;
 	}
 
 	static function getConvertedShitFromLegacy(data:SwagSongPsych042):SongChartDataR
@@ -113,8 +118,8 @@ class SongChartData
 			timingChanges: [],
 			bpm: data.bpm,
 			characters: {
-				instPath: "Inst",
-				enemyVocals: ["Voices"],
+				instPath: data.inst ?? "Inst",
+				enemyVocals: data.needsVoices ? ["Voices"] : [],
 				playerVocals: [],
 				dad: data.player2 ?? 'dad',
 				gf: data.player3 ?? 'gf',
@@ -129,6 +134,8 @@ class SongChartData
 			speed: data.speed,
 			stage: data.stage ?? 'stage',
 		};
+
+		someSongChartIG.mania = data.mania ?? 3;
 		if (data.oppSkin != null)
 			someSongChartIG.oppSkin = data.oppSkin;
 
@@ -148,7 +155,7 @@ class SongChartData
 			for (note in section.sectionNotes)
 			{
 				var isPlayerNote = section.mustHitSection;
-				if (note[1] > 3)
+				if (note[1] > someSongChartIG.mania)
 					isPlayerNote = !section.mustHitSection;
 				someSongChartIG.notes.push({
 					tms: note[0],
@@ -159,13 +166,10 @@ class SongChartData
 			}
 			timelas += Math.floor(bpm4);
 		}
-		#if (sys)
-		if (Define.saveConversion)
-		{
-			if (!sys.FileSystem.exists('./conversions'))
-				sys.FileSystem.createDirectory('./conversions');
-			sys.io.File.saveContent('./conversions/${data.song.toLowerCase()}-converted.json', Json.stringify(someSongChartIG, null, '\t'));
-		}
+		#if (sys && saveConversion)
+		if (!sys.FileSystem.exists('./conversions'))
+			sys.FileSystem.createDirectory('./conversions');
+		sys.io.File.saveContent('./conversions/${data.song.toLowerCase()}-converted.json', Json.stringify(someSongChartIG, null, '\t'));
 		#end
 		return someSongChartIG;
 	}

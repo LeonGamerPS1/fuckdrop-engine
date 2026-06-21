@@ -167,13 +167,28 @@ class Alphabet extends FlxSpriteGroup
 	{
 		if (isMenuItem)
 		{
-			var lerpVal:Float = Math.exp(-elapsed * 9.6);
-			if (changeX)
-				x = FlxMath.lerp((targetY * distancePerItem.x) + startPosition.x, x, lerpVal) + xAdd;
-			if (changeY)
-				y = FlxMath.lerp((targetY * 1.3 * distancePerItem.y) + startPosition.y, y, lerpVal);
+			var lerpVal:Float = Math.exp(-elapsed * 1);
+		
+			var scaledY = FlxMath.remapToRange(targetY, 0, 1, 0, 1.3);
+
+			y = coolLerp(y, (scaledY * 120) + (FlxG.height * 0.48), 0.16);
+			x = coolLerp(x, (targetY * 20) + 90 + xAdd, 0.16);
+		
 		}
 		super.update(elapsed);
+	}
+
+	public static function camLerpShit(lerp:Float):Float
+	{
+		return lerp * (FlxG.elapsed / (1 / 60));
+	}
+
+	/*
+	* just lerp that does camLerpShit for u so u dont have to do it every time
+	*/
+	public static function coolLerp(a:Float, b:Float, ratio:Float):Float
+	{
+		return FlxMath.lerp(a, b, camLerpShit(ratio));
 	}
 
 	public function snapToPosition()

@@ -22,7 +22,7 @@ class FreeplayAlphabet extends Alphabet
 		this.week = week;
 		song = songName;
 		var index:Int = week.songs.indexOf(songName);
-		icon = new HealthIcon(week.icons[index]);
+		icon = new HealthIcon(week.icons[index % week.icons.length]);
 		icon.sprTracker = this;
 		isMenuItem = true;
 		meta = SongMetaData.frompath(Paths.getPath('data/songs/$song/meta.json'), true);

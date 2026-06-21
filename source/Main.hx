@@ -6,7 +6,7 @@ import shitengine.util.macro.EmbedMacro;
 
 class Main extends Sprite
 {
-	public static var isDebug(default, null):Bool = Define.debug;
+	public static var isDebug(default, null):Bool = #if debug true #else false #end;
 
 	public static var version:String = EmbedMacro.embedFileContent('.VERSION').split('\n')[0].trim();
 
@@ -14,8 +14,9 @@ class Main extends Sprite
 
 	public function new()
 	{
-		if (Define.DISCORD_ALLOWED)
-			shitengine.backend.DiscordClient.init();
+		#if DISCORD_ALLOWED
+		shitengine.backend.DiscordClient.init();
+		#end
 		CustomLogger.init();
 
 		super();

@@ -36,7 +36,7 @@ class Strum extends FlxSprite
 	{
 		frames = Paths.getSparrowAtlas('noteskins/${tempskin.name}/${tempskin.image}');
 		var fps = tempskin.fps ?? 24;
-		var direction:String = NoteSkin.strumDirections[keys - 1][dir];
+		var direction:String = NoteSkin.strumDirections[3][dir % 4];
 		animation.addByPrefix("static", 'arrow${direction.toUpperCase()}', fps, true);
 
 		animation.addByPrefix("confirm", direction + ' confirm', fps, false);

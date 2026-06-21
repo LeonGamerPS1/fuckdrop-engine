@@ -196,7 +196,7 @@ class Note extends FlxSprite
 
 	function get_lane():Int
 	{
-		return noteData?.l % 4 ?? 0;
+		return noteData?.l % (strumline != null ? strumline.strums.length : 4) ?? 0;
 	}
 
 	public static var defaultLanes:Array<RGBSwap> = [];
@@ -205,9 +205,8 @@ class Note extends FlxSprite
 	{
 		if (defaultLanes[lane] == null)
 		{
-			trace('e');
-			var swap:RGBSwap = new RGBSwap(SaveData.currentSettings.arrowRGB[lane][0], SaveData.currentSettings.arrowRGB[lane][1],
-				SaveData.currentSettings.arrowRGB[lane][2]);
+			var swap:RGBSwap = new RGBSwap(SaveData.currentSettings.arrowRGB[lane % 4][0], SaveData.currentSettings.arrowRGB[lane % 4][1],
+				SaveData.currentSettings.arrowRGB[lane % 4][2]);
 			defaultLanes[lane] = swap;
 			return swap;
 		}

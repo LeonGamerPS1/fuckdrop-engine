@@ -25,8 +25,6 @@ class Playfield extends FlxGroup implements shitengine.backend.graphics.Modchart
 
 	public var health:Float = 1;
 
-	private var curHealth:Float = 1;
-
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 
@@ -84,7 +82,7 @@ class Playfield extends FlxGroup implements shitengine.backend.graphics.Modchart
 		healthBarBG.screenCenter(X);
 		add(healthBarBG);
 
-		healthBar = new FlxBar(healthBarBG.x, healthBarBG.y, RIGHT_TO_LEFT, Std.int(healthBarBG.width), Std.int(healthBarBG.height), this, 'curHealth', 0, 2);
+		healthBar = new FlxBar(healthBarBG.x, healthBarBG.y, RIGHT_TO_LEFT, Std.int(healthBarBG.width), Std.int(healthBarBG.height), this, 'health', 0, 2);
 		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		healthBar.numDivisions = 500;
 		// healthBar
@@ -165,17 +163,20 @@ class Playfield extends FlxGroup implements shitengine.backend.graphics.Modchart
 
 	public function hitNote(n:Note)
 	{
-		if (!n.hit && (!n.strumline.isBot || n.strumline == bfStrumline))
+		if ((!n.strumline.isBot || n.strumline == bfStrumline))
 		{
 			if (health < 2)
-				health += 0.04;
-			if (n.isSustainNote)
-				totalNotesHit += 1;
-			else
+				n.noteData.lms < 1 ? health += 0.04 : health = FlxMath.lerp(health + 0.16, health, Math.exp(-FlxG.elapsed * 2));
+			if (!n.hit)
 			{
-				accuracyUpdate(n);
+				if (n.isSustainNote)
+					totalNotesHit += 1;
+				else
+				{
+					accuracyUpdate(n);
+				}
+				updateAccuracy();
 			}
-			updateAccuracy();
 		}
 	}
 
@@ -259,11 +260,9 @@ class Playfield extends FlxGroup implements shitengine.backend.graphics.Modchart
 		if (healthBarBG.alpha != healthBar.alpha)
 			healthBarBG.alpha = healthBar.alpha;
 
-		FlxTween.cancelTweensOf(this, ["curHealth"]);
-		FlxTween.tween(this, {curHealth: health}, 0.2);
 		super.update(elapsed);
-		var scaleP1 = FlxMath.lerp(iconP1.baseScale, iconP1.scale.x, Math.exp(-elapsed * 16));
-		var scaleP2 = FlxMath.lerp(iconP2.baseScale, iconP2.scale.x, Math.exp(-elapsed * 16));
+		var scaleP1 = FlxMath.lerp(iconP1.baseScale, iconP1.scale.x, Math.exp(-elapsed * 8));
+		var scaleP2 = FlxMath.lerp(iconP2.baseScale, iconP2.scale.x, Math.exp(-elapsed * 8));
 		iconP1.scale.set(scaleP1, scaleP1);
 		iconP2.scale.set(scaleP2, scaleP2);
 
@@ -288,6 +287,9 @@ class Playfield extends FlxGroup implements shitengine.backend.graphics.Modchart
 
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+
+		iconP1.y = healthBar.y - (iconP1.height / 2);
+		iconP2.y = healthBar.y - (iconP2.height / 2);
 
 		if (health > 2)
 			health = 2;

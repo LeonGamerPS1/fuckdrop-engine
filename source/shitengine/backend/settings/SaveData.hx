@@ -103,6 +103,8 @@ class SaveData
 			Application.current.window.alert(Std.string(e), 'Error');
 		}
 		FlxG.save.flush();
+
+		FlxG.drawFramerate = FlxG.updateFramerate = SaveData.currentSettings.fps;
 	}
 
 	public static function init()

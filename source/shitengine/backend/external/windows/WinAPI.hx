@@ -4,7 +4,7 @@ package shitengine.backend.external.windows;
 /**
  * This class provides handling for Windows API-related functions.
  */
-@:build(util.macro.LinkerMacro.xml('project/Build.xml'))
+@:build(shitengine.util.macro.LinkerMacro.xml('project/Build.xml'))
 @:include('winapi.hpp')
 extern
 #end class WinAPI

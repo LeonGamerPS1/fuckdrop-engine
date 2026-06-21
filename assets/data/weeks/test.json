@@ -1,7 +1,7 @@
 {
     "weekName":"test",
     "weekDescription":"test",
-    "songs":["test"],
-    "weekOrder":-1,
+    "songs":["test","spam spam.exe"],
+    "weekOrder":8,
     "icons":["bf-pixel"]
 }

@@ -36,5 +36,21 @@ class WeekJsonData
 			var weekName = week.split('assets/data/weeks/')[1];
 			getWeek(weekName);
 		}
+		
 	}
+
+	public static function getOrderedWeeks() {
+		var weekList = WeekJsonData.weekCache.keyValueIterator();
+		var weeks = [];
+		for (week in weekList)
+			weeks.push(week.value);
+		weekList = null;
+		weeks.sort((w, v) ->
+		{
+			return w.weekOrder - v.weekOrder;
+		});
+		return weeks;
+	}
+
+	
 }

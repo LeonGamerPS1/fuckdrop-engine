@@ -5,6 +5,7 @@ import flixel.sound.FlxSoundGroup;
 import flixel.tweens.FlxEase;
 import haxe.Timer;
 import nx.script.NativeProxy;
+import shitengine.backend.DiscordClient;
 import shitengine.backend.data.SongChartData;
 import shitengine.backend.data.SongStageData.StageJSON;
 import shitengine.backend.data.SongStageData;
@@ -124,7 +125,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 			flxsound.load(Paths.getSound(vocalPath, true), false);
 			playerVocals.add(flxsound);
 		}
-		add(playfield = new Playfield(song, song.data.noteStyle));
+		add(playfield = new Playfield(song, song.data.noteStyle, song.data.mania + 1 ?? 4));
 		set('modchart', playfield.modchartSystem);
 		playfield.cameras = playfield.modchartingCameras = [camHUD];
 		// playfield.modchartingCamera = camHUD;
@@ -212,6 +213,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		invalidatedRun = SaveData.currentSettings.botplay;
 		super.create();
 		call('onCreatePost');
+		DiscordClient.changePresence('Game', 'Starting game', 'keoiki');
 	}
 
 	public var scripts:Map<String, ScriptBase> = [];
@@ -295,7 +297,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 			enemyVolume = 1;
 			return;
 		}
-		
+
 		playerVolume = 1;
 
 		if (!n.playedHitsound)
@@ -546,6 +548,8 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 	public function stepHit()
 	{
 		call('stepHit', [Math.floor(Conductor.curStep)]);
+		DiscordClient.changePresence('FNFSE: ${song.meta.data.songDisplayName}',
+			'Score:${playfield.songScore}/Misses:${playfield.misses}/Acc:${playfield.accuracy}', 'keoiki');
 	}
 
 	public var paused:Bool = false;
@@ -560,6 +564,7 @@ class PlayState extends flixel.addons.transition.FlxTransitionableState
 		call('startSong');
 		for (shit in playerVocals.sounds.concat(enemyVocals.sounds))
 			shit.play();
+		DiscordClient.changePresence('FNFSE: ${song.meta.data.songDisplayName}', 'Score:0/Misses:0/Acc:0', 'keoiki');
 	}
 
 	public function startCountdown()

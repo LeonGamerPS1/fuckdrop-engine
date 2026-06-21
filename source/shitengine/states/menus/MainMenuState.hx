@@ -110,6 +110,8 @@ class MainMenuState extends flixel.addons.transition.FlxTransitionableState
 				FlxG.sound.play(Paths.getSound("sounds/cancelMenu"));
 			case "playstate":
 				FlxG.switchState(() -> new LoadingScreen('bopeebo', 'hard'));
+			case "story_mode":
+				FlxG.switchState(() -> new StorymenuState());
 			case "freeplay":
 				FlxG.switchState(() -> new FreeplayState());
 			case "options":

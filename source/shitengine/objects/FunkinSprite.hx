@@ -60,7 +60,7 @@ class FunkinSprite extends OffsetSprite
 		return this;
 	}
 
-	public function solidColor(i:Int, i2:Float, i3:FlxColor = 0xFFFFFFFF)
+	public function solidColor(i:Float, i2:Float, i3:FlxColor = 0xFFFFFFFF)
 	{
 		trace(i3);
 		makeGraphic(1, 1, i3);

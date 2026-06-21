@@ -1,0 +1,7 @@
+{
+    "weekName":"week2",
+    "weekDescription":"spooky",
+    "songs":["spookeez","south","monster"],
+    "weekOrder":3,
+    "icons":["spooky","spooky","monster"]
+}

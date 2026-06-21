@@ -1,6 +1,7 @@
 package shitengine.states;
 
 import flixel.math.FlxPoint;
+import shitengine.backend.DiscordClient;
 import shitengine.objects.gameplay.Character;
 
 class GameoverState extends FlxState
@@ -22,6 +23,8 @@ class GameoverState extends FlxState
 		this.oldCamPos.copyFrom(oldCamPos);
 		this.bfpos = bfPos ?? FlxPoint.get();
 		oldZoom = FlxG.camera.zoom;
+
+		DiscordClient.changePresence('Death', 'Game over Screen', 'deadbf');
 	}
 
 	override function create()
@@ -71,6 +74,7 @@ class GameoverState extends FlxState
 			bf.playAnim('deathConfirm');
 			FlxG.sound.playMusic(Paths.getSound('sounds/$deathEnd'));
 			FlxG.camera.fade(0xFF000000, 4, exit);
+			DiscordClient.changePresence('Death', 'Retrying....', 'deadbf');
 		}
 	}
 

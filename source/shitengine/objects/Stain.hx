@@ -60,6 +60,6 @@ class Stain extends TileRender
 
 	function getHeight(l:Float)
 	{
-		return 0.45 * (parent.strumline?.speed ?? 1) * l;
+		return (0.45 * (parent.strumline?.speed ?? 1) * l) + tailFrame?.frame.height * scale.y / 4;
 	}
 }

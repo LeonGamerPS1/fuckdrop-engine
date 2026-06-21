@@ -38,7 +38,7 @@ class Charter extends FlxTransitionableState
 	var inst:FlxSound;
 	var sections:Array<ChartSection> = [];
 
-	var strumline:FlxSprite;
+	var strumline:FunkinSprite;
 	var baseIconScale = 1.;
 	var ui:FlxGroup;
 
@@ -108,7 +108,7 @@ class Charter extends FlxTransitionableState
 
 		for (i in 0...3)
 		{
-			var grid:FlxSprite = FlxGridOverlay.create(size, size, size * 8, size * 16);
+			var grid:FlxSprite = FlxGridOverlay.create(size, size, size * ((song.data.mania + 1) * 2), size * 16);
 			chartGrids.push(grid);
 			grid.color = i == 1 ? FlxColor.WHITE : FlxColor.GRAY;
 			grid.y = grid.height * i;
@@ -116,8 +116,8 @@ class Charter extends FlxTransitionableState
 		}
 		mainGrid = chartGrids[1];
 
-		strumline = new FlxSprite(0, 0);
-		strumline.makeGraphic(Math.floor(size * 8), 4);
+		strumline = new FunkinSprite(0, 0);
+		strumline.solidColor(size * ((song.data.mania + 1) * 2), 4);
 		strumline.color = 0xB9B9B9;
 		add(strumline);
 
@@ -262,15 +262,33 @@ class Charter extends FlxTransitionableState
 			if (note.noteData.tms >= Conductor.time)
 				note.hit = false;
 			note.alpha = note.hit ? 0.5 : 1;
+			if (curSelectedNote != null)
+			{
+				if (FlxG.keys.justPressed.E)
+				{
+					curSelectedNote.lms += Conductor.stepLength;
+
+					_pendingRemake = true;
+				}
+				else if (FlxG.keys.justPressed.Q)
+				{
+					curSelectedNote.lms -= Conductor.stepLength;
+
+					if (curSelectedNote.lms < 0)
+						curSelectedNote.lms = 0;
+					_pendingRemake = true;
+				}
+			}
 			#if FLX_MOUSE
 			if (box.overlaps(note))
 			{
-				if (FlxG.mouse.justPressed)
+				if (FlxG.mouse.justPressed || FlxG.mouse.justPressedMiddle)
 				{
-					if (FlxG.keys.justPressed.CONTROL || FlxG.mouse.pressedRight)
+					if (FlxG.mouse.justPressedMiddle)
 					{
 						// select note
 						curSelectedNote = note.noteData;
+						trace('poop ' + curSelectedNote);
 					}
 					else
 					{

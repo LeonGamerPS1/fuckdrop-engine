@@ -19,7 +19,7 @@ class DiscordClient
 		handlers.ready = cpp.Function.fromStaticFunction(onReady);
 		handlers.disconnected = cpp.Function.fromStaticFunction(onDisconnected);
 		handlers.errored = cpp.Function.fromStaticFunction(onError);
-		Discord.Initialize("345229890980937739", cpp.RawPointer.addressOf(handlers), false, null);
+		Discord.Initialize("1497941741289078955", cpp.RawPointer.addressOf(handlers), false, null);
 
 		Thread.create(function():Void
 		{
@@ -72,8 +72,8 @@ class DiscordClient
 	}
 	#end
 
-	public static function changePresence(?details:String = 'In the Menus', ?state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool,
-			?endTimestamp:Float)
+	public static function changePresence(?details:String = 'Booting up../Title', ?state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool = false,
+			?endTimestamp:Float = 0)
 	{
 		#if DISCORD_ALLOWED
 		var startTimestamp:Float = 0;
@@ -84,7 +84,7 @@ class DiscordClient
 
 		presence.details = details;
 		presence.state = state;
-		presence.largeImageKey = 'icon';
+		presence.largeImageKey = 'monarch';
 		presence.largeImageText = "Engine Version: " + Main.version;
 		presence.smallImageKey = smallImageKey;
 		// Obtained times are in milliseconds so they are divided so Discord can use it

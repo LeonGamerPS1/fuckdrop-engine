@@ -181,6 +181,8 @@ class TileRender extends FlxSprite
 
 	@:noCompletion override function set_height(value:Float):Float
 	{
+		if(value <= 0)
+			value = 0;
 		if (height == value || frames == null)
 			return value;
 

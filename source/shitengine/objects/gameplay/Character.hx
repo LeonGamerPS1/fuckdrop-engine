@@ -126,7 +126,6 @@ class Character extends FlxAnimate
 
 		updateHitbox();
 		playAnim(animExists("danceRight") && animExists("danceLeft") ? 'danceRight' : 'idle');
-		trace(json.iconScale);
 	}
 
 	public static function getJson(char:String):CharacterJSON

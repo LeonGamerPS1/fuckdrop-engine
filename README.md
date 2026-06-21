@@ -2,7 +2,7 @@
 
 ## Real credits
 - @LeonGamerPS1 - Coder and Engine creator
-- @bopel-maki-macohi - new contributor.. Thank you for deciding to help me out with the engine once and a while and pr #2 & #3
+- @bopel-maki-macohi - Co-Programmer
 
 ## Credits
 - Psych Engine - Controls.hx and Alphabet.hx

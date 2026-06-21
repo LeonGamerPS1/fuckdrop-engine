@@ -50,6 +50,9 @@ class Strumline extends FlxGroup
 			var strum:Strum = new Strum(skin, i, keys);
 			strum.strumline = this;
 			strum.flipScroll = SaveData.currentSettings.downScroll;
+			final rat = keys / 4;
+			strum.scale.set(strum.scale.x / rat, strum.scale.y / rat);
+			strum.updateHitbox();
 			strum.x = strum.width * i;
 			strums.add(strum);
 		}
@@ -101,6 +104,10 @@ class Strumline extends FlxGroup
 				var note:Note = unspawnedNotes[0];
 				notes.insert(1, note);
 				notes.sort(sortNotesByTimeHelper, FlxSort.DESCENDING);
+
+				final s = strums.members[note.lane];
+				note.scale.copyFrom(s.scale);
+				note.updateHitbox();
 
 				var index:Int = unspawnedNotes.indexOf(note);
 				unspawnedNotes.splice(index, 1);
@@ -251,8 +258,7 @@ class Strumline extends FlxGroup
 
 		var _maxTime:Float = note.noteData.tms + note.noteData.lms + Conductor.stepLength;
 		var _inHoldRange:Bool = note.noteData.lms > 0 && Conductor.time < _maxTime - Conductor.stepLength * 2;
-		if (isBot && note.noteData.tms <= Conductor.time && note.noteData.lms < 1 || note.noteData.lms > 0 && _inHoldRange && isBot
-			&& note.noteData.tms <= Conductor.time)
+		if (isBot && note.noteData.tms <= Conductor.time)
 			hitNote(note);
 		if (strum.holding && !isBot && note.hit && note.noteData.lms > 0 && _inHoldRange)
 			hitNote(note);
@@ -300,4 +306,11 @@ class Strumline extends FlxGroup
 	public function beatHit() {}
 
 	public function stepHit() {}
+
+	override  function destroy() {
+		while(unspawnedNotes.length > 0)
+			unspawnedNotes.pop().destroy();
+		super.destroy();
+	}
+	
 }

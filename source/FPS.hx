@@ -100,6 +100,6 @@ class FPS extends TextField
 
 	function getMem():Float
 	{
-		return #if (windows && cpp) Math.round(backend.external.windows.WinAPI.getProcessMemoryWorkingSetSize()) #else cast System.totalMemoryNumber #end;
+		return #if (windows && cpp) Math.round(shitengine.backend.external.windows.WinAPI.getProcessMemoryWorkingSetSize()) #else cast System.totalMemoryNumber #end;
 	}
 }
